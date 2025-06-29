@@ -4,7 +4,7 @@ import { JSX, useCallback, useEffect } from "react";
 import type React from "react";
 import Image from "next/image";
 import { Search, Play, ChevronDown } from "lucide-react";
-import { motion, useInView, Variants } from "framer-motion";
+import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { HTMLAttributes, useRef, useState } from "react";
 import DestinationsSection from "./_components/packages-section-type-1";
 import PackagesSectionType2 from "./_components/packages-section-type-2";
@@ -100,6 +100,7 @@ export default function HomePage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [expandedService, setExpandedService] = useState<number | null>(2);
 
   const nextImage = useCallback(() => {
     setIsTransitioning(true);
@@ -481,17 +482,25 @@ export default function HomePage() {
                 viewport={{ once: true }}
               >
                 {[
-                  { title: "Consultation & Trip Planning", expanded: false },
-                  { title: "Customized Itinerary & Booking", expanded: false },
+                  {
+                    title: "Consultation & Trip Planning",
+                    content:
+                      "Our expert travel consultants work closely with you to understand your preferences, budget, and dream destinations. We'll create a personalized travel plan that matches your exact requirements and travel style.",
+                  },
+                  {
+                    title: "Customized Itinerary & Booking",
+                    content:
+                      "Get a tailor-made travel itinerary that includes carefully selected accommodations, activities, and transportation options. We handle all bookings and reservations to ensure a seamless experience.",
+                  },
                   {
                     title: "Seamless Payment & Confirmation",
-                    expanded: true,
                     content:
                       "Once your travel itinerary is confirmed, we provide secure payment options with multiple currencies. After payment, you'll receive all travel documents, confirmations, and necessary travel tips to ensure your journey is smooth from start to finish.",
                   },
                   {
                     title: "24/7 Journey Assistance & Support",
-                    expanded: false,
+                    content:
+                      "Travel with peace of mind knowing our dedicated support team is available 24/7. We're here to assist with any questions, changes, or unexpected situations throughout your journey.",
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -506,30 +515,45 @@ export default function HomePage() {
                     }}
                     viewport={{ once: true }}
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg sm:text-xl font-semibold text-foreground">
+                    <button
+                      className="w-full flex items-center justify-between mb-2"
+                      onClick={() =>
+                        setExpandedService(
+                          expandedService === index ? null : index
+                        )
+                      }
+                      aria-expanded={expandedService === index}
+                      aria-controls={`service-content-${index}`}
+                    >
+                      <h3 className="text-lg sm:text-xl font-semibold text-foreground text-left">
                         {item.title}
                       </h3>
-                      <motion.button
+                      <motion.div
                         className="text-primary transition-all duration-200 ease-out hover:text-primary-hover p-1 rounded-lg hover:bg-accent"
-                        whileHover={{ scale: 1.1, rotate: 180 }}
-                        whileTap={{ scale: 0.9 }}
-                        aria-label={`Toggle ${item.title} details`}
-                        aria-expanded={item.expanded}
+                        animate={{
+                          rotate: expandedService === index ? 180 : 0,
+                        }}
+                        transition={{ duration: 0.2 }}
                       >
                         <ChevronDown className="w-5 h-5" aria-hidden="true" />
-                      </motion.button>
-                    </div>
-                    {item.expanded && (
-                      <motion.p
-                        className="text-muted-foreground text-sm"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        {item.content}
-                      </motion.p>
-                    )}
+                      </motion.div>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {expandedService === index && (
+                        <motion.div
+                          id={`service-content-${index}`}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-muted-foreground text-sm pb-2">
+                            {item.content}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 ))}
 
