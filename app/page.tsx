@@ -9,6 +9,7 @@ import { HTMLAttributes, useRef, useState } from "react";
 import DestinationsSection from "./_components/packages-section-type-1";
 import PackagesSectionType2 from "./_components/packages-section-type-2";
 import Header from "./_components/header";
+import { VideoModal } from "./_components/video-modal";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -89,15 +90,16 @@ const heroContent = [
     poster: "/images/video-poster-2.jpg",
   },
   {
-    type: 'image',
+    type: "image",
     url: "/images/hero-background-3.jpg",
-    alt: "Tropical beach paradise"
-  }
+    alt: "Tropical beach paradise",
+  },
 ];
 
 export default function HomePage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   const nextImage = useCallback(() => {
     setIsTransitioning(true);
@@ -438,7 +440,7 @@ export default function HomePage() {
                 </h2>
                 <div className="relative rounded-xl sm:rounded-2xl overflow-hidden group">
                   <Image
-                    src="/images/nature-adventure.jpg"
+                    src="/images/hero-background-4.jpg"
                     alt="Beautiful nature landscape showcasing Yathrananda's adventure travel services"
                     width={600}
                     height={400}
@@ -449,6 +451,7 @@ export default function HomePage() {
                   <motion.button
                     className="absolute inset-0 flex items-center justify-center bg-foreground/30 transition-all duration-200 ease-out hover:bg-foreground/40"
                     whileHover={{ scale: 1.02 }}
+                    onClick={() => setIsVideoModalOpen(true)}
                     aria-label="Play video about Yathrananda travel services"
                   >
                     <motion.div
@@ -894,13 +897,18 @@ export default function HomePage() {
               viewport={{ once: true }}
             >
               <p className="text-sm">
-                &copy; {new Date().getFullYear()} Yathrananda Travel Agency. All rights reserved. |
-                Privacy Policy | Terms of Service
+                &copy; {new Date().getFullYear()} Yathrananda Travel Agency. All
+                rights reserved. | Privacy Policy | Terms of Service
               </p>
             </motion.div>
           </div>
         </footer>
       </AnimatedSection>
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoUrl="https://www.youtube.com/embed/9oZVMcF55tQ" // Replace with your video URL
+      />
     </div>
   );
 }
