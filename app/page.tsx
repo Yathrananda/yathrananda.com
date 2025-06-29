@@ -80,17 +80,17 @@ const heroContent = [
     poster: "",
   },
   {
-    type: 'video',
+    type: "video",
     url: "/videos/hero-video-1.mp4",
     poster: "/images/video-poster-1.jpg",
   },
   {
-    type: 'image',
+    type: "image",
     url: "/images/hero-background.jpg",
-    alt: "Scenic mountain landscape"
+    alt: "Scenic mountain landscape",
   },
   {
-    type: 'video',
+    type: "video",
     url: "/videos/hero-video-2.mp4",
     poster: "/images/video-poster-2.jpg",
   },
@@ -362,7 +362,24 @@ export default function HomePage() {
                 </form>
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="col-span-3"></div>
+                  <div className="col-span-3 flex items-center justify-start gap-2">
+                    {[
+                      "All",
+                      "International",
+                      "Domestic",
+                      "Adventure",
+                      "Cultural",
+                    ].map((item) => (
+                      <button
+                        key={item}
+                        data-active={item === "All"}
+                        className={`w-full bg-background text-card-foreground px-4 py-2 rounded-lg text-sm transition-all duration-200 ease-out hover:bg-muted hover:text-muted-foreground data-[active=true]:bg-primary data-[active=true]:text-primary-foreground border border-border`}
+                        onClick={() => console.log(`Filter by ${item}`)}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
                   <motion.button
                     type="submit"
                     className="w-full rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground py-2.5 font-medium text-sm flex items-center justify-center space-x-2 transition-colors"
