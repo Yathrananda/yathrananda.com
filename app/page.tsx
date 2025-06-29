@@ -101,6 +101,7 @@ export default function HomePage() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [expandedService, setExpandedService] = useState<number | null>(2);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
 
   const nextImage = useCallback(() => {
     setIsTransitioning(true);
@@ -597,10 +598,29 @@ export default function HomePage() {
                   answer:
                     "Simply reach out to us via our website, phone, or email. Share your travel preferences, budget, and desired destinations. We'll create a personalized itinerary for you. Once finalized, you can confirm your booking with our secure payment system. We specialize in creating customized travel experiences tailored to your needs, whether it's destinations, activities, or accommodations.",
                 },
-                "Can I customize my travel package with Yathrananda?",
-                "Do you offer travel insurance for international trips?",
-                "What types of adventure tours do you organize?",
-                "Can you arrange flights and accommodations together?",
+                {
+                  question:
+                    "Can I customize my travel package with Yathrananda?",
+                  answer:
+                    "Yes, absolutely! We specialize in creating customized travel packages. Our team will work with you to understand your preferences, budget, and travel style to create a personalized itinerary that matches your exact requirements.",
+                },
+                {
+                  question:
+                    "Do you offer travel insurance for international trips?",
+                  answer:
+                    "Yes, we provide comprehensive travel insurance options for all international trips. Our insurance packages cover medical emergencies, trip cancellations, lost baggage, and other travel-related incidents to ensure you travel with peace of mind.",
+                },
+                {
+                  question: "What types of adventure tours do you organize?",
+                  answer:
+                    "We organize a wide range of adventure tours including hiking, trekking, mountain climbing, wildlife safaris, scuba diving, white water rafting, and cultural expeditions. All our adventure tours are led by experienced guides and follow strict safety protocols.",
+                },
+                {
+                  question:
+                    "Can you arrange flights and accommodations together?",
+                  answer:
+                    "Yes, we offer complete travel packages that include both flights and accommodations. We can also arrange car rentals, airport transfers, and other travel services to ensure a seamless travel experience.",
+                },
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -610,40 +630,44 @@ export default function HomePage() {
                 >
                   <motion.button
                     className="w-full flex items-center justify-between p-4 sm:p-6 text-left transition-all duration-200 ease-out hover:bg-muted rounded-lg"
-                    aria-expanded={typeof item === "object"}
-                    aria-controls={
-                      typeof item === "object"
-                        ? `faq-answer-${index}`
-                        : undefined
+                    onClick={() =>
+                      setExpandedFaq(expandedFaq === index ? null : index)
                     }
+                    aria-expanded={expandedFaq === index}
+                    aria-controls={`faq-answer-${index}`}
                   >
                     <span className="font-medium text-card-foreground text-sm sm:text-base pr-4">
-                      {index + 1}.{" "}
-                      {typeof item === "string" ? item : item.question}
+                      {index + 1}. {item.question}
                     </span>
                     <motion.div
-                      whileHover={{ rotate: 180 }}
+                      animate={{ rotate: expandedFaq === index ? 180 : 0 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="text-primary flex-shrink-0"
                     >
                       <ChevronDown
-                        className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
                         aria-hidden="true"
                       />
                     </motion.div>
                   </motion.button>
-                  {typeof item === "object" && (
-                    <motion.div
-                      id={`faq-answer-${index}`}
-                      className="px-4 sm:px-6 pb-4 sm:pb-6"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                    >
-                      <p className="text-muted-foreground text-sm">
-                        {item.answer}
-                      </p>
-                    </motion.div>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {expandedFaq === index && (
+                      <motion.div
+                        id={`faq-answer-${index}`}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                          <p className="text-muted-foreground text-sm">
+                            {item.answer}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               ))}
             </motion.div>
