@@ -96,12 +96,37 @@ const heroContent = [
   },
 ];
 
+const testimonials = [
+  {
+    content:
+      "Working with Yathrananda travel team was an absolute pleasure. They understood our vision for the perfect vacation and helped us find destinations that exceeded our expectations. The personalized service and attention to detail made our journey unforgettable.",
+    author: "Sajibur Rahman",
+    role: "Travel Enthusiast & CEO",
+    image: "/images/testimonial-1.jpg",
+  },
+  {
+    content:
+      "Outstanding service from start to finish! The team went above and beyond to ensure our family vacation was perfect. Their local knowledge and attention to detail made all the difference.",
+    author: "Emily Chen",
+    role: "Family Traveler",
+    image: "/images/testimonial-2.jpg",
+  },
+  {
+    content:
+      "As a solo traveler, I was impressed by how well Yathrananda understood my needs. They created an amazing itinerary that perfectly balanced adventure and relaxation.",
+    author: "Marcus Thompson",
+    role: "Adventure Seeker",
+    image: "/images/testimonial-3.jpg",
+  },
+];
+
 export default function HomePage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [expandedService, setExpandedService] = useState<number | null>(2);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
 
   const nextImage = useCallback(() => {
     setIsTransitioning(true);
@@ -109,6 +134,14 @@ export default function HomePage() {
       setCurrentImageIndex((prev) => (prev + 1) % heroContent.length);
       setIsTransitioning(false);
     }, 500);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
@@ -721,41 +754,60 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <motion.blockquote
-                  className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border transition-all duration-200 ease-out hover:shadow-xl"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div
-                    className="text-primary text-3xl sm:text-4xl mb-4"
-                    aria-hidden="true"
-                  >
-                    "
-                  </div>
-                  <p className="text-card-foreground mb-6 text-sm sm:text-base">
-                    Working with Yathrananda travel team was an absolute
-                    pleasure. They understood our vision for the perfect
-                    vacation and helped us find destinations that exceeded our
-                    expectations. The personalized service and attention to
-                    detail made our journey unforgettable. We couldn't have
-                    planned such an amazing trip without their expertise!
-                  </p>
-                  <footer className="flex items-center space-x-4">
-                    <motion.div
-                      className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full border border-border"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      aria-hidden="true"
-                    />
-                    <div>
-                      <cite className="font-semibold text-card-foreground text-sm sm:text-base not-italic">
-                        Sajibur Rahman
-                      </cite>
-                      <div className="text-xs sm:text-sm text-muted-foreground">
-                        Travel Enthusiast & CEO
+                <div className="relative">
+                  <AnimatePresence mode="wait">
+                    <motion.blockquote
+                      key={currentTestimonialIndex}
+                      className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border transition-all duration-200 ease-out hover:shadow-xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div
+                        className="text-primary text-3xl sm:text-4xl mb-4"
+                        aria-hidden="true"
+                      >
+                        "
                       </div>
-                    </div>
-                  </footer>
-                </motion.blockquote>
+                      <p className="text-card-foreground mb-6 text-sm sm:text-base">
+                        {testimonials[currentTestimonialIndex].content}
+                      </p>
+                      <footer className="flex items-center space-x-4">
+                        <motion.div
+                          className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full border border-border"
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          aria-hidden="true"
+                        />
+                        <div>
+                          <cite className="font-semibold text-card-foreground text-sm sm:text-base not-italic">
+                            {testimonials[currentTestimonialIndex].author}
+                          </cite>
+                          <div className="text-xs sm:text-sm text-muted-foreground">
+                            {testimonials[currentTestimonialIndex].role}
+                          </div>
+                        </div>
+                      </footer>
+                    </motion.blockquote>
+                  </AnimatePresence>
+
+                  <div className="flex justify-center space-x-2 mt-4">
+                    {testimonials.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentTestimonialIndex(index)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          currentTestimonialIndex === index
+                            ? "bg-primary w-4"
+                            : "bg-border hover:bg-border/80"
+                        }`}
+                        aria-label={`Go to testimonial ${index + 1}`}
+                        aria-current={currentTestimonialIndex === index}
+                      />
+                    ))}
+                  </div>
+                </div>
               </motion.div>
 
               <motion.div
@@ -767,7 +819,7 @@ export default function HomePage() {
               >
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl group">
                   <Image
-                    src="/images/happy-traveler.jpg"
+                    src="/images/people.webp"
                     alt="Happy Yathrananda client enjoying their travel experience"
                     width={600}
                     height={500}
