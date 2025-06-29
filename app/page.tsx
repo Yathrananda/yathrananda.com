@@ -841,32 +841,34 @@ export default function HomePage() {
         >
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="bg-gradient-to-r from-orange-400 to-pink-500 rounded-xl sm:rounded-2xl p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl"
+              className="bg-background border border-border rounded-xl sm:rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-2xl"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
               <div className="relative z-10">
                 <h2
                   id="newsletter-heading"
-                  className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4"
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground"
                 >
                   Start Your Adventure Today
                 </h2>
-                <p className="text-base sm:text-lg mb-6 sm:mb-8 opacity-90">
+                <p className="text-base sm:text-lg mb-6 sm:mb-8 text-muted-foreground">
                   Join thousands of travelers who trust Yathrananda for their
                   perfect journey
                 </p>
                 <motion.button
-                  className="bg-background text-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold text-sm sm:text-base transition-all duration-200 ease-out hover:bg-background/90 shadow-lg"
-                  whileHover={{ scale: 1.05 }}
+                  className="group/button relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
                   whileTap={{ scale: 0.95 }}
                   aria-label="Start planning your trip with Yathrananda"
                 >
-                  Plan Your Trip Now
+                  <span className="relative z-10">Plan Your Trip Now</span>
+                  <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-12deg)_translateX(100%)]">
+                    <div className="relative h-full w-8 bg-white/20"></div>
+                  </div>
                 </motion.button>
               </div>
               <div
-                className="absolute inset-0 bg-foreground/20"
+                className="absolute inset-0 bg-foreground/5"
                 aria-hidden="true"
               ></div>
             </motion.div>
