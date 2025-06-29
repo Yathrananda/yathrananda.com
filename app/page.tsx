@@ -879,7 +879,7 @@ export default function HomePage() {
       {/* Footer */}
       <AnimatedSection as="footer">
         <footer
-          className="bg-foreground text-background py-12 sm:py-16 px-4 sm:px-6"
+          className="bg-background border-t border-border py-12 sm:py-16 px-4 sm:px-6"
           role="contentinfo"
         >
           <div className="max-w-7xl mx-auto">
@@ -894,47 +894,40 @@ export default function HomePage() {
                 className="sm:col-span-2 lg:col-span-1"
                 variants={fadeInUp}
               >
-                <div className="flex items-center space-x-2 mb-6">
-                  <div
-                    className="w-8 h-8 bg-primary rounded-full flex items-center justify-center"
-                    aria-hidden="true"
-                  >
-                    <span className="text-primary-foreground font-bold text-sm">
-                      M
+                <div className="flex items-center space-x-2 mb-6 group">
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary-foreground/20 to-primary/0 shimmer" />
+                    <span className="text-primary-foreground font-bold text-sm relative z-10">
+                      Y
                     </span>
                   </div>
-                  <span className="text-background font-semibold text-lg">
+                  <span className="text-foreground font-semibold text-lg">
                     Yathrananda
                   </span>
                 </div>
-                <p className="text-muted-foreground mb-6 text-sm">
+                <p className="text-muted-foreground mb-6 text-sm max-w-sm">
                   Subscribe to our newsletter for exclusive travel deals,
                   destination guides, and travel tips.
                 </p>
-                <form className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                  <label htmlFor="newsletter-email" className="sr-only">
-                    Email address for newsletter
-                  </label>
+                <form className="relative group">
                   <input
-                    id="newsletter-email"
                     type="email"
                     placeholder="Enter your email"
-                    className="flex-1 px-4 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out text-foreground placeholder:text-muted-foreground"
-                    aria-label="Email address for newsletter subscription"
+                    className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all duration-200 ease-out text-foreground placeholder:text-muted-foreground pr-24"
                     required
                   />
                   <motion.button
                     type="submit"
-                    className="bg-primary text-primary-foreground px-4 sm:px-6 py-2 rounded-lg text-sm transition-all duration-200 ease-out hover:bg-primary-hover shadow-sm"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="Subscribe to Yathrananda newsletter"
+                    className="absolute right-1 top-1 bg-primary text-primary-foreground px-4 py-1 rounded-md text-sm transition-all duration-200 hover:bg-primary/90"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     Subscribe
                   </motion.button>
                 </form>
               </motion.div>
 
+              {/* Navigation Links */}
               {[
                 {
                   title: "Destinations",
@@ -959,48 +952,47 @@ export default function HomePage() {
                 {
                   title: "Company",
                   links: [
-                    "About Yathrananda",
+                    "About Us",
                     "Travel Blog",
-                    "Customer Reviews",
-                    "Contact Us",
+                    "Reviews",
+                    "Contact",
                     "Careers",
                   ],
                 },
               ].map((section) => (
                 <motion.div key={section.title} variants={fadeInUp}>
-                  <h3 className="font-semibold mb-4 text-sm sm:text-base text-background">
+                  <h3 className="font-semibold mb-4 text-sm text-foreground">
                     {section.title}
                   </h3>
-                  <nav aria-label={`${section.title} links`}>
-                    <ul className="space-y-2 text-muted-foreground text-sm">
-                      {section.links.map((link) => (
-                        <li key={link}>
-                          <motion.a
-                            href="#"
-                            className="transition-all duration-200 ease-out hover:text-background"
-                            whileHover={{ x: 5 }}
-                            aria-label={`Navigate to ${link}`}
-                          >
-                            {link}
-                          </motion.a>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
+                  <ul className="space-y-2">
+                    {section.links.map((link) => (
+                      <li key={link}>
+                        <motion.a
+                          href="#"
+                          className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 block"
+                          whileHover={{ x: 4 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {link}
+                        </motion.a>
+                      </li>
+                    ))}
+                  </ul>
                 </motion.div>
               ))}
             </motion.div>
 
+            {/* Copyright Section */}
             <motion.div
-              className="border-t border-border mt-8 sm:mt-12 pt-6 sm:pt-8 text-center text-muted-foreground"
+              className="border-t border-border/40 mt-12 pt-8 text-center text-muted-foreground/60"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.2 }}
               viewport={{ once: true }}
             >
               <p className="text-sm">
-                &copy; {new Date().getFullYear()} Yathrananda Travel Agency. All
-                rights reserved. | Privacy Policy | Terms of Service
+                © {new Date().getFullYear()} Yathrananda Travel. All rights
+                reserved.
               </p>
             </motion.div>
           </div>
