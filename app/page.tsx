@@ -894,7 +894,7 @@ export default function HomePage() {
               viewport={{ once: true }}
             >
               <p className="text-sm">
-                &copy; 2024 Yathrananda Travel Agency. All rights reserved. |
+                &copy; {new Date().getFullYear()} Yathrananda Travel Agency. All rights reserved. |
                 Privacy Policy | Terms of Service
               </p>
             </motion.div>
