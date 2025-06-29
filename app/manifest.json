@@ -1,0 +1,21 @@
+{
+  "name": "MALVORA Travel Agency",
+  "short_name": "MALVORA",
+  "description": "Premium travel agency offering personalized travel experiences worldwide",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "hsl(0 0% 100%)",
+  "theme_color": "hsl(142.1 76.2% 36.3%)",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
