@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 function Header() {
+  const pathname = usePathname();
   return (
     <header className="bg-background border-b border-border sticky top-0 z-40 backdrop-blur-sm">
       <nav
@@ -31,10 +35,18 @@ function Header() {
           <div className="hidden md:flex items-center space-x-6">
             {[
               { name: "Home", href: "/" },
-              { name: "About Us", href: "/about", active: true },
-              { name: "Services", href: "/services" },
-              { name: "Pricing", href: "/pricing" },
-              { name: "Contact Us", href: "/contact" },
+              {
+                name: "About Us",
+                href: "/about",
+                active: pathname === "/about",
+              },
+              {
+                name: "Services",
+                href: "/services",
+                active: pathname === "/services",
+              },
+              { name: "Pricing", href: "/pricing", active: pathname === "/pricing" },
+              { name: "Contact Us", href: "/contact", active: pathname === "/contact" },
             ].map((item) => (
               <Link
                 key={item.name}
