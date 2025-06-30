@@ -6,10 +6,10 @@ import Image from "next/image";
 import { Search, Play, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { HTMLAttributes, useRef, useState } from "react";
+import { VideoModal } from "./_components/video-modal";
 import DestinationsSection from "./_components/packages-section-type-1";
 import PackagesSectionType2 from "./_components/packages-section-type-2";
 import Header from "./_components/header";
-import { VideoModal } from "./_components/video-modal";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -894,16 +894,16 @@ export default function HomePage() {
                 className="sm:col-span-2 lg:col-span-1"
                 variants={fadeInUp}
               >
-                <div className="flex items-center space-x-2 mb-6 group">
-                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary-foreground/20 to-primary/0 shimmer" />
-                    <span className="text-primary-foreground font-bold text-sm relative z-10">
-                      Y
-                    </span>
-                  </div>
-                  <span className="text-foreground font-semibold text-lg">
-                    Yathrananda
-                  </span>
+                <div className="flex items-center space-x-2 group">
+                  <Image
+                    src={"/images/logo.png"}
+                    alt="Yathrananda Logo"
+                    width={40}
+                    height={40}
+                    className="w-32 object-cover rounded-full"
+                    loading="eager"
+                    priority
+                  />
                 </div>
                 <p className="text-muted-foreground mb-6 text-sm max-w-sm">
                   Subscribe to our newsletter for exclusive travel deals,
@@ -918,7 +918,7 @@ export default function HomePage() {
                   />
                   <motion.button
                     type="submit"
-                    className="absolute right-1 top-1 bg-primary text-primary-foreground px-4 py-1 rounded-md text-sm transition-all duration-200 hover:bg-primary/90"
+                    className="absolute right-1 top-1 bg-primary text-primary-foreground px-4 py-1 rounded-md text-sm transition-all duration-200 hover:bg-primary-hover"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >

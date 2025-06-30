@@ -77,9 +77,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={dmsans.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/icon.png" sizes="any" />
+        <link rel="icon" href="/icon.png" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="hsl(142.1 76.2% 36.3%)" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
