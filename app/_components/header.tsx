@@ -19,7 +19,7 @@ function Header() {
           <Link
             href="/"
             className="flex items-center space-x-2 group"
-            aria-label="Return to MALVORA homepage"
+            aria-label="Return to Yathrananda homepage"
           >
             <Image
               src={"/images/logo.png"}
@@ -74,7 +74,7 @@ function Header() {
             className="bg-primary text-primary-foreground px-4 sm:px-6 py-2 rounded-full font-medium text-sm transition-all duration-200 ease-out hover:bg-primary-hover shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            aria-label="Get started with MALVORA"
+            aria-label="Get started with Yathrananda"
           >
             Get Started
           </motion.button>

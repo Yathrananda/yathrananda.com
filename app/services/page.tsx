@@ -312,7 +312,7 @@ export default function ServicesPage() {
     {
       name: "Jennifer Martinez",
       location: "New York, USA",
-      text: "MALVORA's trip planning service exceeded all expectations. Every detail was perfect!",
+      text: "Yathrananda's trip planning service exceeded all expectations. Every detail was perfect!",
       rating: 5,
       service: "Trip Planning",
     },
@@ -722,10 +722,10 @@ export default function ServicesPage() {
                 {
                   icon: Mail,
                   title: "Email Us",
-                  content: "services@malvora.com",
+                  content: "services@yathrananda.com",
                   description: "Get detailed information about our services",
                   action: "Send Email",
-                  href: "mailto:services@malvora.com",
+                  href: "mailto:services@yathrananda.com",
                 },
                 {
                   icon: Calendar,
