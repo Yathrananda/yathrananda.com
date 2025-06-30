@@ -9,7 +9,7 @@ import { HTMLAttributes, useRef, useState } from "react";
 import { VideoModal } from "./_components/video-modal";
 import DestinationsSection from "./_components/packages-section-type-1";
 import PackagesSectionType2 from "./_components/packages-section-type-2";
-import Header from "./_components/header";
+import Header from "./_components/hero-header";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
