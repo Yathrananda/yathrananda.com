@@ -32,9 +32,9 @@ function Header() {
             {[
               { name: "Home", href: "/" },
               { name: "About Us", href: "/about", active: true },
-              { name: "Services", href: "#services" },
-              { name: "Pricing", href: "#pricing" },
-              { name: "Contact Us", href: "#contact" },
+              { name: "Services", href: "/services" },
+              { name: "Pricing", href: "/pricing" },
+              { name: "Contact Us", href: "/contact" },
             ].map((item) => (
               <Link
                 key={item.name}

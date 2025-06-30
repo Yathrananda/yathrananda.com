@@ -6,11 +6,11 @@ import { Menu, X, Phone, MessageSquare } from "lucide-react";
 import Image from "next/image";
 
 const navigationItems = [
-  { name: "Home", href: "#home" },
+  { name: "Home", href: "/" },
   { name: "About Us", href: "about" },
-  { name: "Services", href: "#services" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Contact Us", href: "#contact" },
+  { name: "Services", href: "services" },
+  { name: "Pricing", href: "pricing" },
+  { name: "Contact Us", href: "contact" },
 ];
 
 const staggerContainer = {
