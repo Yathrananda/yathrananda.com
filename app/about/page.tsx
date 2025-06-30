@@ -87,44 +87,44 @@ export default function AboutPage() {
     {
       name: "Sarah Johnson",
       title: "Founder & CEO",
-      bio: "With over 15 years in the travel industry, Sarah founded MALVORA to make personalized travel accessible to everyone. Her passion for exploration and cultural exchange drives our mission.",
+      bio: "With over 15 years in the travel industry, Sarah founded Yathrananda to make personalized travel accessible to everyone. Her passion for exploration and cultural exchange drives our mission.",
       image: "/images/team/sarah-johnson.jpg",
-      alt: "Sarah Johnson, Founder and CEO of MALVORA Travel Agency",
+      alt: "Sarah Johnson, Founder and CEO of Yathrananda Travel Agency",
     },
     {
       name: "Michael Chen",
       title: "Head of Operations",
-      bio: "Michael ensures every MALVORA journey runs smoothly. His expertise in logistics and customer service guarantees exceptional travel experiences for our clients.",
+      bio: "Michael ensures every Yathrananda journey runs smoothly. His expertise in logistics and customer service guarantees exceptional travel experiences for our clients.",
       image: "/images/team/michael-chen.jpg",
-      alt: "Michael Chen, Head of Operations at MALVORA Travel Agency",
+      alt: "Michael Chen, Head of Operations at Yathrananda Travel Agency",
     },
     {
       name: "Emily Rodriguez",
       title: "Travel Experience Designer",
       bio: "Emily crafts unique itineraries that capture the essence of each destination. Her creative approach and local knowledge create unforgettable adventures.",
       image: "/images/team/emily-rodriguez.jpg",
-      alt: "Emily Rodriguez, Travel Experience Designer at MALVORA Travel Agency",
+      alt: "Emily Rodriguez, Travel Experience Designer at Yathrananda Travel Agency",
     },
     {
       name: "David Thompson",
       title: "Customer Success Manager",
       bio: "David is dedicated to ensuring every client's satisfaction. His 24/7 support and problem-solving skills make him an invaluable part of our team.",
       image: "/images/team/david-thompson.jpg",
-      alt: "David Thompson, Customer Success Manager at MALVORA Travel Agency",
+      alt: "David Thompson, Customer Success Manager at Yathrananda Travel Agency",
     },
     {
       name: "Lisa Park",
       title: "Marketing Director",
       bio: "Lisa connects travelers with their dream destinations through strategic marketing and storytelling. Her digital expertise helps us reach adventure seekers worldwide.",
       image: "/images/team/lisa-park.jpg",
-      alt: "Lisa Park, Marketing Director at MALVORA Travel Agency",
+      alt: "Lisa Park, Marketing Director at Yathrananda Travel Agency",
     },
     {
       name: "James Wilson",
       title: "Finance & Operations",
       bio: "James manages our financial operations and ensures transparent pricing. His attention to detail and integrity maintain our clients' trust in every transaction.",
       image: "/images/team/james-wilson.jpg",
-      alt: "James Wilson, Finance and Operations Manager at MALVORA Travel Agency",
+      alt: "James Wilson, Finance and Operations Manager at Yathrananda Travel Agency",
     },
   ];
 
@@ -193,7 +193,7 @@ export default function AboutPage() {
                 </motion.div>
 
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
-                  About MALVORA Travel Agency
+                  About Yathrananda Travel Agency
                 </h1>
 
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -209,7 +209,7 @@ export default function AboutPage() {
                     className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg flex items-center justify-center space-x-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    aria-label="Start planning your journey with MALVORA"
+                    aria-label="Start planning your journey with Yathrananda"
                   >
                     <span>Start Your Journey</span>
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -234,7 +234,7 @@ export default function AboutPage() {
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
                   <Image
                     src="/images/about/team-hero.jpg"
-                    alt="MALVORA travel team working together to plan amazing journeys"
+                    alt="Yathrananda travel team working together to plan amazing journeys"
                     width={600}
                     height={400}
                     className="w-full h-64 sm:h-80 lg:h-96 object-cover transition-transform duration-300 ease-out group-hover:scale-105"
@@ -290,7 +290,7 @@ export default function AboutPage() {
                 Our Mission & Values
               </h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                At MALVORA, we believe travel is more than just visiting
+                At Yathrananda, we believe travel is more than just visiting
                 places—it's about creating meaningful connections, discovering
                 new perspectives, and building memories that last a lifetime.
               </p>
@@ -308,7 +308,7 @@ export default function AboutPage() {
                 </h3>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    Founded in 2009 by travel enthusiast Sarah Johnson, MALVORA
+                    Founded in 2009 by travel enthusiast Sarah Johnson, Yathrananda
                     began as a small boutique agency with a simple mission: to
                     make extraordinary travel experiences accessible to
                     everyone. What started as a passion project has grown into a
@@ -338,7 +338,7 @@ export default function AboutPage() {
                 <div className="relative rounded-2xl overflow-hidden shadow-xl group">
                   <Image
                     src="/images/about/company-story.jpg"
-                    alt="MALVORA's journey from a small travel agency to a global travel partner"
+                    alt="Yathrananda's journey from a small travel agency to a global travel partner"
                     width={600}
                     height={400}
                     className="w-full h-64 sm:h-80 object-cover transition-transform duration-300 ease-out group-hover:scale-105"
@@ -539,9 +539,9 @@ export default function AboutPage() {
                     {
                       icon: Mail,
                       title: "Email Us",
-                      content: "hello@malvora.com",
+                      content: "hello@Yathrananda.com",
                       description: "Send us your travel inquiries anytime",
-                      href: "mailto:hello@malvora.com",
+                      href: "mailto:hello@Yathrananda.com",
                     },
                     {
                       icon: Phone,
@@ -726,7 +726,7 @@ export default function AboutPage() {
                       className="w-full bg-primary text-primary-foreground py-3 px-6 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg flex items-center justify-center space-x-2"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      aria-label="Send your message to MALVORA"
+                      aria-label="Send your message to Yathrananda"
                     >
                       <span>Send Message</span>
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -760,7 +760,7 @@ export default function AboutPage() {
                     className="bg-background text-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-background/90 shadow-lg"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    aria-label="Start planning your trip with MALVORA"
+                    aria-label="Start planning your trip with Yathrananda"
                   >
                     Plan Your Trip
                   </motion.button>
