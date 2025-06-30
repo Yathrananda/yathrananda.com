@@ -140,7 +140,7 @@ const PackagesSectionType2 = () => {
           >
             Adventure Tours & Travel Experiences
           </h2>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full lg:w-auto">
+          <div className="flex flex-row items-center space-y-0 space-x-4 w-full lg:w-auto">
             <div className="relative w-full sm:w-auto">
               <label htmlFor="tour-search" className="sr-only">
                 Search tours by location

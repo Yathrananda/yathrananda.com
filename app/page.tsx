@@ -261,7 +261,7 @@ export default function HomePage() {
               </motion.p>
 
               <motion.div
-                className="bg-background text-card-foreground backdrop-blur-sm rounded-2xl px-12 py-3 border border-background/30 sm:rounded-xl p-4 sm:p-5 max-w-7xl mx-auto"
+                className="bg-background text-card-foreground backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-background/30 w-full max-w-7xl mx-auto"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.4 }}
@@ -270,11 +270,13 @@ export default function HomePage() {
               >
                 <h2
                   id="search-heading"
-                  className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4"
+                  className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4"
                 >
                   Find Your Perfect Destination
                 </h2>
-                <form className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+
+                {/* Search Form */}
+                <form className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
                   {[
                     {
                       label: "Where to?",
@@ -301,11 +303,11 @@ export default function HomePage() {
                   ].map((field, index) => (
                     <div
                       key={field.label}
-                      className="relative flex flex-col items-start w-full justify-center"
+                      className="relative flex flex-col items-start w-full"
                     >
                       <label
                         htmlFor={field.label.toLowerCase().replace(" ", "-")}
-                        className="block text-xs font-medium text-card-foreground mb-1.5"
+                        className="block text-xs font-medium text-card-foreground mb-1.5 ml-1"
                       >
                         {field.label}
                       </label>
@@ -318,7 +320,7 @@ export default function HomePage() {
                           type={field.type}
                           min={field.min}
                           placeholder={field.placeholder}
-                          className={`w-full no-calendar px-4 py-2 outline-none border border-border rounded-lg text-sm bg-transparent text-card-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-background focus:border-background ${
+                          className={`w-full px-4 py-2 outline-none border border-border rounded-lg text-sm bg-transparent text-card-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-background focus:border-background ${
                             field.icon ? "pl-8" : ""
                           }`}
                         />
@@ -327,28 +329,34 @@ export default function HomePage() {
                   ))}
                 </form>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="col-span-3 flex items-center justify-start gap-2">
-                    {[
-                      "All",
-                      "International",
-                      "Domestic",
-                      "Adventure",
-                      "Cultural",
-                    ].map((item) => (
-                      <button
-                        key={item}
-                        data-active={item === "All"}
-                        className={`w-full bg-background text-card-foreground px-4 py-2 rounded-lg text-sm transition-all duration-200 ease-out hover:bg-muted hover:text-muted-foreground data-[active=true]:bg-primary data-[active=true]:text-primary-foreground border border-border`}
-                        onClick={() => console.log(`Filter by ${item}`)}
-                      >
-                        {item}
-                      </button>
-                    ))}
+                {/* Filter Buttons and Search */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1 overflow-x-auto scrollbar-hide">
+                    <div className="flex gap-2 min-w-max">
+                      {[
+                        "All",
+                        "International",
+                        "Domestic",
+                        "Adventure",
+                        "Cultural",
+                      ].map((item) => (
+                        <button
+                          key={item}
+                          data-active={item === "All"}
+                          className={`px-4 py-2 rounded-lg text-sm transition-all duration-200 ease-out whitespace-nowrap
+              bg-background text-card-foreground hover:bg-muted hover:text-muted-foreground 
+              data-[active=true]:bg-primary data-[active=true]:text-primary-foreground 
+              border border-border`}
+                          onClick={() => console.log(`Filter by ${item}`)}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <motion.button
                     type="submit"
-                    className="w-full rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground py-2.5 font-medium text-sm flex items-center justify-center space-x-2 transition-colors"
+                    className="flex-shrink-0 w-full sm:w-auto rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground py-2.5 px-6 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >

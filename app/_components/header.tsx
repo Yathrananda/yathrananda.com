@@ -118,7 +118,7 @@ export default function Header() {
               <span>Enquire Now</span>
             </motion.button>
             <button
-              className="lg:hidden text-gray-700 p-2 transition-all duration-200 ease-out hover:bg-white/10 rounded-lg bg-white/90 backdrop-blur-sm"
+              className="lg:hidden text-card-foreground p-2 transition-all duration-200 ease-out hover:bg-background/20 hover:text-background border border-background/30 rounded-lg bg-white/90 backdrop-blur-sm"
               onClick={toggleMobileMenu}
               aria-label={
                 isMobileMenuOpen
@@ -183,7 +183,7 @@ export default function Header() {
                   <span>+1 234 567 890</span>
                 </button>
                 <button
-                  className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-full font-medium transition-all duration-200 ease-out flex items-center justify-center space-x-2"
+                  className="w-full bg-primary hover:bg-primary-hover text-white py-2 rounded-full font-medium transition-all duration-200 ease-out flex items-center justify-center space-x-2"
                   aria-label="Make an enquiry"
                 >
                   <MessageSquare className="w-4 h-4" />

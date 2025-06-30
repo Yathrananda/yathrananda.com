@@ -1,6 +1,6 @@
 import { HTMLAttributes, useEffect, useRef, useState, JSX } from "react";
 import { motion, useInView, Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import Image from "next/image";
 
 interface AnimatedSectionProps extends HTMLAttributes<HTMLDivElement> {
@@ -144,29 +144,109 @@ const PackagesSectionType1 = () => {
             Popular Travel Destinations
           </h2>
           <div
-            className="flex space-x-2"
+            className="flex flex-row items-center space-y-0 space-x-4 w-full lg:w-auto"
             role="group"
             aria-label="Destination carousel controls"
           >
-            {[ChevronLeft, ChevronRight].map((Icon, index) => (
-              <motion.button
-                key={index}
-                className="p-2 border border-border rounded-full transition-all duration-200 ease-out hover:bg-muted hover:border-muted-foreground"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => scroll(index === 0 ? "left" : "right")}
-                aria-label={
-                  index === 0 ? "Previous destinations" : "Next destinations"
-                }
+            <div className="relative w-full sm:w-auto">
+              <label htmlFor="tour-search" className="sr-only">
+                Search tours by location
+              </label>
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4"
+                aria-hidden="true"
+              />
+              <input
+                id="tour-search"
+                type="text"
+                placeholder="Search by Location"
+                className="w-full sm:w-auto pl-10 pr-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out bg-background text-foreground placeholder:text-muted-foreground"
+                aria-label="Search tours by location"
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <div
+                className="flex space-x-2"
+                role="group"
+                aria-label="Tour carousel controls"
               >
-                <Icon
-                  className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
-                  aria-hidden="true"
-                />
-              </motion.button>
-            ))}
+                {[ChevronLeft, ChevronRight].map((Icon, index) => (
+                  <motion.button
+                    key={index}
+                    className="p-2 border border-border rounded-full transition-all duration-200 ease-out hover:bg-muted hover:border-muted-foreground"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => scroll(index === 0 ? "left" : "right")}
+                    aria-label={
+                      index === 0
+                        ? "Previous destinations"
+                        : "Next destinations"
+                    }
+                  >
+                    <Icon
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
+                      aria-hidden="true"
+                    />
+                  </motion.button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+        {/* <div className="flex flex-row items-center space-y-0 space-x-4 w-full lg:w-auto">
+                    <div className="relative w-full sm:w-auto">
+                      <label htmlFor="tour-search" className="sr-only">
+                        Search tours by location
+                      </label>
+                      <Search
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4"
+                        aria-hidden="true"
+                      />
+                      <input
+                        id="tour-search"
+                        type="text"
+                        placeholder="Search by Location"
+                        className="w-full sm:w-auto pl-10 pr-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out bg-background text-foreground placeholder:text-muted-foreground"
+                        aria-label="Search tours by location"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div
+                        className="flex space-x-2"
+                        role="group"
+                        aria-label="Tour carousel controls"
+                      >
+                        {[ChevronLeft, ChevronRight].map((Icon, index) => (
+                          <motion.button
+                            key={index}
+                            className="p-2 border border-border rounded-full transition-all duration-200 ease-out hover:bg-muted hover:border-muted-foreground"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => {
+                              const container = document.getElementById(
+                                "tours-scroll-container"
+                              );
+                              if (container) {
+                                const scrollAmount = 350; // Adjust based on card width
+                                container.scrollTo({
+                                  left:
+                                    container.scrollLeft +
+                                    (index === 0 ? -scrollAmount : scrollAmount),
+                                  behavior: "smooth",
+                                });
+                              }
+                            }}
+                            aria-label={index === 0 ? "Previous tours" : "Next tours"}
+                          >
+                            <Icon
+                              className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
+                              aria-hidden="true"
+                            />
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  </div> */}
 
         <motion.div
           ref={scrollContainerRef}
