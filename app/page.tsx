@@ -10,6 +10,7 @@ import { VideoModal } from "./_components/video-modal";
 import DestinationsSection from "./_components/packages-section-type-1";
 import PackagesSectionType2 from "./_components/packages-section-type-2";
 import Header from "./_components/hero-header";
+import PackagesSectionV3 from "./_components/packages-section-v3";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -368,7 +369,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <DestinationsSection />
+        <PackagesSectionV3 />
         {/* Statistics Section */}
         <AnimatedSection
           className="py-12 sm:py-16 px-4 sm:px-6 bg-muted"

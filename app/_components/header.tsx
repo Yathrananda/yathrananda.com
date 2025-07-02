@@ -40,13 +40,13 @@ function Header() {
                 href: "/about",
                 active: pathname === "/about",
               },
+              { name: "International Tours", href: "/international-tours", active: pathname === "/international-tours" },
+              { name: "Domestic Tours", href: "/domestic-tours", active: pathname === "/domestic-tours" },
               {
-                name: "Services",
+                name: "Other Services",
                 href: "/services",
                 active: pathname === "/services",
               },
-              { name: "Pricing", href: "/pricing", active: pathname === "/pricing" },
-              { name: "Contact Us", href: "/contact", active: pathname === "/contact" },
             ].map((item) => (
               <Link
                 key={item.name}
@@ -76,7 +76,7 @@ function Header() {
             whileTap={{ scale: 0.95 }}
             aria-label="Get started with Yathrananda"
           >
-            Get Started
+            Contact Us
           </motion.button>
         </div>
       </nav>

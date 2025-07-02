@@ -4,14 +4,7 @@ import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Menu, X, Phone, MessageSquare } from "lucide-react";
 import Image from "next/image";
-
-const navigationItems = [
-  { name: "Home", href: "/" },
-  { name: "About Us", href: "about" },
-  { name: "Services", href: "services" },
-  { name: "Pricing", href: "pricing" },
-  { name: "Contact Us", href: "contact" },
-];
+import { usePathname } from "next/navigation";
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -34,11 +27,21 @@ const fadeInUp: Variants = {
 };
 
 export default function Header() {
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname === href;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  const navigationItems = [
+    { name: "Home", href: "/", active: isActive("/") },
+    { name: "About Us", href: "/about", active: isActive("/about") },
+    { name: "International Tours", href: "/international-tours", active: isActive("/international-tours") },
+    { name: "Domestic Tours", href: "/domestic-tours", active: isActive("/domestic-tours") },
+    { name: "Other Services", href: "/services", active: isActive("/services") },
+  ];  
 
   return (
     <header className="absolute w-full">
@@ -115,7 +118,7 @@ export default function Header() {
               aria-label="Make an enquiry"
             >
               <MessageSquare className="w-4 h-4" />
-              <span>Enquire Now</span>
+              <span>Contact Us</span>
             </motion.button>
             <button
               className="lg:hidden text-card-foreground p-2 transition-all duration-200 ease-out hover:bg-background/20 hover:text-background border border-background/30 rounded-lg bg-white/90 backdrop-blur-sm"
@@ -187,7 +190,7 @@ export default function Header() {
                   aria-label="Make an enquiry"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Enquire Now</span>
+                  <span>Contact Us</span>
                 </button>
               </div>
             </motion.div>
