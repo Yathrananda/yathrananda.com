@@ -7,10 +7,13 @@ import { Search, Play, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { HTMLAttributes, useRef, useState } from "react";
 import { VideoModal } from "./_components/video-modal";
-import DestinationsSection from "./_components/packages-section-type-1";
-import PackagesSectionType2 from "./_components/packages-section-type-2";
 import Header from "./_components/hero-header";
-import PackagesSectionV3 from "./_components/packages-section-v3";
+import PackagesSectionType2 from "./_components/packages-section-type-2";
+import UpcomingToursSection from "./_components/sections/upcoming-tours-section";
+import TrendingToursSection from "./_components/sections/trending-tours-section";
+import InternationalToursSection from "./_components/sections/international-tours-section";
+import DomesticToursSection from "./_components/sections/domestic-tours-section";
+import { useRouter } from "next/navigation";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -122,6 +125,7 @@ const testimonials = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -337,9 +341,7 @@ export default function HomePage() {
                       {[
                         "All",
                         "International",
-                        "Domestic",
-                        "Adventure",
-                        "Cultural",
+                        "Domestic"
                       ].map((item) => (
                         <button
                           key={item}
@@ -369,10 +371,11 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <PackagesSectionV3 />
+        <UpcomingToursSection />
+        <TrendingToursSection />
         {/* Statistics Section */}
         <AnimatedSection
-          className="py-12 sm:py-16 px-4 sm:px-6 bg-muted"
+          className="py-12 sm:py-16 px-4 sm:px-6 bg-background"
           aria-labelledby="stats-heading"
         >
           <div className="max-w-7xl mx-auto">
@@ -460,7 +463,8 @@ export default function HomePage() {
           </div>
         </AnimatedSection>
         {/* Explore Events */}
-        <PackagesSectionType2 />
+        <InternationalToursSection />
+        <DomesticToursSection />
         {/* Services Section */}
         <AnimatedSection
           id="services"
@@ -869,6 +873,9 @@ export default function HomePage() {
                   className="group/button relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
                   whileTap={{ scale: 0.95 }}
                   aria-label="Start planning your trip with Yathrananda"
+                  onClick={() => {
+                    router.push("/contact");
+                  }}
                 >
                   <span className="relative z-10">Plan Your Trip Now</span>
                   <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-12deg)_translateX(100%)]">

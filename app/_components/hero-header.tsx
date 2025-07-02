@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Menu, X, Phone, MessageSquare } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -28,6 +28,7 @@ const fadeInUp: Variants = {
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const isActive = (href: string) => pathname === href;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -37,9 +38,9 @@ export default function Header() {
 
   const navigationItems = [
     { name: "Home", href: "/", active: isActive("/") },
-    { name: "About Us", href: "/about", active: isActive("/about") },
     { name: "International Tours", href: "/international-tours", active: isActive("/international-tours") },
     { name: "Domestic Tours", href: "/domestic-tours", active: isActive("/domestic-tours") },
+    { name: "About Us", href: "/about", active: isActive("/about") },
     { name: "Other Services", href: "/services", active: isActive("/services") },
   ];  
 
@@ -116,6 +117,7 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Make an enquiry"
+              onClick={() => router.push("/contact")}
             >
               <MessageSquare className="w-4 h-4" />
               <span>Contact Us</span>
@@ -181,6 +183,7 @@ export default function Header() {
                 <button
                   className="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 py-2 rounded-full font-medium transition-all duration-200 ease-out flex items-center justify-center space-x-2"
                   aria-label="Contact via phone"
+                  onClick={() => window.location.href = "tel:+1234567890"}
                 >
                   <Phone className="w-4 h-4" />
                   <span>+1 234 567 890</span>
@@ -188,6 +191,7 @@ export default function Header() {
                 <button
                   className="w-full bg-primary hover:bg-primary-hover text-white py-2 rounded-full font-medium transition-all duration-200 ease-out flex items-center justify-center space-x-2"
                   aria-label="Make an enquiry"
+                  onClick={() => router.push("/contact")}
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Contact Us</span>

@@ -35,13 +35,13 @@ function Header() {
           <div className="hidden md:flex items-center space-x-6">
             {[
               { name: "Home", href: "/" },
+              { name: "International Tours", href: "/international-tours", active: pathname === "/international-tours" },
+              { name: "Domestic Tours", href: "/domestic-tours", active: pathname === "/domestic-tours" },
               {
                 name: "About Us",
                 href: "/about",
                 active: pathname === "/about",
               },
-              { name: "International Tours", href: "/international-tours", active: pathname === "/international-tours" },
-              { name: "Domestic Tours", href: "/domestic-tours", active: pathname === "/domestic-tours" },
               {
                 name: "Other Services",
                 href: "/services",
@@ -75,8 +75,9 @@ function Header() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Get started with Yathrananda"
+            onClick={() => window.location.href = "https://wa.me/8801755555555"}
           >
-            Contact Us
+            Whatsapp Us
           </motion.button>
         </div>
       </nav>
