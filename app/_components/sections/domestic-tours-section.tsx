@@ -174,7 +174,7 @@ const DomesticToursSection: React.FC = () => {
             transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <Link href="/packages?filter=domestic">
+            <Link href="/domestic-tours">
               <motion.button
                 className="bg-primary text-primary-foreground px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-sm flex items-center space-x-2"
                 whileHover={{ scale: 1.02 }}

@@ -203,7 +203,7 @@ const TrendingToursSection: React.FC = () => {
               </button>
             </div>
 
-            <Link href="/packages?filter=trending">
+            <Link href="/trending-tours">
               <motion.button
                 className="bg-primary text-primary-foreground px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-sm flex items-center space-x-2"
                 whileHover={{ scale: 1.02 }}

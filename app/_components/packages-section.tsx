@@ -1,11 +1,11 @@
 "use client"
 
 import type React from "react"
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useRef, useEffect } from "react"
 import { Search, MapPin, Calendar, ArrowRight, Loader2, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion, AnimatePresence, Variants } from "framer-motion"
+import { motion, AnimatePresence, Variants, useInView } from "framer-motion"
 
 // TypeScript interface for package data
 interface TravelPackage {
@@ -25,15 +25,15 @@ interface TravelPackage {
 }
 
 // Component props interface
-interface PackagesSectionType1Props {
+interface PackagesSectionProps {
   title?: string
   subtitle?: string
   showSearch?: boolean
   packagesPerPage?: number
-  showPagination?: boolean
   maxPackages?: number
   aspectRatio?: "square" | "landscape" | "portrait"
   className?: string
+  enableInfiniteScroll?: boolean
 }
 
 // Animation variants
@@ -63,20 +63,24 @@ const loadingVariants = {
   exit: { opacity: 0 },
 }
 
-const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
+const PackagesSection: React.FC<PackagesSectionProps> = ({
   title = "Popular Travel Destinations",
   subtitle = "Discover our handpicked travel packages designed to create unforgettable memories. From exotic international destinations to breathtaking local gems.",
   showSearch = true,
   packagesPerPage = 8,
-  showPagination = true,
   maxPackages,
   aspectRatio = "landscape",
   className = "",
+  enableInfiniteScroll = true,
 }) => {
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
+  const [displayedPackages, setDisplayedPackages] = useState<TravelPackage[]>([])
+  const ref = useRef<HTMLDivElement>(null)
+  const loadMoreRef = useRef<HTMLDivElement>(null)
+  const isLoadMoreInView = useInView(loadMoreRef)
 
   // Enhanced travel packages data with more variety
   const allTravelPackages: TravelPackage[] = [
@@ -272,12 +276,6 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
     return packages
   }, [searchQuery, maxPackages])
 
-  // Pagination logic
-  const totalPages = Math.ceil(filteredPackages.length / packagesPerPage)
-  const startIndex = (currentPage - 1) * packagesPerPage
-  const endIndex = startIndex + packagesPerPage
-  const currentPackages = filteredPackages.slice(startIndex, endIndex)
-
   // Handle search with loading state
   const handleSearch = useCallback(async (query: string) => {
     setIsLoading(true)
@@ -289,28 +287,78 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
     setIsLoading(false)
   }, [])
 
-  // Handle pagination
-  const handlePageChange = useCallback(
-    async (page: number) => {
-      if (page === currentPage) return
+  // Initialize displayed packages when filtered packages change
+  useEffect(() => {
+    if (enableInfiniteScroll) {
+      const initialPackages = filteredPackages.slice(0, packagesPerPage)
+      setDisplayedPackages(initialPackages)
+      setCurrentPage(1)
+    } else {
+      // For non-infinite scroll, show all packages up to current page
+      setDisplayedPackages(filteredPackages.slice(0, currentPage * packagesPerPage))
+    }
+  }, [filteredPackages, packagesPerPage, enableInfiniteScroll, currentPage])
 
-      setLoadingMore(true)
-      setCurrentPage(page)
+  // Load more functionality for infinite scroll
+  const loadMorePackages = useCallback(async () => {
+    if (loadingMore) return
 
-      // Simulate loading delay
-      await new Promise((resolve) => setTimeout(resolve, 200))
-      setLoadingMore(false)
-    },
-    [currentPage],
-  )
+    const nextPage = currentPage + 1
+    const startIndex = (nextPage - 1) * packagesPerPage
+    const endIndex = startIndex + packagesPerPage
+    const newPackages = filteredPackages.slice(startIndex, endIndex)
 
-  // Load more functionality (alternative to pagination)
-  const handleLoadMore = useCallback(async () => {
+    if (newPackages.length === 0) return
+
     setLoadingMore(true)
+    
+    // Simulate loading delay
     await new Promise((resolve) => setTimeout(resolve, 500))
-    setCurrentPage((prev) => prev + 1)
+    
+    setDisplayedPackages(prev => [...prev, ...newPackages])
+    setCurrentPage(nextPage)
     setLoadingMore(false)
-  }, [])
+  }, [loadingMore, currentPage, packagesPerPage, filteredPackages])
+
+  // Handle infinite scroll trigger
+  useEffect(() => {
+    if (
+      enableInfiniteScroll &&
+      isLoadMoreInView && 
+      !loadingMore && 
+      !isLoading &&
+      displayedPackages.length < filteredPackages.length &&
+      displayedPackages.length > 0 &&
+      displayedPackages.length >= packagesPerPage // Only trigger after initial load
+    ) {
+      console.log("Loading more packages...")
+      loadMorePackages()
+    }
+  }, [
+    isLoadMoreInView, 
+    loadingMore, 
+    isLoading, 
+    displayedPackages.length, 
+    filteredPackages.length, 
+    loadMorePackages, 
+    enableInfiniteScroll,
+    packagesPerPage
+  ])
+
+  // Manual load more for button-based loading
+  const handleLoadMore = useCallback(async () => {
+    await loadMorePackages()
+  }, [loadMorePackages])
+
+  // Get packages to display based on infinite scroll setting
+  const packagesToDisplay = useMemo(() => {
+    if (enableInfiniteScroll) {
+      return displayedPackages
+    } else {
+      // For non-infinite scroll, show all packages (or implement traditional pagination)
+      return filteredPackages
+    }
+  }, [enableInfiniteScroll, displayedPackages, filteredPackages])
 
   // Get image height class based on aspect ratio
   const getImageHeightClass = () => {
@@ -324,6 +372,8 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
         return "h-48 sm:h-56 lg:h-60"
     }
   }
+
+  const hasMorePackages = packagesToDisplay.length < filteredPackages.length
 
   return (
     <section
@@ -402,7 +452,7 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
                 <p className="text-muted-foreground">Searching packages...</p>
               </div>
             </motion.div>
-          ) : currentPackages.length > 0 ? (
+          ) : packagesToDisplay.length > 0 ? (
             <motion.div key="packages">
               {/* Packages Grid */}
               <motion.div
@@ -412,8 +462,16 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
               >
-                {currentPackages.map((pkg) => (
-                  <motion.div key={pkg.id} variants={cardVariants} whileHover={{ y: -8 }} className="group">
+                {packagesToDisplay.map((pkg, index) => (
+                  <motion.div 
+                    key={pkg.id} 
+                    variants={cardVariants} 
+                    whileHover={{ y: -8 }} 
+                    className="group"
+                    initial={index >= packagesPerPage ? { opacity: 0, y: 30 } : false}
+                    animate={index >= packagesPerPage ? { opacity: 1, y: 0 } : {}}
+                    transition={index >= packagesPerPage ? { duration: 0.4, ease: "easeOut", delay: (index % packagesPerPage) * 0.05 } : {}}
+                  >
                     <Link href={`/packages/${pkg.id}`} className="block">
                       <article className="bg-card border border-border rounded-2xl overflow-hidden shadow-lg transition-all duration-300 ease-out group-hover:shadow-xl relative">
                         {/* Image Section */}
@@ -512,60 +570,53 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
                 ))}
               </motion.div>
 
-              {/* Pagination or Load More */}
-              {showPagination && totalPages > 1 && (
+              {/* Infinite Scroll Trigger or Load More Button */}
+              {enableInfiniteScroll && hasMorePackages && (
+                <div ref={loadMoreRef}>
+                  <motion.div
+                    className="flex justify-center items-center py-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {loadingMore ? (
+                      <div className="flex items-center space-x-2">
+                        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                        <span className="text-muted-foreground">Loading more packages...</span>
+                      </div>
+                    ) : (
+                      <div className="h-4" /> // Invisible trigger for infinite scroll
+                    )}
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Manual Load More Button (when infinite scroll is disabled) */}
+              {!enableInfiniteScroll && hasMorePackages && (
                 <motion.div
-                  className="flex items-center justify-center space-x-4 mb-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  viewport={{ once: true }}
+                  className="flex justify-center items-center py-8"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1 || loadingMore}
-                    className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-                    aria-label="Previous page"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-
-                  <div className="flex items-center space-x-2">
-                    {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                      const pageNum = i + 1
-                      const isActive = pageNum === currentPage
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => handlePageChange(pageNum)}
-                          disabled={loadingMore}
-                          className={`w-10 h-10 rounded-lg font-medium text-sm transition-all duration-200 ${
-                            isActive
-                              ? "bg-primary text-primary-foreground shadow-sm"
-                              : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                          } disabled:opacity-50 disabled:cursor-not-allowed`}
-                          aria-label={`Go to page ${pageNum}`}
-                          aria-current={isActive ? "page" : undefined}
-                        >
-                          {loadingMore && isActive ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : pageNum}
-                        </button>
-                      )
-                    })}
-                  </div>
-
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages || loadingMore}
-                    className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-                    aria-label="Next page"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
+                  {loadingMore ? (
+                    <div className="flex items-center space-x-2">
+                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                      <span className="text-muted-foreground">Loading more packages...</span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleLoadMore}
+                      className="flex items-center space-x-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                    >
+                      <span>Load More Packages</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  )}
                 </motion.div>
               )}
             </motion.div>
           ) : (
-            /* Empty State */
             <motion.div
               className="text-center py-12 sm:py-16"
               variants={loadingVariants}
@@ -583,7 +634,7 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
               </p>
               <button
                 onClick={() => handleSearch("")}
-                className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-sm"
+                className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary/90 shadow-sm"
                 aria-label="Clear search and show all packages"
               >
                 Clear Search
@@ -591,32 +642,9 @@ const PackagesSectionType1: React.FC<PackagesSectionType1Props> = ({
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* View All Packages Button */}
-        {!isLoading && currentPackages.length > 0 && (
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
-            <Link href="/packages">
-              <motion.button
-                className="bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg flex items-center space-x-2 mx-auto"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                aria-label="View all travel packages"
-              >
-                <span>View All Packages</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
-              </motion.button>
-            </Link>
-          </motion.div>
-        )}
       </div>
     </section>
   )
 }
 
-export default PackagesSectionType1
+export default PackagesSection
