@@ -71,29 +71,18 @@ const AnimatedSection = ({
   );
 };
 
-const testimonials = [
-  {
-    content:
-      "Working with Yathrananda travel team was an absolute pleasure. They understood our vision for the perfect vacation and helped us find destinations that exceeded our expectations. The personalized service and attention to detail made our journey unforgettable.",
-    author: "Sajibur Rahman",
-    role: "Travel Enthusiast & CEO",
-    image: "/images/testimonial-1.jpg",
-  },
-  {
-    content:
-      "Outstanding service from start to finish! The team went above and beyond to ensure our family vacation was perfect. Their local knowledge and attention to detail made all the difference.",
-    author: "Emily Chen",
-    role: "Family Traveler",
-    image: "/images/testimonial-2.jpg",
-  },
-  {
-    content:
-      "As a solo traveler, I was impressed by how well Yathrananda understood my needs. They created an amazing itinerary that perfectly balanced adventure and relaxation.",
-    author: "Marcus Thompson",
-    role: "Adventure Seeker",
-    image: "/images/testimonial-3.jpg",
-  },
-];
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+interface Testimonial {
+  id: string;
+  client_name: string;
+  message: string;
+  image_url: string;
+}
 
 export default function HomePage() {
   const router = useRouter();
@@ -101,11 +90,17 @@ export default function HomePage() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [expandedService, setExpandedService] = useState<number | null>(2);
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [expandedFaqId, setExpandedFaqId] = useState<string | null>(null);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [heroContent, setHeroContent] = useState<HeroMedia[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [isFaqsLoading, setIsFaqsLoading] = useState(true);
+  const [faqsError, setFaqsError] = useState<string | null>(null);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [isTestimonialsLoading, setIsTestimonialsLoading] = useState(true);
+  const [testimonialsError, setTestimonialsError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHeroContent = async () => {
@@ -178,19 +173,66 @@ export default function HomePage() {
   }, [heroContent.length]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/testimonials`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
 
-    return () => clearInterval(intervalId);
+        if (!response.ok) {
+          throw new Error('Failed to fetch testimonials');
+        }
+
+        const data = await response.json();
+        setTestimonials(data.testimonials);
+      } catch (err) {
+        console.error('Error fetching testimonials:', err);
+        setTestimonialsError('Failed to load testimonials');
+      } finally {
+        setIsTestimonialsLoading(false);
+      }
+    };
+
+    fetchTestimonials();
   }, []);
 
   useEffect(() => {
-    if (heroContent.length > 0) {
-      const intervalId = setInterval(nextImage, 5000);
+    if (testimonials.length > 0) {
+      const intervalId = setInterval(() => {
+        setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+      }, 5000);
+
       return () => clearInterval(intervalId);
     }
-  }, [nextImage, heroContent.length]);
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/faqs`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch FAQs');
+        }
+
+        const data = await response.json();
+        setFaqs(data.faqs);
+      } catch (err) {
+        console.error('Error fetching FAQs:', err);
+        setFaqsError('Failed to load FAQs');
+      } finally {
+        setIsFaqsLoading(false);
+      }
+    };
+
+    fetchFaqs();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -667,93 +709,78 @@ export default function HomePage() {
               Frequently Asked Questions
             </h2>
 
-            <motion.div
-              className="space-y-3 sm:space-y-4"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              {[
-                {
-                  question:
-                    "How do I book a trip with Yathrananda travel agency?",
-                  answer:
-                    "Simply reach out to us via our website, phone, or email. Share your travel preferences, budget, and desired destinations. We'll create a personalized itinerary for you. Once finalized, you can confirm your booking with our secure payment system. We specialize in creating customized travel experiences tailored to your needs, whether it's destinations, activities, or accommodations.",
-                },
-                {
-                  question:
-                    "Can I customize my travel package with Yathrananda?",
-                  answer:
-                    "Yes, absolutely! We specialize in creating customized travel packages. Our team will work with you to understand your preferences, budget, and travel style to create a personalized itinerary that matches your exact requirements.",
-                },
-                {
-                  question:
-                    "Do you offer travel insurance for international trips?",
-                  answer:
-                    "Yes, we provide comprehensive travel insurance options for all international trips. Our insurance packages cover medical emergencies, trip cancellations, lost baggage, and other travel-related incidents to ensure you travel with peace of mind.",
-                },
-                {
-                  question: "What types of adventure tours do you organize?",
-                  answer:
-                    "We organize a wide range of adventure tours including hiking, trekking, mountain climbing, wildlife safaris, scuba diving, white water rafting, and cultural expeditions. All our adventure tours are led by experienced guides and follow strict safety protocols.",
-                },
-                {
-                  question:
-                    "Can you arrange flights and accommodations together?",
-                  answer:
-                    "Yes, we offer complete travel packages that include both flights and accommodations. We can also arrange car rentals, airport transfers, and other travel services to ensure a seamless travel experience.",
-                },
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="border border-border rounded-lg transition-all duration-200 ease-out hover:shadow-md bg-card"
-                  variants={fadeInUp}
-                  whileHover={{ scale: 1.01 }}
-                >
-                  <motion.button
-                    className="w-full flex items-center justify-between p-4 sm:p-6 text-left transition-all duration-200 ease-out hover:bg-muted rounded-lg"
-                    onClick={() =>
-                      setExpandedFaq(expandedFaq === index ? null : index)
-                    }
-                    aria-expanded={expandedFaq === index}
-                    aria-controls={`faq-answer-${index}`}
+            {isFaqsLoading ? (
+              <div className="space-y-3 sm:space-y-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="bg-card rounded-lg p-4 sm:p-6 border border-border">
+                      <div className="flex justify-between items-center">
+                        <div className="h-4 bg-muted rounded w-3/4"></div>
+                        <div className="h-4 w-4 bg-muted rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : faqsError || faqs.length === 0 ? null : (
+              <motion.div
+                className="space-y-3 sm:space-y-4"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                {faqs.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    className="border border-border rounded-lg transition-all duration-200 ease-out hover:shadow-md bg-card"
+                    variants={fadeInUp}
+                    whileHover={{ scale: 1.01 }}
                   >
-                    <span className="font-medium text-card-foreground text-sm sm:text-base pr-4">
-                      {index + 1}. {item.question}
-                    </span>
-                    <motion.div
-                      animate={{ rotate: expandedFaq === index ? 180 : 0 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="text-primary flex-shrink-0"
+                    <motion.button
+                      className="w-full flex items-center justify-between p-4 sm:p-6 text-left transition-all duration-200 ease-out hover:bg-muted rounded-lg"
+                      onClick={() =>
+                        setExpandedFaqId(expandedFaqId === item.id ? null : item.id)
+                      }
+                      aria-expanded={expandedFaqId === item.id}
+                      aria-controls={`faq-answer-${item.id}`}
                     >
-                      <ChevronDown
-                        className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                    </motion.div>
-                  </motion.button>
-                  <AnimatePresence initial={false}>
-                    {expandedFaq === index && (
+                      <span className="font-medium text-card-foreground text-sm sm:text-base pr-4">
+                        {index + 1}. {item.question}
+                      </span>
                       <motion.div
-                        id={`faq-answer-${index}`}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        animate={{ rotate: expandedFaqId === item.id ? 180 : 0 }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="overflow-hidden"
+                        className="text-primary flex-shrink-0"
                       >
-                        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                          <p className="text-muted-foreground text-sm">
-                            {item.answer}
-                          </p>
-                        </div>
+                        <ChevronDown
+                          className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
+                          aria-hidden="true"
+                        />
                       </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </motion.div>
+                    </motion.button>
+                    <AnimatePresence initial={false}>
+                      {expandedFaqId === item.id && (
+                        <motion.div
+                          id={`faq-answer-${item.id}`}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                            <p className="text-muted-foreground text-sm">
+                              {item.answer}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
           </div>
         </AnimatedSection>
 
@@ -779,85 +806,130 @@ export default function HomePage() {
                   >
                     Client Testimonials
                   </h2>
-                  <div className="flex items-center space-x-2">
-                    <div className="flex -space-x-2" aria-hidden="true">
-                      {[1, 2, 3, 4].map((i) => (
-                        <motion.div
-                          key={i}
-                          className="w-6 h-6 sm:w-8 sm:h-8 bg-muted-foreground rounded-full border-2 border-background"
-                          initial={{ scale: 0 }}
-                          whileInView={{ scale: 1 }}
-                          transition={{
-                            duration: 0.2,
-                            ease: "easeOut",
-                            delay: i * 0.05,
-                          }}
-                          viewport={{ once: true }}
+                  {isTestimonialsLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="flex -space-x-2">
+                        {[1, 2, 3, 4].map((i) => (
+                          <div
+                            key={i}
+                            className="w-6 h-6 sm:w-8 sm:h-8 bg-muted animate-pulse rounded-full border-2 border-background"
+                          />
+                        ))}
+                      </div>
+                      <div className="text-xs sm:text-sm text-muted-foreground animate-pulse">
+                        <div className="h-4 w-24 bg-muted rounded"></div>
+                        <div className="h-3 w-20 bg-muted rounded mt-1"></div>
+                      </div>
+                    </div>
+                  ) : testimonialsError || testimonials.length === 0 ? null : (
+                    <div className="flex items-center space-x-2">
+                      <div className="flex -space-x-2">
+                        {testimonials.slice(0, 4).map((testimonial) => (
+                          <motion.div
+                            key={testimonial.id}
+                            className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-background overflow-hidden"
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            transition={{
+                              duration: 0.2,
+                              ease: "easeOut",
+                            }}
+                            viewport={{ once: true }}
+                          >
+                            <Image
+                              src={testimonial.image_url}
+                              alt={testimonial.client_name}
+                              fill
+                              className="object-cover"
+                              sizes="32px"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">
+                        <span className="font-semibold">More than 900+</span>
+                        <br />
+                        <span>Happy Travelers</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {isTestimonialsLoading ? (
+                  <div className="animate-pulse">
+                    <div className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border">
+                      <div className="h-6 w-12 bg-muted rounded mb-4"></div>
+                      <div className="space-y-3">
+                        <div className="h-4 bg-muted rounded w-full"></div>
+                        <div className="h-4 bg-muted rounded w-5/6"></div>
+                        <div className="h-4 bg-muted rounded w-4/6"></div>
+                      </div>
+                      <div className="mt-6 flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-muted rounded-full"></div>
+                        <div className="space-y-2">
+                          <div className="h-4 bg-muted rounded w-24"></div>
+                          <div className="h-3 bg-muted rounded w-32"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : testimonialsError || testimonials.length === 0 ? null : (
+                  <div className="relative">
+                    <AnimatePresence mode="wait">
+                      <motion.blockquote
+                        key={testimonials[currentTestimonialIndex].id}
+                        className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border transition-all duration-200 ease-out hover:shadow-xl"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div
+                          className="text-primary text-3xl sm:text-4xl mb-4"
+                          aria-hidden="true"
+                        >
+                          "
+                        </div>
+                        <p className="text-card-foreground mb-6 text-sm sm:text-base">
+                          {testimonials[currentTestimonialIndex].message}
+                        </p>
+                        <footer className="flex items-center space-x-4">
+                          <Image
+                            src={testimonials[currentTestimonialIndex].image_url}
+                            alt={`${testimonials[currentTestimonialIndex].client_name}'s profile picture`}
+                            width={48}
+                            height={48}
+                            className="rounded-full object-cover border border-border"
+                          />
+                          <div>
+                            <cite className="font-semibold text-card-foreground text-sm sm:text-base not-italic">
+                              {testimonials[currentTestimonialIndex].client_name}
+                            </cite>
+                            <div className="text-xs sm:text-sm text-muted-foreground">
+                              Happy Traveler
+                            </div>
+                          </div>
+                        </footer>
+                      </motion.blockquote>
+                    </AnimatePresence>
+
+                    <div className="flex justify-center space-x-2 mt-4">
+                      {testimonials.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonialIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            currentTestimonialIndex === index
+                              ? "bg-primary w-4"
+                              : "bg-border hover:bg-border/80"
+                          }`}
+                          aria-label={`Go to testimonial ${index + 1}`}
+                          aria-current={currentTestimonialIndex === index}
                         />
                       ))}
                     </div>
-                    <div className="text-xs sm:text-sm text-muted-foreground">
-                      <span className="font-semibold">More than 500+</span>
-                      <br />
-                      <span>Happy Travelers</span>
-                    </div>
                   </div>
-                </div>
-
-                <div className="relative">
-                  <AnimatePresence mode="wait">
-                    <motion.blockquote
-                      key={currentTestimonialIndex}
-                      className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border transition-all duration-200 ease-out hover:shadow-xl"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div
-                        className="text-primary text-3xl sm:text-4xl mb-4"
-                        aria-hidden="true"
-                      >
-                        "
-                      </div>
-                      <p className="text-card-foreground mb-6 text-sm sm:text-base">
-                        {testimonials[currentTestimonialIndex].content}
-                      </p>
-                      <footer className="flex items-center space-x-4">
-                        <motion.div
-                          className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full border border-border"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
-                          aria-hidden="true"
-                        />
-                        <div>
-                          <cite className="font-semibold text-card-foreground text-sm sm:text-base not-italic">
-                            {testimonials[currentTestimonialIndex].author}
-                          </cite>
-                          <div className="text-xs sm:text-sm text-muted-foreground">
-                            {testimonials[currentTestimonialIndex].role}
-                          </div>
-                        </div>
-                      </footer>
-                    </motion.blockquote>
-                  </AnimatePresence>
-
-                  <div className="flex justify-center space-x-2 mt-4">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentTestimonialIndex(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          currentTestimonialIndex === index
-                            ? "bg-primary w-4"
-                            : "bg-border hover:bg-border/80"
-                        }`}
-                        aria-label={`Go to testimonial ${index + 1}`}
-                        aria-current={currentTestimonialIndex === index}
-                      />
-                    ))}
-                  </div>
-                </div>
+                )}
               </motion.div>
 
               <motion.div
@@ -870,7 +942,7 @@ export default function HomePage() {
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl group">
                   <Image
                     src="/images/people.webp"
-                    alt="Happy Yathrananda client enjoying their travel experience"
+                    alt="Happy travelers enjoying their journey"
                     width={600}
                     height={500}
                     className="w-full h-64 sm:h-80 lg:h-96 object-cover transition-transform duration-200 ease-out group-hover:scale-105"
