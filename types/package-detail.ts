@@ -52,6 +52,13 @@ export interface GalleryImage {
   caption?: string
 }
 
+export interface HeroMedia {
+  id: string;
+  url: string;
+  type: 'image' | 'video';
+  carousel_order: number;
+}
+
 export interface TravelPackageDetailData {
   id: string
   title: string
@@ -78,4 +85,21 @@ export interface TravelPackageDetailData {
   }
   duration: string
   groupSize: string
+}
+
+export interface UpcomingPackage {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  overview: string;
+  price: number;
+  duration: string;
+  location: string;
+  image_url: string;
+  hero_image_url: string;
+  hero_image_alt: string;
+  group_size: string;
+  advance_payment: string;
+  balance_payment: string;
 }

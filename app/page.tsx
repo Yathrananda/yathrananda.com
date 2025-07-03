@@ -8,12 +8,12 @@ import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { HTMLAttributes, useRef, useState } from "react";
 import { VideoModal } from "./_components/video-modal";
 import Header from "./_components/hero-header";
-import PackagesSectionType2 from "./_components/packages-section-type-2";
 import UpcomingToursSection from "./_components/sections/upcoming-tours-section";
 import TrendingToursSection from "./_components/sections/trending-tours-section";
 import InternationalToursSection from "./_components/sections/international-tours-section";
 import DomesticToursSection from "./_components/sections/domestic-tours-section";
 import { useRouter } from "next/navigation";
+import { HeroMedia } from "@/types/package-detail";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -71,35 +71,6 @@ const AnimatedSection = ({
   );
 };
 
-const heroContent = [
-  {
-    type: "image",
-    url: "/images/hero-background-2.jpg",
-    alt: "Beautiful travel destination scenery",
-    poster: "",
-  },
-  {
-    type: "video",
-    url: "/videos/hero-video-1.mp4",
-    poster: "/images/video-poster-1.jpg",
-  },
-  {
-    type: "image",
-    url: "/images/hero-background.jpg",
-    alt: "Scenic mountain landscape",
-  },
-  {
-    type: "video",
-    url: "/videos/hero-video-2.mp4",
-    poster: "/images/video-poster-2.jpg",
-  },
-  {
-    type: "image",
-    url: "/images/hero-background-3.jpg",
-    alt: "Tropical beach paradise",
-  },
-];
-
 const testimonials = [
   {
     content:
@@ -132,14 +103,79 @@ export default function HomePage() {
   const [expandedService, setExpandedService] = useState<number | null>(2);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  const [heroContent, setHeroContent] = useState<HeroMedia[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchHeroContent = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/hero`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch hero content');
+        }
+
+        const data = await response.json();
+        const sortedMedia = data.media.sort((a: HeroMedia, b: HeroMedia) => a.carousel_order - b.carousel_order);
+        setHeroContent(sortedMedia);
+      } catch (err) {
+        console.error('Error fetching hero content:', err);
+        setError('Failed to load hero content');
+        // Fallback to default content if API fails
+        setHeroContent([
+          {
+            id: '1',
+            type: 'image',
+            url: '/images/hero-background-2.jpg',
+            carousel_order: 1
+          },
+          {
+            id: '2',
+            type: 'video',
+            url: '/videos/hero-video-1.mp4',
+            carousel_order: 2
+          },
+          {
+            id: '3',
+            type: 'image',
+            url: '/images/hero-background.jpg',
+            carousel_order: 3
+          },
+          {
+            id: '4',
+            type: 'video',
+            url: '/videos/hero-video-2.mp4',
+            carousel_order: 4
+          },
+          {
+            id: '5',
+            type: 'image',
+            url: '/images/hero-background-3.jpg',
+            carousel_order: 5
+          }
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchHeroContent();
+  }, []);
 
   const nextImage = useCallback(() => {
+    if (heroContent.length === 0) return;
+    
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroContent.length);
       setIsTransitioning(false);
     }, 500);
-  }, []);
+  }, [heroContent.length]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -150,9 +186,11 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(nextImage, 5000);
-    return () => clearInterval(intervalId);
-  }, [nextImage]);
+    if (heroContent.length > 0) {
+      const intervalId = setInterval(nextImage, 5000);
+      return () => clearInterval(intervalId);
+    }
+  }, [nextImage, heroContent.length]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -173,7 +211,7 @@ export default function HomePage() {
         >
           {heroContent.map((content, index) => (
             <motion.div
-              key={content.url}
+              key={content.id}
               className="absolute inset-0"
               initial={false}
               animate={{
@@ -187,7 +225,7 @@ export default function HomePage() {
                   className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url(${content.url})` }}
                   role="img"
-                  aria-label={content.alt}
+                  aria-label={`Hero image ${index + 1}`}
                 />
               ) : (
                 <video
@@ -196,7 +234,6 @@ export default function HomePage() {
                   muted
                   loop
                   playsInline
-                  poster={content.poster}
                 >
                   <source src={content.url} type="video/mp4" />
                   Your browser does not support the video tag.

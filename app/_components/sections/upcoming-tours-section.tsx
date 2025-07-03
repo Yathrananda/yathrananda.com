@@ -1,26 +1,12 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import type React from "react"
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import PackageCard from "@/app/_components/package-card"
-
-interface TravelPackage {
-  id: string
-  from: string
-  to: string
-  destination: string
-  duration: string
-  date: string
-  price: string
-  originalPrice?: string
-  image: string
-  alt: string
-  trending: boolean
-  discountPercentage?: number
-  category?: string
-}
+import { UpcomingPackage } from "@/types/package-detail"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -34,68 +20,65 @@ const containerVariants = {
 }
 
 const UpcomingToursSection: React.FC = () => {
-  const upcomingTours: TravelPackage[] = [
-    {
-      id: "thailand-adventure",
-      from: "Dhaka",
-      to: "Bangkok",
-      destination: "Thailand",
-      duration: "7 days 6 nights",
-      date: "Mar 15 - Mar 22",
-      price: "$870",
-      originalPrice: "$1,200",
-      image: "/images/packages/thailand.jpg",
-      alt: "Beautiful beaches and temples in Thailand - MALVORA travel package",
-      trending: true,
-      discountPercentage: 28,
-      category: "international",
-    },
-    {
-      id: "tokyo-cultural",
-      from: "Dhaka",
-      to: "Tokyo",
-      destination: "Tokyo",
-      duration: "5 days 4 nights",
-      date: "Apr 10 - Apr 15",
-      price: "$1,150",
-      originalPrice: "$1,400",
-      image: "/images/packages/tokyo.jpg",
-      alt: "Modern cityscape and traditional culture in Tokyo - MALVORA travel package",
-      trending: true,
-      discountPercentage: 18,
-      category: "international",
-    },
-    {
-      id: "coxs-bazar-beach",
-      from: "Dhaka",
-      to: "Cox's Bazar",
-      destination: "Cox's Bazar",
-      duration: "3 days 2 nights",
-      date: "Jun 5 - Jun 8",
-      price: "$180",
-      originalPrice: "$250",
-      image: "/images/packages/coxs-bazar.jpg",
-      alt: "World's longest natural sea beach in Cox's Bazar - MALVORA travel package",
-      trending: true,
-      discountPercentage: 28,
-      category: "domestic",
-    },
-    {
-      id: "dubai-luxury",
-      from: "Dhaka",
-      to: "Dubai",
-      destination: "Dubai",
-      duration: "5 days 4 nights",
-      date: "Nov 10 - Nov 15",
-      price: "$950",
-      originalPrice: "$1,200",
-      image: "/images/packages/dubai.jpg",
-      alt: "Luxury shopping and modern architecture in Dubai - MALVORA travel package",
-      trending: true,
-      discountPercentage: 21,
-      category: "international",
-    },
-  ]
+  const [upcomingTours, setUpcomingTours] = useState<UpcomingPackage[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchUpcomingTours = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/upcoming`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch upcoming tours');
+        }
+
+        const data = await response.json();
+        setUpcomingTours(data.packages);
+      } catch (err) {
+        console.error('Error fetching upcoming tours:', err);
+        setError('Failed to load upcoming tours');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUpcomingTours();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 w-48 bg-muted rounded mb-4"></div>
+            <div className="h-4 w-64 bg-muted rounded mb-8"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-card rounded-lg p-4 space-y-3">
+                  <div className="h-48 bg-muted rounded"></div>
+                  <div className="h-4 w-3/4 bg-muted rounded"></div>
+                  <div className="h-4 w-1/2 bg-muted rounded"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return null; // Hide section completely if there's an error
+  }
+
+  if (upcomingTours.length === 0) {
+    return null; // Hide section if no tours available
+  }
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background" aria-labelledby="upcoming-tours-heading">
@@ -153,7 +136,12 @@ const UpcomingToursSection: React.FC = () => {
           viewport={{ once: true, margin: "-50px" }}
         >
           {upcomingTours.map((tour) => (
-            <PackageCard key={tour.id} package={tour} aspectRatio="landscape" showRoute={true} type={"upcoming"} />
+            <PackageCard 
+              key={tour.id} 
+              package={tour} 
+              aspectRatio="landscape" 
+              type="upcoming" 
+            />
           ))}
         </motion.div>
       </div>

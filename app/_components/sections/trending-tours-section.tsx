@@ -1,27 +1,12 @@
 "use client"
 
+import { useState, useRef, useEffect } from "react"
 import type React from "react"
-import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, Grid3X3, ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react"
 import Link from "next/link"
 import PackageCard from "@/app/_components/package-card"
-
-interface TravelPackage {
-  id: string
-  from: string
-  to: string
-  destination: string
-  duration: string
-  date: string
-  price: string
-  originalPrice?: string
-  image: string
-  alt: string
-  trending: boolean
-  discountPercentage?: number
-  category?: string
-}
+import { UpcomingPackage } from "@/types/package-detail"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,97 +23,35 @@ const TrendingToursSection: React.FC = () => {
   const [viewMode, setViewMode] = useState<"grid" | "carousel">("grid")
   const [currentSlide, setCurrentSlide] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
+  const [trendingTours, setTrendingTours] = useState<UpcomingPackage[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const trendingTours: TravelPackage[] = [
-    {
-      id: "thailand-adventure",
-      from: "Dhaka",
-      to: "Bangkok",
-      destination: "Thailand",
-      duration: "7 days 6 nights",
-      date: "Mar 15 - Mar 22",
-      price: "$870",
-      originalPrice: "$1,200",
-      image: "/images/packages/thailand.jpg",
-      alt: "Beautiful beaches and temples in Thailand - MALVORA travel package",
-      trending: true,
-      discountPercentage: 28,
-      category: "international",
-    },
-    {
-      id: "tokyo-cultural",
-      from: "Dhaka",
-      to: "Tokyo",
-      destination: "Tokyo",
-      duration: "5 days 4 nights",
-      date: "Apr 10 - Apr 15",
-      price: "$1,150",
-      originalPrice: "$1,400",
-      image: "/images/packages/tokyo.jpg",
-      alt: "Modern cityscape and traditional culture in Tokyo - MALVORA travel package",
-      trending: true,
-      discountPercentage: 18,
-      category: "international",
-    },
-    {
-      id: "bandarban-hills",
-      from: "Dhaka",
-      to: "Bandarban",
-      destination: "Bandarban",
-      duration: "5 days 4 nights",
-      date: "Aug 8 - Aug 13",
-      price: "$280",
-      originalPrice: "$350",
-      image: "/images/packages/bandarban.jpg",
-      alt: "Scenic hill tracts and tribal culture in Bandarban - MALVORA travel package",
-      trending: true,
-      discountPercentage: 20,
-      category: "domestic",
-    },
-    {
-      id: "dubai-luxury",
-      from: "Dhaka",
-      to: "Dubai",
-      destination: "Dubai",
-      duration: "5 days 4 nights",
-      date: "Nov 10 - Nov 15",
-      price: "$950",
-      originalPrice: "$1,200",
-      image: "/images/packages/dubai.jpg",
-      alt: "Luxury shopping and modern architecture in Dubai - MALVORA travel package",
-      trending: true,
-      discountPercentage: 21,
-      category: "international",
-    },
-    {
-      id: "rangamati-lake",
-      from: "Dhaka",
-      to: "Rangamati",
-      destination: "Rangamati",
-      duration: "4 days 3 nights",
-      date: "Oct 20 - Oct 24",
-      price: "$240",
-      originalPrice: "$300",
-      image: "/images/packages/rangamati.jpg",
-      alt: "Serene lakes and tribal heritage in Rangamati - MALVORA travel package",
-      trending: true,
-      discountPercentage: 20,
-      category: "domestic",
-    },
-    {
-      id: "singapore-city",
-      from: "Dhaka",
-      to: "Singapore",
-      destination: "Singapore",
-      duration: "4 days 3 nights",
-      date: "Dec 5 - Dec 9",
-      price: "$780",
-      image: "/images/packages/singapore.jpg",
-      alt: "Garden city and cultural diversity in Singapore - MALVORA travel package",
-      trending: true,
-      category: "international",
-    },
-  ]
+  useEffect(() => {
+    const fetchTrendingTours = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/trending`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch trending tours');
+        }
+
+        const data = await response.json();
+        setTrendingTours(data.packages);
+      } catch (err) {
+        console.error('Error fetching trending tours:', err);
+        setError('Failed to load trending tours');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTrendingTours();
+  }, []);
 
   const slidesToShow = 3
   const maxSlide = Math.max(0, trendingTours.length - slidesToShow)
@@ -139,6 +62,32 @@ const TrendingToursSection: React.FC = () => {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => Math.max(prev - 1, 0))
+  }
+
+  if (isLoading) {
+    return (
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 w-48 bg-background rounded mb-4"></div>
+            <div className="h-4 w-64 bg-background rounded mb-8"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-background rounded-lg p-4 space-y-3">
+                  <div className="h-48 bg-muted rounded"></div>
+                  <div className="h-4 w-3/4 bg-muted rounded"></div>
+                  <div className="h-4 w-1/2 bg-muted rounded"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || trendingTours.length === 0) {
+    return null;
   }
 
   return (
@@ -230,7 +179,12 @@ const TrendingToursSection: React.FC = () => {
               viewport={{ once: true, margin: "-50px" }}
             >
               {trendingTours.slice(0, 6).map((tour) => (
-                <PackageCard key={tour.id} package={tour} aspectRatio="landscape" showRoute={true} type="trending" />
+                <PackageCard 
+                  key={tour.id} 
+                  package={tour} 
+                  aspectRatio="landscape" 
+                  type="trending" 
+                />
               ))}
             </motion.div>
           ) : (
@@ -293,7 +247,11 @@ const TrendingToursSection: React.FC = () => {
                       className="flex-shrink-0"
                       style={{ width: `calc(${100 / slidesToShow}% - 1rem)` }}
                     >
-                      <PackageCard package={tour} aspectRatio="landscape" showRoute={true} type="trending" />
+                      <PackageCard 
+                        package={tour} 
+                        aspectRatio="landscape" 
+                        type="trending" 
+                      />
                     </div>
                   ))}
                 </motion.div>

@@ -1,26 +1,12 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import type React from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, Globe } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import PackageCard from "@/app/_components/package-card"
-
-interface TravelPackage {
-  id: string
-  from: string
-  to: string
-  destination: string
-  duration: string
-  date: string
-  price: string
-  originalPrice?: string
-  image: string
-  alt: string
-  trending: boolean
-  discountPercentage?: number
-  category?: string
-}
+import { UpcomingPackage } from "@/types/package-detail"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -34,79 +20,65 @@ const containerVariants = {
 }
 
 const InternationalToursSection: React.FC = () => {
-  const internationalTours: TravelPackage[] = [
-    {
-      id: "thailand-adventure",
-      from: "Dhaka",
-      to: "Bangkok",
-      destination: "Thailand",
-      duration: "7 days 6 nights",
-      date: "Mar 15 - Mar 22",
-      price: "$870",
-      originalPrice: "$1,200",
-      image: "/images/packages/thailand.jpg",
-      alt: "Beautiful beaches and temples in Thailand - MALVORA travel package",
-      trending: true,
-      discountPercentage: 28,
-      category: "international",
-    },
-    {
-      id: "tokyo-cultural",
-      from: "Dhaka",
-      to: "Tokyo",
-      destination: "Tokyo",
-      duration: "5 days 4 nights",
-      date: "Apr 10 - Apr 15",
-      price: "$1,150",
-      originalPrice: "$1,400",
-      image: "/images/packages/tokyo.jpg",
-      alt: "Modern cityscape and traditional culture in Tokyo - MALVORA travel package",
-      trending: true,
-      discountPercentage: 18,
-      category: "international",
-    },
-    {
-      id: "chicago-city",
-      from: "Dhaka",
-      to: "Chicago",
-      destination: "Chicago",
-      duration: "6 days 5 nights",
-      date: "May 20 - May 26",
-      price: "$1,320",
-      image: "/images/packages/chicago.jpg",
-      alt: "Stunning architecture and lakefront views in Chicago - MALVORA travel package",
-      trending: false,
-      category: "international",
-    },
-    {
-      id: "dubai-luxury",
-      from: "Dhaka",
-      to: "Dubai",
-      destination: "Dubai",
-      duration: "5 days 4 nights",
-      date: "Nov 10 - Nov 15",
-      price: "$950",
-      originalPrice: "$1,200",
-      image: "/images/packages/dubai.jpg",
-      alt: "Luxury shopping and modern architecture in Dubai - MALVORA travel package",
-      trending: true,
-      discountPercentage: 21,
-      category: "international",
-    },
-    {
-      id: "singapore-city",
-      from: "Dhaka",
-      to: "Singapore",
-      destination: "Singapore",
-      duration: "4 days 3 nights",
-      date: "Dec 5 - Dec 9",
-      price: "$780",
-      image: "/images/packages/singapore.jpg",
-      alt: "Garden city and cultural diversity in Singapore - MALVORA travel package",
-      trending: false,
-      category: "international",
-    },
-  ]
+  const [internationalTours, setInternationalTours] = useState<UpcomingPackage[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchInternationalTours = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/international`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch international tours');
+        }
+
+        const data = await response.json();
+        setInternationalTours(data.packages);
+      } catch (err) {
+        console.error('Error fetching international tours:', err);
+        setError('Failed to load international tours');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchInternationalTours();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="flex items-start space-x-3 mb-8">
+              <div>
+                <div className="h-8 w-48 bg-background rounded mb-2"></div>
+                <div className="h-4 w-64 bg-background rounded"></div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="bg-background rounded-lg p-4 space-y-3">
+                  <div className="h-48 bg-muted rounded"></div>
+                  <div className="h-4 w-3/4 bg-muted rounded"></div>
+                  <div className="h-4 w-1/2 bg-muted rounded"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || internationalTours.length === 0) {
+    return null;
+  }
 
   return (
     <section
@@ -117,9 +89,6 @@ const InternationalToursSection: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-3">
-            {/* <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-              <Globe className="w-5 h-5 text-primary" aria-hidden="true" />
-            </div> */}
             <div>
               <motion.h2
                 id="international-tours-heading"
@@ -172,7 +141,12 @@ const InternationalToursSection: React.FC = () => {
           viewport={{ once: true, margin: "-50px" }}
         >
           {internationalTours.map((tour) => (
-            <PackageCard key={tour.id} package={tour} aspectRatio="landscape" showRoute={false} />
+            <PackageCard 
+              key={tour.id} 
+              package={tour} 
+              aspectRatio="landscape" 
+              type="international" 
+            />
           ))}
         </motion.div>
       </div>
