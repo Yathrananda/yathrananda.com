@@ -18,6 +18,7 @@ const iconMap = {
 export function PackageOverview({ overview, highlights }: PackageOverviewProps) {
   return (
     <motion.section
+      id="overview"
       className="mb-12"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}

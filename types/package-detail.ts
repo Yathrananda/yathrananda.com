@@ -7,10 +7,14 @@ export interface PackageHighlight {
 export interface ItineraryDay {
   day: number
   title: string
-  route?: string
+  route: string
   mealPlan: string
   activities: string[]
-  notes?: string
+  notes: string
+  images: Array<{
+    url: string
+    alt: string
+  }>
 }
 
 export interface Attraction {
@@ -33,31 +37,45 @@ export interface CancellationPolicy {
 export interface ContactInfo {
   phone: string
   whatsapp: string
-  email?: string
-  socialLinks?: {
-    facebook?: string
-    instagram?: string
-    twitter?: string
+  email: string
+  socialLinks: {
+    facebook: string
+    instagram: string
+    twitter: string
   }
+}
+
+export interface GalleryImage {
+  id: string
+  url: string
+  alt: string
+  caption?: string
 }
 
 export interface TravelPackageDetailData {
   id: string
   title: string
   subtitle: string
+  heroImage: {
+    url: string
+    alt: string
+  }
   overview: string
-  highlights: PackageHighlight[]
+  highlights: Array<{
+    id: string
+    label: string
+    icon: string
+  }>
   itinerary: ItineraryDay[]
-  topAttractions: Attraction[]
+  gallery: GalleryImage[]
   bookingInfo: BookingInfo
   cancellationPolicy: CancellationPolicy
   contact: ContactInfo
-  images?: string[]
-  price?: {
+  price: {
     amount: number
     currency: string
     per: string
   }
-  duration?: string
-  groupSize?: string
+  duration: string
+  groupSize: string
 }

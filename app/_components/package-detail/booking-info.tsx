@@ -24,6 +24,7 @@ export function BookingInfoSection({ bookingInfo, contact, packageTitle }: Booki
 
   return (
     <motion.section
+      id="booking"
       className="mb-12"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}

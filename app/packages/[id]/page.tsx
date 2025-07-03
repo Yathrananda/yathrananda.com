@@ -6,10 +6,15 @@ import { useParams } from "next/navigation";
 
 export default function PackageDetailPage() {
   const params = useParams();
+  
   const getSamplePackageData = (id: string): TravelPackageDetailData => ({
     id,
     title: "Manali Family Tour",
     subtitle: "Fully customizable family tour tailored to your needs",
+    heroImage: {
+      url: "/images/packages/manali-hero.jpg",
+      alt: "Scenic view of snow-capped mountains in Manali"
+    },
     overview: `Experience the breathtaking beauty of Manali with our specially curated family tour package. This comprehensive tour takes you through the most scenic locations in and around Manali, offering a perfect blend of adventure, relaxation, and cultural experiences.
   
   Our expert guides will ensure you don't miss any of the must-visit attractions while providing insights into the local culture and history. The tour is designed to be family-friendly, with activities suitable for all age groups.
@@ -34,6 +39,16 @@ export default function PackageDetailPage() {
           "Overnight stay in Manali",
         ],
         notes: "Check-in time is 2:00 PM. Early check-in subject to availability.",
+        images: [
+          {
+            url: "/images/packages/manali/day1-mall-road.jpg",
+            alt: "Evening view of Mall Road, Manali"
+          },
+          {
+            url: "/images/packages/manali/day1-hotel.jpg",
+            alt: "Hotel exterior view"
+          }
+        ]
       },
       {
         day: 2,
@@ -48,6 +63,20 @@ export default function PackageDetailPage() {
           "Return to hotel for dinner",
         ],
         notes: "Adventure activities are weather dependent and at additional cost.",
+        images: [
+          {
+            url: "/images/packages/manali/day2-solang.jpg",
+            alt: "Panoramic view of Solang Valley"
+          },
+          {
+            url: "/images/packages/manali/day2-paragliding.jpg",
+            alt: "Paragliding activity in Solang Valley"
+          },
+          {
+            url: "/images/packages/manali/day2-atal-tunnel.jpg",
+            alt: "Entrance of Atal Tunnel"
+          }
+        ]
       },
       {
         day: 3,
@@ -62,6 +91,20 @@ export default function PackageDetailPage() {
           "Visit to Tibetan Monastery",
         ],
         notes: "Comfortable walking shoes recommended for temple visits.",
+        images: [
+          {
+            url: "/images/destination-1.jpg",
+            alt: "Hadimba Devi Temple"
+          },
+          {
+            url: "/images/destination-2.jpg",
+            alt: "Manu Temple"
+          },
+          {
+            url: "/images/destination-3.jpg",
+            alt: "Van Vihar National Park"
+          }
+        ]
       },
       {
         day: 4,
@@ -75,44 +118,32 @@ export default function PackageDetailPage() {
           "Drop at Delhi airport/railway station",
         ],
         notes: "Check-out time is 11:00 AM. Late check-out charges may apply.",
+        images: [
+          {
+            url: "/images/destination-1.jpg",
+            alt: "Departure from Manali"
+          }
+        ]
       },
     ],
-    topAttractions: [
+    gallery: [
       {
         id: "1",
-        name: "Solang Valley",
-        description: "Famous for adventure sports and scenic beauty",
-        image: "/placeholder.svg?height=200&width=300",
+        url: "/images/destination-1.jpg",
+        alt: "Snow-capped peaks of Manali",
+        caption: "Breathtaking mountain views"
       },
       {
         id: "2",
-        name: "Hadimba Devi Temple",
-        description: "Ancient temple surrounded by cedar forests",
-        image: "/placeholder.svg?height=200&width=300",
+        url: "/images/destination-2.jpg",
+        alt: "Traditional Himachali culture",
+        caption: "Local cultural experience"
       },
       {
         id: "3",
-        name: "Rohtang Pass",
-        description: "High mountain pass with stunning views",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: "4",
-        name: "Mall Road",
-        description: "Main shopping and dining street",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: "5",
-        name: "Atal Tunnel",
-        description: "World's longest highway tunnel above 10,000 feet",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: "6",
-        name: "Van Vihar National Park",
-        description: "Beautiful park with walking trails",
-        image: "/placeholder.svg?height=200&width=300",
+        url: "/images/destination-3.jpg",
+        alt: "Adventure sports in Solang",
+        caption: "Thrilling adventure activities"
       },
     ],
     bookingInfo: {
@@ -155,9 +186,7 @@ export default function PackageDetailPage() {
     groupSize: "2-15 people",
   })
 
-  const packageData = getSamplePackageData((params as {
-    id: string;
-  }).id || "manali-family-tour");
+  const packageData = getSamplePackageData((params as { id: string }).id || "manali-family-tour");
 
   return <TravelPackageDetail 
     data={packageData} 

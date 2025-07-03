@@ -11,6 +11,7 @@ export function ContactSection({ contact }: ContactSectionProps) {
 
   return (
     <motion.section
+      id="contact"
       className="mb-12"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
