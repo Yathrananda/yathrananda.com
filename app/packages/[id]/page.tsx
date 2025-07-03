@@ -1,192 +1,156 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { TravelPackageDetail } from "@/app/_components/travel-package-detail"
 import type { TravelPackageDetailData } from "@/types/package-detail"
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+
+interface APIItineraryDay {
+  day: number;
+  title: string;
+  route: string;
+  meal_plan: string;
+  notes: string;
+  activities: string[];
+  images: Array<{
+    url: string;
+    alt: string;
+  }>;
+}
+
+interface APIGalleryItem {
+  url: string;
+  alt: string;
+  caption: string;
+}
 
 export default function PackageDetailPage() {
   const params = useParams();
-  
-  const getSamplePackageData = (id: string): TravelPackageDetailData => ({
-    id,
-    title: "Manali Family Tour",
-    subtitle: "Fully customizable family tour tailored to your needs",
-    heroImage: {
-      url: "/images/packages/manali-hero.jpg",
-      alt: "Scenic view of snow-capped mountains in Manali"
-    },
-    overview: `Experience the breathtaking beauty of Manali with our specially curated family tour package. This comprehensive tour takes you through the most scenic locations in and around Manali, offering a perfect blend of adventure, relaxation, and cultural experiences.
-  
-  Our expert guides will ensure you don't miss any of the must-visit attractions while providing insights into the local culture and history. The tour is designed to be family-friendly, with activities suitable for all age groups.
-  
-  From the snow-capped peaks of the Himalayas to the lush green valleys, from ancient temples to modern adventure sports, this tour offers something for everyone in the family.`,
-    highlights: [
-      { id: "1", label: "Nature", icon: "nature" },
-      { id: "2", label: "Adventure", icon: "adventure" },
-      { id: "3", label: "Family Friendly", icon: "family" },
-      { id: "4", label: "Culture", icon: "culture" },
-    ],
-    itinerary: [
-      {
-        day: 1,
-        title: "Arrival in Manali",
-        route: "Delhi - Manali",
-        mealPlan: "Dinner",
-        activities: [
-          "Arrival at Manali and check-in to hotel",
-          "Evening leisure time at Mall Road",
-          "Welcome dinner at hotel",
-          "Overnight stay in Manali",
-        ],
-        notes: "Check-in time is 2:00 PM. Early check-in subject to availability.",
-        images: [
-          {
-            url: "/images/packages/manali/day1-mall-road.jpg",
-            alt: "Evening view of Mall Road, Manali"
-          },
-          {
-            url: "/images/packages/manali/day1-hotel.jpg",
-            alt: "Hotel exterior view"
-          }
-        ]
-      },
-      {
-        day: 2,
-        title: "Solang Valley Adventure",
-        route: "Manali - Solang Valley - Manali",
-        mealPlan: "Breakfast, Lunch, Dinner",
-        activities: [
-          "Morning visit to Solang Valley",
-          "Adventure activities: Paragliding, Zorbing, ATV rides",
-          "Lunch at local restaurant",
-          "Visit to Atal Tunnel (subject to weather conditions)",
-          "Return to hotel for dinner",
-        ],
-        notes: "Adventure activities are weather dependent and at additional cost.",
-        images: [
-          {
-            url: "/images/packages/manali/day2-solang.jpg",
-            alt: "Panoramic view of Solang Valley"
-          },
-          {
-            url: "/images/packages/manali/day2-paragliding.jpg",
-            alt: "Paragliding activity in Solang Valley"
-          },
-          {
-            url: "/images/packages/manali/day2-atal-tunnel.jpg",
-            alt: "Entrance of Atal Tunnel"
-          }
-        ]
-      },
-      {
-        day: 3,
-        title: "Local Sightseeing",
-        route: "Manali Local",
-        mealPlan: "Breakfast, Lunch, Dinner",
-        activities: [
-          "Visit to Hadimba Devi Temple",
-          "Explore Manu Temple",
-          "Walk through Van Vihar National Park",
-          "Shopping at Mall Road",
-          "Visit to Tibetan Monastery",
-        ],
-        notes: "Comfortable walking shoes recommended for temple visits.",
-        images: [
-          {
-            url: "/images/destination-1.jpg",
-            alt: "Hadimba Devi Temple"
-          },
-          {
-            url: "/images/destination-2.jpg",
-            alt: "Manu Temple"
-          },
-          {
-            url: "/images/destination-3.jpg",
-            alt: "Van Vihar National Park"
-          }
-        ]
-      },
-      {
-        day: 4,
-        title: "Departure",
-        route: "Manali - Delhi",
-        mealPlan: "Breakfast",
-        activities: [
-          "Check-out from hotel after breakfast",
-          "Last-minute shopping if time permits",
-          "Departure to Delhi",
-          "Drop at Delhi airport/railway station",
-        ],
-        notes: "Check-out time is 11:00 AM. Late check-out charges may apply.",
-        images: [
-          {
-            url: "/images/destination-1.jpg",
-            alt: "Departure from Manali"
-          }
-        ]
-      },
-    ],
-    gallery: [
-      {
-        id: "1",
-        url: "/images/destination-1.jpg",
-        alt: "Snow-capped peaks of Manali",
-        caption: "Breathtaking mountain views"
-      },
-      {
-        id: "2",
-        url: "/images/destination-2.jpg",
-        alt: "Traditional Himachali culture",
-        caption: "Local cultural experience"
-      },
-      {
-        id: "3",
-        url: "/images/destination-3.jpg",
-        alt: "Adventure sports in Solang",
-        caption: "Thrilling adventure activities"
-      },
-    ],
-    bookingInfo: {
-      advancePayment: "30% of total cost",
-      balancePayment: "Before 7 days of travel",
-      bookingRules: [
-        "Advance payment is non-refundable",
-        "Balance payment must be made 7 days before travel",
-        "ID proof required for all travelers",
-        "Children below 5 years travel free (without separate bed)",
-        "Extra bed charges apply for children above 5 years",
-      ],
-    },
-    cancellationPolicy: {
-      rules: [
-        "Cancellation 30 days before travel: 25% of total cost",
-        "Cancellation 15-29 days before travel: 50% of total cost",
-        "Cancellation 7-14 days before travel: 75% of total cost",
-        "Cancellation less than 7 days before travel: 100% of total cost",
-        "No refund for no-show or early departure",
-        "Refund will be processed within 7-10 working days",
-      ],
-    },
-    contact: {
-      phone: "+91-9876543210",
-      whatsapp: "+91-9876543210",
-      email: "info@yathrananda.com",
-      socialLinks: {
-        facebook: "https://facebook.com/yathrananda",
-        instagram: "https://instagram.com/yathrananda",
-        twitter: "https://twitter.com/yathrananda",
-      },
-    },
-    price: {
-      amount: 15999,
-      currency: "₹",
-      per: "per person",
-    },
-    duration: "4 Days / 3 Nights",
-    groupSize: "2-15 people",
-  })
+  const router = useRouter();
+  const [packageData, setPackageData] = useState<TravelPackageDetailData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const packageData = getSamplePackageData((params as { id: string }).id || "manali-family-tour");
+  useEffect(() => {
+    const fetchPackageDetail = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/${params.id}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+            }
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch package details');
+        }
+
+        const data = await response.json();
+        
+        // Transform API response to match our UI data structure
+        const transformedData: TravelPackageDetailData = {
+          id: data.package.id,
+          title: data.package.title,
+          subtitle: data.package.subtitle,
+          heroImage: {
+            url: data.package.hero_image_url,
+            alt: data.package.hero_image_alt
+          },
+          overview: data.package.overview,
+          highlights: [
+            { id: "1", label: "Nature", icon: "nature" },
+            { id: "2", label: "Adventure", icon: "adventure" },
+            { id: "3", label: "Family Friendly", icon: "family" },
+            { id: "4", label: "Culture", icon: "culture" },
+          ],
+          itinerary: data.package.itinerary.map((day: APIItineraryDay) => ({
+            day: day.day,
+            title: day.title,
+            route: day.route,
+            mealPlan: day.meal_plan,
+            activities: day.activities,
+            notes: day.notes,
+            images: day.images
+          })),
+          gallery: data.package.gallery.map((item: APIGalleryItem, index: number) => ({
+            id: String(index + 1),
+            url: item.url,
+            alt: item.alt,
+            caption: item.caption
+          })),
+          bookingInfo: data.package.bookingInfo,
+          cancellationPolicy: data.package.cancellationPolicy,
+          contact: {
+            phone: "+91-9876543210",
+            whatsapp: "+91-9876543210",
+            email: "info@yathrananda.com",
+            socialLinks: {
+              facebook: "https://facebook.com/yathrananda",
+              instagram: "https://instagram.com/yathrananda",
+              twitter: "https://twitter.com/yathrananda",
+            },
+          },
+          price: {
+            amount: data.package.price,
+            currency: "₹",
+            per: "per person",
+          },
+          duration: data.package.duration,
+          groupSize: data.package.group_size,
+        };
+
+        setPackageData(transformedData);
+      } catch (err) {
+        console.error('Error fetching package details:', err);
+        setError('Failed to load package details');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (params.id) {
+      fetchPackageDetail();
+    }
+  }, [params.id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse space-y-8 w-full max-w-7xl mx-auto px-4">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="h-96 bg-muted rounded"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-muted rounded w-3/4"></div>
+            <div className="h-4 bg-muted rounded w-2/3"></div>
+            <div className="h-4 bg-muted rounded w-1/2"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !packageData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-4">
+            Package Not Found
+          </h1>
+          <p className="text-muted-foreground mb-8">
+            The package you're looking for doesn't exist or there was an error loading it.
+          </p>
+          <button
+            onClick={() => router.push('/')}
+            className="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Go Back Home
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return <TravelPackageDetail 
     data={packageData} 
