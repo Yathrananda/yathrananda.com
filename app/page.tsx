@@ -1052,36 +1052,68 @@ export default function HomePage() {
                 </form>
               </motion.div>
 
-              {/* Navigation Links */}
               {[
                 {
                   title: "Destinations",
                   links: [
-                    "Thailand Tours",
-                    "Tokyo Adventures",
-                    "Chicago Trips",
-                    "Cox's Bazar",
-                    "Europe Packages",
+                    {
+                      title: "Group Tours",
+                      link: "/international-tours",
+                    },
+                    {
+                      title: "Honeymoon Packages",
+                      link: "/international-tours",
+                    },
+                    {
+                      title: "Family Holidays",
+                      link: "/international-tours",
+                    },
+                    {
+                      title: "Corporate Packages",
+                      link: "/international-tours",
+                    },
                   ],
                 },
                 {
                   title: "Services",
                   links: [
-                    "Trip Planning",
-                    "Hotel Booking",
-                    "Flight Reservations",
-                    "Travel Insurance",
-                    "24/7 Support",
+                    {
+                      title: "Trip Planning",
+                      link: "/services",
+                    },
+                    {
+                      title: "Hotel Booking",
+                      link: "/services",
+                    },
+                    {
+                      title: "Flight Reservations",
+                      link: "/services",
+                    },
+                    {
+                      title: "24/7 Support",
+                      link: "/services",
+                    },
                   ],
                 },
                 {
                   title: "Company",
                   links: [
-                    "About Us",
-                    "Travel Blog",
-                    "Reviews",
-                    "Contact",
-                    "Careers",
+                    {
+                      title: "About Us",
+                      link: "/about",
+                    },
+                    {
+                      title: "Travel Blog",
+                      link: "/about",
+                    },
+                    {
+                      title: "Reviews",
+                      link: "/about",
+                    },
+                    {
+                      title: "Contact",
+                      link: "/contact",
+                    },
                   ],
                 },
               ].map((section) => (
@@ -1091,14 +1123,14 @@ export default function HomePage() {
                   </h3>
                   <ul className="space-y-2">
                     {section.links.map((link) => (
-                      <li key={link}>
+                      <li key={link.title}>
                         <motion.a
-                          href="#"
+                          href={link.link}
                           className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 block"
                           whileHover={{ x: 4 }}
                           transition={{ duration: 0.2 }}
                         >
-                          {link}
+                          {link.title}
                         </motion.a>
                       </li>
                     ))}
