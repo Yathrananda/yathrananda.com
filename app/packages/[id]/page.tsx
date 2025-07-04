@@ -69,7 +69,7 @@ export default function PackageDetailPage() {
             day: day.day,
             title: day.title,
             route: day.route,
-            mealPlan: day.meal_plan,
+            mealPlan: day.meal_plan ?? "Not Available",
             activities: day.activities,
             notes: day.notes,
             images: day.images

@@ -44,12 +44,12 @@ export function BookingInfoSection({ bookingInfo, contact, packageTitle }: Booki
             <div className="space-y-3 mb-6">
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
                 <span className="text-sm font-medium">Advance Payment:</span>
-                <span className="text-sm text-primary font-semibold">{bookingInfo.advancePayment}</span>
+                <span className="text-sm text-primary font-semibold">₹.{bookingInfo.advancePayment}</span>
               </div>
 
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
                 <span className="text-sm font-medium">Balance Payment:</span>
-                <span className="text-sm text-primary font-semibold">{bookingInfo.balancePayment}</span>
+                <span className="text-sm text-primary font-semibold">₹.{bookingInfo.balancePayment}</span>
               </div>
             </div>
 
