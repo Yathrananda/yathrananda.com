@@ -173,6 +173,15 @@ export default function HomePage() {
   }, [heroContent.length]);
 
   useEffect(() => {
+    if (heroContent.length > 0) {
+      const intervalId = setInterval(() => {
+        nextImage();
+      }, 5000);
+      return () => clearInterval(intervalId);
+    }
+  }, [heroContent.length, nextImage]);
+
+  useEffect(() => {
     const fetchTestimonials = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/testimonials`, {
