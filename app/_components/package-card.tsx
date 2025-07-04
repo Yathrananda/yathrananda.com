@@ -1,9 +1,10 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Clock, MapPin } from "lucide-react";
+import { Clock, MapPin, Users } from "lucide-react";
 
 interface PackageCardProps {
   package: {
@@ -29,14 +30,20 @@ const PackageCard: React.FC<PackageCardProps> = ({
 }) => {
   return (
     <motion.div
-      className="group relative bg-card rounded-xl overflow-hidden border border-border transition-all duration-200 ease-out hover:shadow-lg"
+      className="group relative bg-card rounded-xl overflow-hidden border border-border/40 transition-all duration-300 ease-out hover:shadow-xl hover:border-border/80"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
     >
       <Link href={`/packages/${pkg.id}`} className="block">
-        <div className={`relative ${aspectRatio === "square" ? "aspect-square" : "aspect-[4/3]"}`}>
+        <div className={cn(
+          "relative",
+          aspectRatio === "square" ? "aspect-square" : "aspect-[4/3]"
+        )}>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+          
           <Image
             src={pkg.image_url || "/placeholder.jpg"}
             alt={pkg.hero_image_alt || pkg.title || "Travel package"}
@@ -44,11 +51,42 @@ const PackageCard: React.FC<PackageCardProps> = ({
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
+
+          {/* Price tag */}
+          {typeof pkg.price !== 'undefined' && (
+            <div className="absolute bottom-4 right-4 z-20">
+              <div className="relative overflow-hidden">
+                {/* Blur background with gradient */}
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-md rounded-xl" />
+                <div className="relative px-4 py-2 bg-gradient-to-r from-primary/80 to-primary rounded-xl shadow-lg transform group-hover:scale-105 transition-all duration-300">
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-lg font-medium text-primary-foreground">₹</span>
+                    <span className="text-2xl font-bold tracking-tight text-primary-foreground">
+                      {typeof pkg.price === 'number' ? pkg.price.toLocaleString('en-IN') : pkg.price}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1 text-xs text-primary-foreground/90 font-medium">
+                    <Users className="w-3 h-3" />
+                    <span>per person</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Type badge */}
+          {type && (
+            <div className="absolute top-4 left-4 z-20">
+              <div className="px-2.5 py-1 rounded-lg bg-black/30 backdrop-blur-sm text-xs font-medium text-white capitalize">
+                {type}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="p-4">
+        <div className="p-4 space-y-3">
           {pkg.title && (
-            <h3 className="font-semibold text-card-foreground mb-2 line-clamp-1">
+            <h3 className="font-semibold text-lg text-card-foreground line-clamp-1 group-hover:text-primary transition-colors">
               {pkg.title}
             </h3>
           )}
@@ -57,7 +95,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             {pkg.location && (
               <div className="flex items-center text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 mr-2 text-primary" />
-                <span>{pkg.location}</span>
+                <span className="line-clamp-1">{pkg.location}</span>
               </div>
             )}
 
@@ -67,18 +105,10 @@ const PackageCard: React.FC<PackageCardProps> = ({
                 <span>{pkg.duration}</span>
               </div>
             )}
-
-            {typeof pkg.price !== 'undefined' && (
-              <div className="flex items-center justify-between mt-3">
-                <div className="text-primary font-semibold">
-                  ${typeof pkg.price === 'number' ? pkg.price.toLocaleString() : pkg.price}
-                </div>
-              </div>
-            )}
           </div>
 
           {pkg.description && (
-            <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+            <p className="text-sm text-muted-foreground line-clamp-2 pt-1">
               {pkg.description}
             </p>
           )}

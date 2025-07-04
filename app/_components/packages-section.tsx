@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import PackageCard from "./package-card";
 
 interface Package {
   id: string;
@@ -40,6 +41,7 @@ export default function PackagesSection({
   const [displayCount, setDisplayCount] = useState(8);
   const [packages, setPackages] = useState<Package[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [type, setType] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -50,12 +52,16 @@ export default function PackagesSection({
         // Determine the API endpoint based on pathname
         if (pathname.includes('international-tours')) {
           endpoint = '/api/packages/international';
+          setType("international");
         } else if (pathname.includes('domestic-tours')) {
           endpoint = '/api/packages/domestic';
+          setType("domestic");
         } else if (pathname.includes('upcoming-tours')) {
           endpoint = '/api/packages/upcoming';
+          setType("upcoming");
         } else if (pathname.includes('trending-tours')) {
           endpoint = '/api/packages/trending';
+          setType("trending");
         }
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}${endpoint}`, {
@@ -171,60 +177,7 @@ export default function PackagesSection({
         {/* Packages Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {visiblePackages.map((pkg) => (
-            <motion.div
-              key={pkg.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="group"
-            >
-              <Link href={`/packages/${pkg.id}`}>
-                <article className="bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                  {/* Image */}
-                  <div className="relative h-48">
-                    <Image
-                      src={pkg.image_url}
-                      alt={pkg.hero_image_alt}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4">
-                    <div className="flex items-center text-sm text-muted-foreground mb-2">
-                      <MapPin className="w-4 h-4 mr-1" />
-                      <span>{pkg.location}</span>
-                    </div>
-
-                    <h3 className="text-lg font-semibold mb-2">
-                      {pkg.title}
-                    </h3>
-
-                    <div className="flex items-center text-sm text-muted-foreground mb-4">
-                      <span className="mr-3">{pkg.duration}</span>
-                    </div>
-
-                    <div className="bg-primary/10 p-3 rounded-lg">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <span className="text-xs text-muted-foreground">
-                            Starting from
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xl font-bold text-primary">
-                              ₹{pkg.price}
-                            </span>
-                          </div>
-                        </div>
-                        <ArrowRight className="w-5 h-5 text-primary" />
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </Link>
-            </motion.div>
+            <PackageCard key={pkg.id} package={pkg} type={type as any} aspectRatio="landscape" />
           ))}
         </div>
 
