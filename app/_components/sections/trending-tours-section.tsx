@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import type React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, Grid3X3, ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react"
-import Link from "next/link"
-import PackageCard from "@/app/_components/package-card"
-import { UpcomingPackage } from "@/types/package-detail"
+import { useState, useRef, useEffect } from "react";
+import type React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  Grid3X3,
+  ChevronLeft,
+  ChevronRight,
+  LayoutGrid,
+} from "lucide-react";
+import Link from "next/link";
+import PackageCard from "@/app/_components/package-card";
+import { UpcomingPackage } from "@/types/package-detail";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,34 +23,37 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-}
+};
 
 const TrendingToursSection: React.FC = () => {
-  const [viewMode, setViewMode] = useState<"grid" | "carousel">("grid")
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const [trendingTours, setTrendingTours] = useState<UpcomingPackage[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [viewMode, setViewMode] = useState<"grid" | "carousel">("grid");
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [trendingTours, setTrendingTours] = useState<UpcomingPackage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTrendingTours = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/trending`, {
-          headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/trending`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            },
           }
-        });
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch trending tours');
+          throw new Error("Failed to fetch trending tours");
         }
 
         const data = await response.json();
         setTrendingTours(data.packages);
       } catch (err) {
-        console.error('Error fetching trending tours:', err);
-        setError('Failed to load trending tours');
+        console.error("Error fetching trending tours:", err);
+        setError("Failed to load trending tours");
       } finally {
         setIsLoading(false);
       }
@@ -53,16 +62,16 @@ const TrendingToursSection: React.FC = () => {
     fetchTrendingTours();
   }, []);
 
-  const slidesToShow = 3
-  const maxSlide = Math.max(0, trendingTours.length - slidesToShow)
+  const slidesToShow = 3;
+  const maxSlide = Math.max(0, trendingTours.length - slidesToShow);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => Math.min(prev + 1, maxSlide))
-  }
+    setCurrentSlide((prev) => Math.min(prev + 1, maxSlide));
+  };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => Math.max(prev - 1, 0))
-  }
+    setCurrentSlide((prev) => Math.max(prev - 1, 0));
+  };
 
   if (isLoading) {
     return (
@@ -91,8 +100,11 @@ const TrendingToursSection: React.FC = () => {
   }
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted" aria-labelledby="trending-tours-heading">
-      <div className="max-w-7xl mx-auto">
+    <section
+      className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted"
+      aria-labelledby="trending-tours-heading"
+    >
+      <div className="max-w-[1440px] mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 space-y-4 sm:space-y-0">
           <div>
@@ -179,11 +191,11 @@ const TrendingToursSection: React.FC = () => {
               viewport={{ once: true, margin: "-50px" }}
             >
               {trendingTours.slice(0, 6).map((tour) => (
-                <PackageCard 
-                  key={tour.id} 
-                  package={tour} 
-                  aspectRatio="landscape" 
-                  type="trending" 
+                <PackageCard
+                  key={tour.id}
+                  package={tour}
+                  aspectRatio="landscape"
+                  type="trending"
                 />
               ))}
             </motion.div>
@@ -224,7 +236,9 @@ const TrendingToursSection: React.FC = () => {
                       key={i}
                       onClick={() => setCurrentSlide(i)}
                       className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                        i === currentSlide ? "bg-primary" : "bg-border hover:bg-muted-foreground"
+                        i === currentSlide
+                          ? "bg-primary"
+                          : "bg-border hover:bg-muted-foreground"
                       }`}
                       aria-label={`Go to slide ${i + 1}`}
                     />
@@ -237,7 +251,9 @@ const TrendingToursSection: React.FC = () => {
                 <motion.div
                   className="flex space-x-6"
                   animate={{
-                    x: `calc(-${currentSlide * (100 / slidesToShow)}% - ${currentSlide * 1.5}rem)`,
+                    x: `calc(-${currentSlide * (100 / slidesToShow)}% - ${
+                      currentSlide * 1.5
+                    }rem)`,
                   }}
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
@@ -247,10 +263,10 @@ const TrendingToursSection: React.FC = () => {
                       className="flex-shrink-0"
                       style={{ width: `calc(${100 / slidesToShow}% - 1rem)` }}
                     >
-                      <PackageCard 
-                        package={tour} 
-                        aspectRatio="landscape" 
-                        type="trending" 
+                      <PackageCard
+                        package={tour}
+                        aspectRatio="landscape"
+                        type="trending"
                       />
                     </div>
                   ))}
@@ -261,7 +277,7 @@ const TrendingToursSection: React.FC = () => {
         </AnimatePresence>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default TrendingToursSection
+export default TrendingToursSection;

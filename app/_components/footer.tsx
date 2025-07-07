@@ -24,9 +24,9 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-background via-muted to-background text-white">
+    <footer className="bg-gradient-to-r from-primary via-primary-hover to-primary text-white">
       {/* Footer Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 lg:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
@@ -44,12 +44,12 @@ export default function Footer() {
                     alt="Yathrananda - A Travel Fusion"
                     width={240}
                     height={68}
-                    className="h-12 sm:h-14 w-auto object-contain invert-0 brightness-0"
+                    className="h-12 sm:h-14 w-auto object-contain brightness-0 invert"
                   />
                 </Link>
               </motion.div>
               <motion.p
-                className="text-card-foreground/80 text-base sm:text-lg leading-relaxed max-w-md"
+                className="text-muted text-base sm:text-lg leading-relaxed max-w-md"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -64,7 +64,7 @@ export default function Footer() {
             {/* Contact Information */}
             <div className="space-y-6">
               <motion.h3
-                className="text-xl font-semibold text-card-foreground"
+                className="text-xl font-semibold text-background"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -80,14 +80,14 @@ export default function Footer() {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-muted rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300">
-                    <Phone className="w-5 h-5 text-card-foreground" />
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300">
+                    <Phone className="w-5 h-5 text-background" />
                   </div>
                   <div>
-                    <p className="text-sm text-card-foreground">Call Us</p>
+                    <p className="text-sm text-background">Call Us</p>
                     <a
                       href="tel:+919876543210"
-                      className="text-card-foreground font-semibold hover:text-card-foreground/80 transition-colors duration-300"
+                      className="text-background font-semibold hover:text-muted transition-colors duration-300"
                     >
                       +91 98765 43210
                     </a>
@@ -101,14 +101,14 @@ export default function Footer() {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-muted rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300">
-                    <Mail className="w-5 h-5 text-card-foreground" />
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300">
+                    <Mail className="w-5 h-5 text-background" />
                   </div>
                   <div>
-                    <p className="text-sm text-card-foreground">Email Us</p>
+                    <p className="text-sm text-background">Email Us</p>
                     <a
                       href="mailto:info@yathrananda.com"
-                      className="text-card-foreground font-semibold hover:text-card-foreground/80 transition-colors duration-300"
+                      className="text-background font-semibold hover:text-muted transition-colors duration-300"
                     >
                       info@yathrananda.com
                     </a>
@@ -122,15 +122,15 @@ export default function Footer() {
                   transition={{ duration: 0.6, delay: 0.5 }}
                   viewport={{ once: true }}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 bg-muted rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 mt-1">
-                    <MapPin className="w-5 h-5 text-card-foreground" />
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 mt-1">
+                    <MapPin className="w-5 h-5 text-background" />
                   </div>
                   <div>
-                    <p className="text-sm text-card-foreground">Visit Us</p>
-                    <p className="text-card-foreground font-semibold">
+                    <p className="text-sm text-background">Visit Us</p>
+                    <p className="text-background font-semibold">
                       Kerala, India
                       <br />
-                      <span className="text-sm font-normal text-card-foreground">
+                      <span className="text-sm font-normal text-background">
                         God's Own Country
                       </span>
                     </p>
@@ -142,7 +142,7 @@ export default function Footer() {
             {/* Social Media Links */}
             <div className="space-y-6">
               <motion.h3
-                className="text-xl font-semibold text-card-foreground"
+                className="text-xl font-semibold text-background"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -165,7 +165,7 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`group flex items-center justify-center w-12 h-12 bg-muted rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg ${social.bgColor} backdrop-blur-sm`}
+                      className={`group flex items-center justify-center w-12 h-12 bg-primary rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg ${social.bgColor} backdrop-blur-sm`}
                       aria-label={`Follow us on ${social.name}`}
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       whileTap={{ scale: 0.95 }}
@@ -182,7 +182,7 @@ export default function Footer() {
                 })}
               </motion.div>
               <motion.p
-                className="text-card-foreground/80 text-sm"
+                className="text-muted text-sm"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
@@ -205,27 +205,27 @@ export default function Footer() {
         >
           <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6">
-              <p className="text-card-foreground/80 text-sm text-center sm:text-left">
+              <p className="text-muted text-sm text-center sm:text-left">
                 © {currentYear} Yathrananda. All rights reserved.
               </p>
               <div className="flex items-center space-x-4 text-sm">
                 <Link
                   href="/privacy"
-                  className="text-card-foreground/80 hover:text-card-foreground transition-colors duration-300"
+                  className="text-muted hover:text-background transition-colors duration-300"
                 >
                   Privacy Policy
                 </Link>
                 <span className="text-gray-400">•</span>
                 <Link
                   href="/terms"
-                  className="text-card-foreground/80 hover:text-card-foreground transition-colors duration-300"
+                  className="text-muted hover:text-background transition-colors duration-300"
                 >
                   Terms of Service
                 </Link>
               </div>
             </div>
             <motion.div
-              className="flex items-center space-x-2 text-sm text-card-foreground"
+              className="flex items-center space-x-2 text-sm text-background"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >

@@ -82,7 +82,7 @@ const DomesticToursSection: React.FC = () => {
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted" aria-labelledby="domestic-tours-heading">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1440px] mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-3">

@@ -446,7 +446,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                className="flex flex-col items-end space-y-8 bg-transparent rounded-2xl px-4 py-2 backdrop-blur-sm"
+                className="flex flex-col items-end space-y-8 bg-transparent rounded-2xl px-4 py-2 backdrop-blur-[1px]"
                 role="navigation"
                 aria-label="Main navigation"
               >
@@ -852,7 +852,7 @@ export default function HomePage() {
           className="py-12 sm:py-16 px-4 sm:px-6 bg-mu"
           aria-labelledby="stats-heading"
         >
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-[1440px] mx-auto">
             <div className="text-center mb-8 sm:mb-12">
               <h2
                 id="stats-heading"
@@ -945,7 +945,7 @@ export default function HomePage() {
           className="py-12 sm:py-16 px-4 sm:px-6 bg-background"
           aria-labelledby="services-heading"
         >
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-[1440px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <motion.div
                 className="order-2 lg:order-1"
@@ -1189,7 +1189,7 @@ export default function HomePage() {
           className="py-12 sm:py-16 px-4 sm:px-6 bg-muted"
           aria-labelledby="testimonials-heading"
         >
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-[1440px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <motion.div
                 className="order-2 lg:order-1"
@@ -1345,7 +1345,7 @@ export default function HomePage() {
               >
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl group">
                   <Image
-                    src="/images/people.webp"
+                    src="/images/people.jpg"
                     alt="Happy travelers enjoying their journey"
                     width={600}
                     height={500}
@@ -1360,14 +1360,14 @@ export default function HomePage() {
         </AnimatedSection>
 
         {/* Newsletter Section */}
-        {/* <AnimatedSection
+        <AnimatedSection
           id="contact"
           className="py-12 sm:py-16 px-4 sm:px-6"
           aria-labelledby="newsletter-heading"
         >
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="bg-background border border-border rounded-xl sm:rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-lg"
+              className="bg-background border border-border rounded-xl sm:rounded-2xl p-8 sm:p-12 relative overflow-hidden"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
@@ -1386,9 +1386,7 @@ export default function HomePage() {
                   className="group/button relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
                   whileTap={{ scale: 0.95 }}
                   aria-label="Start planning your trip with Yathrananda"
-                  onClick={() => {
-                    router.push("/contact");
-                  }}
+                  onClick={handleWhatsAppClick}
                 >
                   <span className="relative z-10">Plan Your Trip Now</span>
                   <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-12deg)_translateX(100%)]">
@@ -1402,8 +1400,8 @@ export default function HomePage() {
               ></div>
             </motion.div>
           </div>
-        </AnimatedSection> */}
-        <AnimatedSection className="py-16 sm:py-20 px-4 sm:px-6 bg-muted">
+        </AnimatedSection>
+        {/* <AnimatedSection className="py-16 sm:py-20 px-4 sm:px-6 bg-muted">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               className="bg-gradient-to-r from-primary to-primary-hover rounded-2xl p-8 sm:p-12 text-primary-foreground relative overflow-hidden shadow-2xl"
@@ -1450,7 +1448,7 @@ export default function HomePage() {
               />
             </motion.div>
           </div>
-        </AnimatedSection>
+        </AnimatedSection> */}
         <Footer />
       </div>
       <VideoModal

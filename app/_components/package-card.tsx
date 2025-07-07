@@ -107,7 +107,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
         <div className="p-4 space-y-3">
           {pkg.title && (
-            <h3 className="font-semibold text-lg text-card-foreground line-clamp-1 group-hover:text-primary transition-colors">
+            <h3 className="font-semibold text-xl text-card-foreground line-clamp-1 group-hover:text-primary transition-colors">
               {pkg.title}
             </h3>
           )}
@@ -136,11 +136,11 @@ const PackageCard: React.FC<PackageCardProps> = ({
                     ) : (
                       <Train className="w-4 h-4 mr-2 text-primary" />
                     )}
-                    <span>{pkg.departure_place}</span>
+                    <span>Departing from {pkg.departure_place}</span>
                   </div>
                 ) : (
                   <div className="flex items-center text-sm text-muted-foreground">
-                    Departing from Not Specified
+                    Departing: Not Specified
                   </div>
                 )}
               </>
