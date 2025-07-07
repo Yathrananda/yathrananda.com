@@ -52,7 +52,7 @@ const InternationalToursSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
             <div className="flex items-start space-x-3 mb-8">
@@ -82,7 +82,7 @@ const InternationalToursSection: React.FC = () => {
 
   return (
     <section
-      className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted"
+      className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background"
       aria-labelledby="international-tours-heading"
     >
       <div className="max-w-7xl mx-auto">

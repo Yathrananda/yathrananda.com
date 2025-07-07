@@ -52,7 +52,7 @@ const DomesticToursSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
             <div className="flex items-start space-x-3 mb-8">
@@ -81,7 +81,7 @@ const DomesticToursSection: React.FC = () => {
   }
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background" aria-labelledby="domestic-tours-heading">
+    <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-muted" aria-labelledby="domestic-tours-heading">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 space-y-4 sm:space-y-0">

@@ -21,6 +21,7 @@ import DomesticToursSection from "./_components/sections/domestic-tours-section"
 import { usePathname, useRouter } from "next/navigation";
 import { HeroMedia } from "@/types/package-detail";
 import Link from "next/link";
+import Footer from "./_components/footer";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -848,7 +849,7 @@ export default function HomePage() {
         <TrendingToursSection />
         {/* Statistics Section */}
         <AnimatedSection
-          className="py-12 sm:py-16 px-4 sm:px-6 bg-background"
+          className="py-12 sm:py-16 px-4 sm:px-6 bg-mu"
           aria-labelledby="stats-heading"
         >
           <div className="max-w-7xl mx-auto">
@@ -941,7 +942,7 @@ export default function HomePage() {
         {/* Services Section */}
         <AnimatedSection
           id="services"
-          className="py-12 sm:py-16 px-4 sm:px-6 bg-muted"
+          className="py-12 sm:py-16 px-4 sm:px-6 bg-background"
           aria-labelledby="services-heading"
         >
           <div className="max-w-7xl mx-auto">
@@ -1359,14 +1360,14 @@ export default function HomePage() {
         </AnimatedSection>
 
         {/* Newsletter Section */}
-        <AnimatedSection
+        {/* <AnimatedSection
           id="contact"
           className="py-12 sm:py-16 px-4 sm:px-6"
           aria-labelledby="newsletter-heading"
         >
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="bg-background border border-border rounded-xl sm:rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-2xl"
+              className="bg-background border border-border rounded-xl sm:rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-lg"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
@@ -1401,7 +1402,56 @@ export default function HomePage() {
               ></div>
             </motion.div>
           </div>
+        </AnimatedSection> */}
+        <AnimatedSection className="py-16 sm:py-20 px-4 sm:px-6 bg-muted">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              className="bg-gradient-to-r from-primary to-primary-hover rounded-2xl p-8 sm:p-12 text-primary-foreground relative overflow-hidden shadow-2xl"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <div className="relative z-10">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+                  Ready for Your Next Adventure?
+                </h2>
+                <p className="text-base sm:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
+                  Let our expert team create a personalized travel experience
+                  that exceeds your expectations. Your dream destination is just
+                  one conversation away.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <motion.button
+                    className="bg-background text-primary-hover px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-background/90 shadow-lg"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label="Start planning your trip with Yathrananda"
+                    onClick={() => {
+                      router.push("/contact");
+                    }}
+                  >
+                    Call Us Now: +91 6282928617
+                  </motion.button>
+                  <motion.button
+                    onClick={() => {
+                      router.push("/packages");
+                    }}
+                    className="border-2 border-primary-foreground text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-background/90 hover:text-primary-hover"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label="View our travel destinations"
+                  >
+                    View Destinations
+                  </motion.button>
+                </div>
+              </div>
+              <div
+                className="absolute inset-0 bg-foreground/10"
+                aria-hidden="true"
+              />
+            </motion.div>
+          </div>
         </AnimatedSection>
+        <Footer />
       </div>
       <VideoModal
         isOpen={isVideoModalOpen}
