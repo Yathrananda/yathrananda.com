@@ -134,8 +134,8 @@ export default function HomePage() {
     },
     {
       name: "Customized Tours",
-      href: "/customized-tours",
-      active: pathname === "/customized-tours",
+      href: "/customised-tours",
+      active: pathname === "/customised-tours",
     },
     {
       name: "Other Services",

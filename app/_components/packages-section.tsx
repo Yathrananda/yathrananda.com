@@ -63,6 +63,15 @@ export default function PackagesSection({
         } else if (pathname.includes('trending-tours')) {
           endpoint = '/api/packages/trending';
           setType("trending");
+        } else if (pathname.includes('kerala-tours')) {
+          endpoint = '/api/packages/kerala';
+          setType("kerala");
+        } else if (pathname.includes('customised-tours')) {
+          endpoint = '/api/packages/customised';
+          setType("customised");
+        } else {
+          endpoint = '/api/packages';
+          setType("all");
         }
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}${endpoint}`, {
