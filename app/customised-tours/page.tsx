@@ -15,7 +15,7 @@ export default function PackagesPage() {
       <Header />
 
       <main id="main-content">
-        <PackagesSectionType title="The Perfect Custom Tailored Tours for You" />
+        <PackagesSectionType title="The Perfect Customised Tours for You" />
       </main>
     </div>
   );
