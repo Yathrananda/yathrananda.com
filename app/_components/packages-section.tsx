@@ -5,7 +5,7 @@ import { Search, MapPin, Calendar, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import PackageCard from "./package-card";
 
 interface Package {
@@ -37,7 +37,8 @@ export default function PackagesSection({
   showSearch = true,
 }: PackagesSectionProps) {
   const pathname = usePathname();
-  const [searchQuery, setSearchQuery] = useState("");
+  const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
   const [displayCount, setDisplayCount] = useState(8);
   const [packages, setPackages] = useState<Package[]>([]);
   const [isLoading, setIsLoading] = useState(true);

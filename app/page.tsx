@@ -94,6 +94,7 @@ interface Testimonial {
 export default function HomePage() {
   const router = useRouter();
   const pathname = usePathname();
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -758,17 +759,27 @@ export default function HomePage() {
                 transition={{ duration: 1, delay: 1 }}
                 className="max-w-2xl"
               >
-                <form className="flex flex-col sm:flex-row bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-3xl transition-all duration-300 group">
+                <div className="flex flex-col sm:flex-row bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-3xl transition-all duration-300 group">
                   <div className="flex-1 flex items-center px-4 sm:px-6 py-3 sm:py-4 lg:py-5">
                     <Search className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground mr-3 sm:mr-4 flex-shrink-0 group-hover:text-primary transition-colors duration-300" />
                     <input
                       type="text"
                       placeholder="Where do you want to go?"
                       className="flex-1 text-base sm:text-lg text-foreground bg-transparent outline-none placeholder:text-muted-foreground font-medium"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          router.push(`/packages?search=${searchQuery}`);
+                        }
+                      }}
                     />
                   </div>
                   <motion.button
-                    type="submit"
+                    type="button"
+                    onClick={() => {
+                      router.push(`/packages?search=${searchQuery}`);
+                    }}
                     className="bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 lg:py-5 font-semibold text-base sm:text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -781,7 +792,7 @@ export default function HomePage() {
                       transition={{ duration: 0.6 }}
                     />
                   </motion.button>
-                </form>
+                </div>
               </motion.div>
             </motion.div>
           </div>
