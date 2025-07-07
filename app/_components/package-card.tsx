@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Clock, MapPin, Plane, Train, Users } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface PackageCardProps {
   package: {
@@ -22,7 +23,7 @@ interface PackageCardProps {
   };
   aspectRatio?: "square" | "landscape";
   showRoute?: boolean;
-  type?: "upcoming" | "trending" | "international" | "domestic";
+  type?: string;
 }
 
 const PackageCard: React.FC<PackageCardProps> = ({
@@ -31,6 +32,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
   showRoute = false,
   type = "upcoming",
 }) => {
+  const pathname = usePathname();
   return (
     <motion.div
       className="group relative bg-card rounded-xl overflow-hidden border border-border/40 transition-all duration-300 ease-out hover:shadow-xl hover:border-border/80"
@@ -84,12 +86,16 @@ const PackageCard: React.FC<PackageCardProps> = ({
           )}
 
           {/* Type badge */}
-          {type && type !== "upcoming" && (
-            <div className="absolute top-4 left-4 z-20">
-              <div className="px-2.5 py-1 rounded-lg bg-black/30 backdrop-blur-sm text-xs font-medium text-white capitalize">
-                {type}
-              </div>
-            </div>
+          {(type && !["all", "none"].includes(type)) && (
+            <>
+              {type && type !== "upcoming" && (
+                <div className="absolute top-4 left-4 z-20">
+                  <div className="px-2.5 py-1 rounded-lg bg-black/30 backdrop-blur-sm text-xs font-medium text-white capitalize">
+                    {type}
+                  </div>
+                </div>
+              )}
+            </>
           )}
           {type && type === "upcoming" && pkg.departure_date && (
             <div className="absolute top-4 left-4 z-20">
@@ -127,7 +133,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
               </div>
             )}
 
-            {type && type === "upcoming" && (
+            {(type && type === "upcoming" || pathname !== "/") && (
               <>
                 {pkg.departure_place && pkg.departure_type ? (
                   <div className="flex items-center text-sm text-muted-foreground">

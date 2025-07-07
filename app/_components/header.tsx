@@ -37,11 +37,8 @@ function Header() {
               { name: "Home", href: "/" },
               { name: "International Tours", href: "/international-tours", active: pathname === "/international-tours" },
               { name: "Domestic Tours", href: "/domestic-tours", active: pathname === "/domestic-tours" },
-              {
-                name: "About Us",
-                href: "/about",
-                active: pathname === "/about",
-              },
+              { name: "Kerala Tours", href: "/kerala-tours", active: pathname === "/kerala-tours" },
+              { name: "Customised Tours", href: "/customised-tours", active: pathname === "/customised-tours" },
               {
                 name: "Other Services",
                 href: "/services",
@@ -75,7 +72,7 @@ function Header() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Get started with Yathrananda"
-            onClick={() => window.location.href = "https://wa.me/8801755555555"}
+            onClick={() => window.location.href = "https://wa.me/6282948617"}
           >
             Whatsapp Us
           </motion.button>
