@@ -1,206 +1,237 @@
 "use client";
 
-import { useState } from "react";
-import { motion, Variants } from "framer-motion";
-import { Menu, X, Phone, MessageSquare } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import React, { useState } from "react";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { Menu, Phone, X } from "lucide-react";
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: "easeOut" },
-  },
-};
-
-export default function Header() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const isActive = (href: string) => pathname === href;
+function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "+916282948617";
+    const message = "Hi! I'm interested in your travel services.";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const navigationItems = [
-    { name: "Home", href: "/", active: isActive("/") },
-    { name: "International Tours", href: "/international-tours", active: isActive("/international-tours") },
-    { name: "Domestic Tours", href: "/domestic-tours", active: isActive("/domestic-tours") },
-    { name: "About Us", href: "/about", active: isActive("/about") },
-    { name: "Other Services", href: "/services", active: isActive("/services") },
-  ];  
+    { name: "Home", href: "/" },
+    {
+      name: "International Tours",
+      href: "/international-tours",
+      active: pathname === "/international-tours",
+    },
+    {
+      name: "Domestic Tours",
+      href: "/domestic-tours",
+      active: pathname === "/domestic-tours",
+    },
+    {
+      name: "Kerala Tours",
+      href: "/kerala-tours",
+      active: pathname === "/kerala-tours",
+    },
+    {
+      name: "Customized",
+      href: "/customized-tours",
+      active: pathname === "/customized-tours",
+    },
+    {
+      name: "Other Services",
+      href: "/services",
+      active: pathname === "/services",
+    },
+  ];
 
   return (
-    <header className="absolute w-full">
-      {/* Header Content */}
-      <div className="relative z-50 px-4 sm:px-6 py-4 sm:py-6">
-        <nav
-          className="max-w-7xl mx-auto flex items-center justify-between"
-          role="navigation"
-          aria-label="Main navigation"
+    <header className="fixed top-0 right-0 z-40 h-screen pointer-events-none">
+      {/* Non-Standard Header - Vertical Right Side Layout */}
+      {/* Desktop Header - Vertical Right Side */}
+      <div className="hidden lg:flex flex-col h-full justify-start items-end pt-8 pr-8 space-y-8 pointer-events-auto">
+        {/* Logo positioned at top-right with padding */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col items-end space-y-4"
         >
-          <motion.div
-            className="flex items-center space-x-2"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+          <Link
+            href="/"
+            className="flex items-center space-x-3 group bg-black/20 backdrop-blur-sm rounded-2xl p-4 hover:bg-black/30 transition-all duration-300"
+            aria-label="Return to Yathrananda homepage"
           >
+            <span className="text-white font-bold text-xl hidden xl:block">
+              Yathrananda
+            </span>
             <Image
-              src={"/images/logo.png"}
+              src="/placeholder.svg?height=60&width=60"
               alt="Yathrananda Logo"
-              width={40}
-              height={40}
-              className="w-40 object-cover rounded-full"
+              width={60}
+              height={60}
+              className="w-12 h-12 object-cover rounded-full ring-2 ring-white/30 group-hover:ring-white/50 transition-all duration-300"
               loading="eager"
               priority
             />
-          </motion.div>
+          </Link>
 
-          <motion.div
-            className="hidden lg:flex items-center space-x-6 xl:space-x-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
+          {/* WhatsApp Contact - Positioned below logo */}
+          <motion.button
+            className="flex items-center space-x-3 bg-green-600/90 backdrop-blur-sm text-white px-4 py-3 rounded-xl font-medium text-sm transition-all duration-300 hover:bg-green-700/90 shadow-lg hover:shadow-xl group"
+            whileHover={{ scale: 1.05, x: -5 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleWhatsAppClick}
+            aria-label="Contact Yathrananda on WhatsApp"
           >
-            <div className="bg-background/20 backdrop-blur-sm rounded-full px-8 py-3 border border-background/30">
-              <div className="flex items-center space-x-8">
-                {navigationItems.map((item, index) => (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    className="text-primary-foreground font-medium transition-all duration-200 ease-out text-sm xl:text-base relative group"
-                    whileHover={{ y: -2 }}
-                    aria-label={`Navigate to ${item.name} section`}
-                  >
-                    {item.name}
-                    <span
-                      className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-foreground transition-all duration-200 ease-out group-hover:w-full"
-                      aria-hidden="true"
-                    ></span>
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="flex items-center space-x-2 sm:space-x-4"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
-          >
-            {/* <motion.button
-              className="hidden sm:flex items-center space-x-2 bg-white/90 backdrop-blur-sm border border-gray-200 text-gray-700 hover:bg-white hover:text-gray-900 rounded-full px-4 py-2 font-medium transition-all duration-200 ease-out text-sm"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Contact via phone"
-            >
-              <Phone className="w-4 h-4" />
-              <span>+1 234 567 890</span>
-            </motion.button> */}
-            <motion.button
-              className="hidden sm:flex bg-background/20 text-background backdrop-blur-sm rounded-full px-8 py-3 border border-background/30 font-medium text-sm transition-all duration-200 ease-out items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Make an enquiry"
-              onClick={() => router.push("/contact")}
-            >
-              <MessageSquare className="w-4 h-4" />
-              <span>Contact Us</span>
-            </motion.button>
-            <button
-              className="lg:hidden text-card-foreground p-2 transition-all duration-200 ease-out hover:bg-background/20 hover:text-background border border-background/30 rounded-lg bg-white/90 backdrop-blur-sm"
-              onClick={toggleMobileMenu}
-              aria-label={
-                isMobileMenuOpen
-                  ? "Close navigation menu"
-                  : "Open navigation menu"
-              }
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu"
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" aria-hidden="true" />
-              ) : (
-                <Menu className="w-6 h-6" aria-hidden="true" />
-              )}
-            </button>
-          </motion.div>
-        </nav>
-
-        {/* Mobile Navigation Menu */}
-        <motion.div
-          id="mobile-menu"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{
-            opacity: isMobileMenuOpen ? 1 : 0,
-            height: isMobileMenuOpen ? "auto" : 0,
-          }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className="lg:hidden overflow-hidden bg-white/95 backdrop-blur-sm rounded-2xl mt-4 mx-4 shadow-xl border border-gray-200"
-          aria-hidden={!isMobileMenuOpen}
-        >
-          <motion.nav
-            className="py-4"
-            variants={staggerContainer}
-            initial="hidden"
-            animate={isMobileMenuOpen ? "visible" : "hidden"}
-            role="navigation"
-            aria-label="Mobile navigation"
-          >
-            {navigationItems.map((item) => (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                className="block px-6 py-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 ease-out rounded-lg mx-2"
-                variants={fadeInUp}
-                whileHover={{ x: 10 }}
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label={`Navigate to ${item.name} section`}
-              >
-                {item.name}
-              </motion.a>
-            ))}
-            <motion.div
-              className="px-6 py-3 border-t border-gray-200 mt-2"
-              variants={fadeInUp}
-            >
-              <div className="flex flex-col space-y-3">
-                <button
-                  className="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 py-2 rounded-full font-medium transition-all duration-200 ease-out flex items-center justify-center space-x-2"
-                  aria-label="Contact via phone"
-                  onClick={() => window.location.href = "tel:+1234567890"}
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>+1 234 567 890</span>
-                </button>
-                <button
-                  className="w-full bg-primary hover:bg-primary-hover text-white py-2 rounded-full font-medium transition-all duration-200 ease-out flex items-center justify-center space-x-2"
-                  aria-label="Make an enquiry"
-                  onClick={() => router.push("/contact")}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Contact Us</span>
-                </button>
-              </div>
-            </motion.div>
-          </motion.nav>
+            <span className="hidden xl:inline">+91 98765 43210</span>
+            <span className="xl:hidden">Call Us</span>
+            <Phone className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
+          </motion.button>
         </motion.div>
+
+        {/* Vertical Navigation - Elegantly spaced */}
+        <motion.nav
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="flex flex-col items-end space-y-6 bg-black/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          {navigationItems.map((item, index) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 * index }}
+            >
+              <Link
+                href={item.href}
+                className={`text-sm font-medium transition-all duration-300 ease-out relative group text-right block hover:translate-x-[-8px] ${
+                  item.active
+                    ? "text-white font-semibold scale-110"
+                    : "text-white/80 hover:text-white hover:scale-105"
+                }`}
+                aria-label={`Navigate to ${item.name}`}
+                aria-current={item.active ? "page" : undefined}
+              >
+                <span className="relative inline-block">
+                  {item.name}
+                  <span
+                    className={`absolute -bottom-1 right-0 h-0.5 bg-primary transition-all duration-300 ease-out ${
+                      item.active ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  {/* Decorative dot for active state */}
+                  {item.active && (
+                    <motion.span
+                      className="absolute -right-4 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-primary rounded-full"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
+                </span>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.nav>
+      </div>
+
+      {/* Mobile Header - Conventional Top Layout */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 bg-gradient-to-b from-black/30 to-transparent backdrop-blur-sm pointer-events-auto">
+        <nav
+          className="max-w-7xl mx-auto px-4 py-4"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <div className="flex items-center justify-between">
+            {/* Mobile Logo */}
+            <Link
+              href="/"
+              className="flex items-center space-x-2 group"
+              aria-label="Return to Yathrananda homepage"
+            >
+              <Image
+                src="/placeholder.svg?height=60&width=60"
+                alt="Yathrananda Logo"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-cover rounded-full ring-2 ring-white/20"
+                loading="eager"
+                priority
+              />
+              <span className="text-white font-bold text-lg">Yathrananda</span>
+            </Link>
+
+            {/* Mobile Actions */}
+            <div className="flex items-center space-x-3">
+              <motion.button
+                className="flex items-center space-x-2 bg-green-600 text-white px-3 py-2 rounded-full font-medium text-xs transition-all duration-200 hover:bg-green-700"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleWhatsAppClick}
+                aria-label="Contact Yathrananda on WhatsApp"
+              >
+                <Phone className="w-3 h-3" />
+                <span>Call</span>
+              </motion.button>
+
+              <button
+                className="p-2 text-white hover:text-white/80 transition-colors"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle mobile menu"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation Menu */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mt-4 bg-black/90 backdrop-blur-sm rounded-lg overflow-hidden"
+              >
+                <div className="px-4 py-2 space-y-2">
+                  {navigationItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`block py-3 px-2 text-sm font-medium transition-all duration-200 rounded-md ${
+                        item.active
+                          ? "text-white bg-white/10 font-semibold"
+                          : "text-white/80 hover:text-white hover:bg-white/5"
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      aria-label={`Navigate to ${item.name}`}
+                      aria-current={item.active ? "page" : undefined}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </nav>
       </div>
     </header>
   );
 }
+
+export default Header;
