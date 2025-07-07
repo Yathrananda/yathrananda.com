@@ -73,6 +73,7 @@ export interface TravelPackageDetailData {
     label: string
     icon: string
   }>
+  activities_display_type: "points" | "description"
   itinerary: ItineraryDay[]
   gallery: GalleryImage[]
   bookingInfo: BookingInfo

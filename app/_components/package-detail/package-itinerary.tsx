@@ -19,9 +19,13 @@ import {
 
 interface PackageItineraryProps {
   itinerary: ItineraryDay[];
+  activitiesDisplayType: "points" | "description";
 }
 
-export function PackageItinerary({ itinerary }: PackageItineraryProps) {
+export function PackageItinerary({
+  itinerary,
+  activitiesDisplayType,
+}: PackageItineraryProps) {
   return (
     <motion.section
       className="mb-12"
@@ -35,14 +39,27 @@ export function PackageItinerary({ itinerary }: PackageItineraryProps) {
 
       <div className="space-y-8">
         {itinerary.map((day, index) => (
-          <DayItinerary key={day.day} day={day} index={index} />
+          <DayItinerary
+            key={day.day}
+            day={day}
+            index={index}
+            activitiesDisplayType={activitiesDisplayType}
+          />
         ))}
       </div>
     </motion.section>
   );
 }
 
-function DayItinerary({ day, index }: { day: ItineraryDay; index: number }) {
+function DayItinerary({
+  day,
+  index,
+  activitiesDisplayType,
+}: {
+  day: ItineraryDay;
+  index: number;
+  activitiesDisplayType: "points" | "description";
+}) {
   return (
     <motion.div
       id="itinerary"
@@ -115,7 +132,7 @@ function DayItinerary({ day, index }: { day: ItineraryDay; index: number }) {
                   </DialogContent>
                 </Dialog>
               </div>
-              
+
               <Carousel
                 className="w-full"
                 opts={{
@@ -124,7 +141,10 @@ function DayItinerary({ day, index }: { day: ItineraryDay; index: number }) {
               >
                 <CarouselContent className="-ml-2 md:-ml-4">
                   {day.images.map((image, idx) => (
-                    <CarouselItem key={idx} className="pl-2 md:pl-4 basis-2/3 md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem
+                      key={idx}
+                      className="pl-2 md:pl-4 basis-2/3 md:basis-1/2 lg:basis-1/3"
+                    >
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -152,27 +172,36 @@ function DayItinerary({ day, index }: { day: ItineraryDay; index: number }) {
             {/* Meal Plan */}
             <div className="flex items-center gap-2 text-muted-foreground">
               <Utensils className="w-4 h-4" />
-              <span className="text-sm font-medium">
-                Meals: {day.mealPlan}
-              </span>
+              <span className="text-sm font-medium">Meals: {day.mealPlan}</span>
             </div>
 
             {/* Activities */}
             <div>
               <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
-                <span className="inline-block w-1.5 h-1.5 bg-primary rounded-full"></span>
+                {/* <span className="inline-block w-1.5 h-1.5 bg-primary rounded-full"></span> */}
                 Activities & Sightseeing
               </h4>
-              <ul className="space-y-2 text-muted-foreground pl-4">
-                {day.activities.map((activity, actIndex) => (
-                  <li 
-                    key={actIndex} 
-                    className="text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
-                  >
-                    {activity}
-                  </li>
-                ))}
-              </ul>
+              {activitiesDisplayType === "points" && (
+                <ul className="space-y-2 text-muted-foreground pl-4">
+                  {day.activities.map((activity, actIndex) => (
+                    <li
+                      key={actIndex}
+                      className="text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
+                    >
+                      {activity}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {activitiesDisplayType === "description" && (
+                <>
+                  {day.activities.map((activity, actIndex) => (
+                    <p className="text-muted-foreground" key={actIndex}>
+                      {activity}
+                    </p>
+                  ))}
+                </>
+              )}
             </div>
 
             {/* Notes */}
@@ -180,9 +209,7 @@ function DayItinerary({ day, index }: { day: ItineraryDay; index: number }) {
               <div className="bg-muted/50 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-muted-foreground">
-                    {day.notes}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{day.notes}</p>
                 </div>
               </div>
             )}

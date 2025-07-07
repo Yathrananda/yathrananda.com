@@ -105,7 +105,7 @@ export function TravelPackageDetail({
               </div>
             </div>
           </div>
-          <PackageItinerary itinerary={data.itinerary} />
+          <PackageItinerary itinerary={data.itinerary} activitiesDisplayType={data.activities_display_type} />
           <GallerySection images={data.gallery} />
           <BookingInfoSection
             bookingInfo={data.bookingInfo}

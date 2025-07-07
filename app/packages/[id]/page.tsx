@@ -59,6 +59,7 @@ export default function PackageDetailPage() {
             alt: data.package.hero_image_alt
           },
           overview: data.package.overview,
+          activities_display_type: data.package.activities_display_type,
           highlights: [
             { id: "1", label: "Nature", icon: "nature" },
             { id: "2", label: "Adventure", icon: "adventure" },
