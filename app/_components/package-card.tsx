@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Clock, MapPin, Users } from "lucide-react";
+import { Clock, MapPin, Plane, Train, Users } from "lucide-react";
 
 interface PackageCardProps {
   package: {
@@ -16,6 +16,9 @@ interface PackageCardProps {
     image_url?: string;
     hero_image_alt?: string;
     description?: string;
+    departure_date?: string;
+    departure_place?: string;
+    departure_type?: string;
   };
   aspectRatio?: "square" | "landscape";
   showRoute?: boolean;
@@ -37,13 +40,15 @@ const PackageCard: React.FC<PackageCardProps> = ({
       whileHover={{ y: -5 }}
     >
       <Link href={`/packages/${pkg.id}`} className="block">
-        <div className={cn(
-          "relative",
-          aspectRatio === "square" ? "aspect-square" : "aspect-[4/3]"
-        )}>
+        <div
+          className={cn(
+            "relative",
+            aspectRatio === "square" ? "aspect-square" : "aspect-[4/3]"
+          )}
+        >
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-          
+
           <Image
             src={pkg.image_url || "/placeholder.jpg"}
             alt={pkg.hero_image_alt || pkg.title || "Travel package"}
@@ -53,16 +58,20 @@ const PackageCard: React.FC<PackageCardProps> = ({
           />
 
           {/* Price tag */}
-          {typeof pkg.price !== 'undefined' && (
+          {typeof pkg.price !== "undefined" && (
             <div className="absolute bottom-4 right-4 z-20">
               <div className="relative overflow-hidden">
                 {/* Blur background with gradient */}
                 <div className="absolute inset-0 bg-white/10 backdrop-blur-md rounded-xl" />
                 <div className="relative px-4 py-2 bg-gradient-to-r from-primary/80 to-primary rounded-xl shadow-lg transform group-hover:scale-105 transition-all duration-300">
                   <div className="flex items-baseline gap-0.5">
-                    <span className="text-lg font-medium text-primary-foreground">₹</span>
+                    <span className="text-lg font-medium text-primary-foreground">
+                      ₹
+                    </span>
                     <span className="text-2xl font-bold tracking-tight text-primary-foreground">
-                      {typeof pkg.price === 'number' ? pkg.price.toLocaleString('en-IN') : pkg.price}
+                      {typeof pkg.price === "number"
+                        ? pkg.price.toLocaleString("en-IN")
+                        : pkg.price}
                     </span>
                   </div>
                   <div className="flex items-center justify-center gap-1 text-xs text-primary-foreground/90 font-medium">
@@ -75,10 +84,22 @@ const PackageCard: React.FC<PackageCardProps> = ({
           )}
 
           {/* Type badge */}
-          {type && (
+          {type && type !== "upcoming" && (
             <div className="absolute top-4 left-4 z-20">
               <div className="px-2.5 py-1 rounded-lg bg-black/30 backdrop-blur-sm text-xs font-medium text-white capitalize">
                 {type}
+              </div>
+            </div>
+          )}
+          {type && type === "upcoming" && pkg.departure_date && (
+            <div className="absolute top-4 left-4 z-20">
+              <div className="px-2.5 py-1 rounded-lg bg-black/30 backdrop-blur-sm text-xs font-medium text-white capitalize">
+                Departing on{" "}
+                {new Date(pkg.departure_date).toLocaleDateString("en-IN", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
               </div>
             </div>
           )}
@@ -105,13 +126,32 @@ const PackageCard: React.FC<PackageCardProps> = ({
                 <span>{pkg.duration}</span>
               </div>
             )}
+
+            {type && type === "upcoming" && (
+              <>
+                {pkg.departure_place && pkg.departure_type ? (
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    {pkg.departure_type === "plane" ? (
+                      <Plane className="w-4 h-4 mr-2 text-primary" />
+                    ) : (
+                      <Train className="w-4 h-4 mr-2 text-primary" />
+                    )}
+                    <span>{pkg.departure_place}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    Departing from Not Specified
+                  </div>
+                )}
+              </>
+            )}
           </div>
 
-          {pkg.description && (
+          {/* {pkg.description && (
             <p className="text-sm text-muted-foreground line-clamp-2 pt-1">
               {pkg.description}
             </p>
-          )}
+          )} */}
         </div>
       </Link>
     </motion.div>
