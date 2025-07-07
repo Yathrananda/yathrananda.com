@@ -780,7 +780,7 @@ export default function HomePage() {
                     onClick={() => {
                       router.push(`/packages?search=${searchQuery}`);
                     }}
-                    className="bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 lg:py-5 font-semibold text-base sm:text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg relative overflow-hidden"
+                    className="bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 lg:py-5 font-semibold text-base sm:text-lg hover:bg-primary-hover transition-all duration-300 shadow-lg relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
