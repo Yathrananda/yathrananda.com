@@ -118,22 +118,22 @@ export default function HomePage() {
   const navigationItems = [
     { name: "Home", href: "/" },
     {
-      name: "International Tours",
+      name: "International",
       href: "/international-tours",
       active: pathname === "/international-tours",
     },
     {
-      name: "Domestic Tours",
+      name: "Domestic",
       href: "/domestic-tours",
       active: pathname === "/domestic-tours",
     },
     {
-      name: "Kerala Tours",
+      name: "Kerala",
       href: "/kerala-tours",
       active: pathname === "/kerala-tours",
     },
     {
-      name: "Customized Tours",
+      name: "Customized",
       href: "/customised-tours",
       active: pathname === "/customised-tours",
     },
@@ -327,22 +327,19 @@ export default function HomePage() {
         {/* Hero Section with Static Header */}
         <section
           id="home"
-          className="relative min-h-screen flex flex-col justify-end overflow-hidden"
+          className="relative min-h-screen overflow-hidden bg-slate-900"
           aria-labelledby="hero-heading"
         >
-          {/* Background Carousel - Seamless Overlapping Transitions */}
+          {/* Enhanced Background Carousel */}
           <div className="absolute inset-0">
             <div className="w-full h-full relative">
-              {/* Base background to prevent white flashes */}
-              <div className="absolute inset-0 bg-gray-900 z-0" />
-
-              {/* Carousel Images with Overlapping Transitions */}
-              <div className="absolute inset-0 z-10">
+              {/* Background Images/Videos */}
+              <div className="absolute inset-0 z-0">
                 {isLoading ? (
                   <img
                     src="/images/hero-background-4.jpg?height=1080&width=1920"
-                    alt="Travel adventure background"
-                    className="w-full h-full object-cover object-center scale-110"
+                    alt="Breathtaking travel destination showcasing natural beauty"
+                    className="w-full h-full object-cover scale-105"
                     draggable="false"
                   />
                 ) : (
@@ -352,10 +349,13 @@ export default function HomePage() {
                         index === currentImageIndex && (
                           <motion.div
                             key={`${index}-${content.url}`}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.8, ease: "easeInOut" }}
+                            initial={{ opacity: 0, scale: 1.05 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{
+                              duration: 1.5,
+                              ease: [0.25, 0.46, 0.45, 0.94],
+                            }}
                             className="absolute inset-0"
                           >
                             {content.type === "video" ? (
@@ -365,7 +365,8 @@ export default function HomePage() {
                                 muted
                                 loop
                                 playsInline
-                                className="w-full h-full object-cover object-center scale-110"
+                                className="w-full h-full object-cover scale-105"
+                                aria-label="Travel destination video showcasing beautiful landscapes"
                               />
                             ) : (
                               <img
@@ -373,8 +374,8 @@ export default function HomePage() {
                                   content.url ||
                                   "/images/hero-background-4.jpg?height=1080&width=1920"
                                 }
-                                alt="Travel adventure background"
-                                className="w-full h-full object-cover object-center scale-110"
+                                alt="Stunning travel destination with breathtaking landscapes"
+                                className="w-full h-full object-cover scale-105"
                                 draggable="false"
                               />
                             )}
@@ -385,174 +386,220 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* Reduced Opacity Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/40 z-20" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-20" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent z-20" />
+              {/* Sophisticated Gradient Overlays */}
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-900/60 via-slate-800/40 to-slate-900/70 z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/20 z-10" />
             </div>
           </div>
 
-          {/* Static Logo - Top Left within Hero Section */}
-          <div className="absolute top-0 left-0 z-40 p-3 sm:p-4 lg:p-6 xl:p-8">
+          {/* Refined Floating Elements */}
+          <div className="absolute inset-0 z-20 overflow-hidden pointer-events-none">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <Link
-                href="/"
-                className="block group px-2 transition-all duration-300"
-                aria-label="Return to Yathrananda homepage"
-              >
-                <Image
-                  src="/images/logo.png"
-                  alt="Yathrananda - A Travel Fusion"
-                  width={280}
-                  height={80}
-                  className="h-10 xs:h-10 sm:h-10 md:h-12 lg:h-14 xl:h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                  loading="eager"
-                  priority
-                />
-              </Link>
-            </motion.div>
+              className="absolute top-1/4 right-1/4 w-2 h-2 bg-gradient-to-br from-blue-400/40 to-purple-400/40 rounded-full blur-sm"
+              animate={{
+                opacity: [0.4, 0.8, 0.4],
+                scale: [1, 1.3, 1],
+                rotate: [0, 180, 360],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.div
+              className="absolute top-3/4 left-1/3 w-1.5 h-1.5 bg-gradient-to-br from-emerald-400/30 to-teal-400/30 rounded-full blur-sm"
+              animate={{
+                opacity: [0.3, 0.6, 0.3],
+                y: [0, -15, 0],
+                x: [0, 10, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+            />
+            <motion.div
+              className="absolute top-1/2 right-1/3 w-1 h-1 bg-gradient-to-br from-orange-400/25 to-red-400/25 rounded-full blur-sm"
+              animate={{
+                opacity: [0.25, 0.5, 0.25],
+                scale: [1, 1.5, 1],
+                rotate: [0, -180, -360],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+                delay: 2,
+              }}
+            />
           </div>
 
-          {/* Desktop Navigation - Right Side */}
-          <div className="absolute top-0 right-0 z-40 h-full pointer-events-none hidden lg:block">
-            <div className="flex flex-col h-full justify-start items-end pt-6 pr-6 xl:pt-8 xl:pr-8 space-y-8 pointer-events-auto">
-              {/* WhatsApp Contact - Enhanced Size */}
+          {/* Enhanced Header */}
+          <header className="relative z-40 w-full">
+            {/* Multi-layer blur backdrop for sophisticated blending */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
+            <div className="relative flex items-center justify-between px-4 sm:px-6 lg:px-12 py-4">
+              {/* Logo with Enhanced Animation */}
               <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <motion.button
-                  className="flex items-center space-x-3 bg-green-600/80 backdrop-blur-sm text-white px-5 py-4 rounded-xl font-medium text-base transition-all duration-300 hover:bg-green-700/80 shadow-lg hover:shadow-xl group"
-                  whileHover={{ scale: 1.05, x: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleWhatsAppClick}
-                  aria-label="Contact Yathrananda on WhatsApp"
+                <Link
+                  href="/"
+                  className="block group transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg"
+                  aria-label="Return to Yathrananda homepage"
                 >
-                  <span className="hidden xl:inline text-sm font-semibold">
-                    +91 62829 48617
-                  </span>
-                  <span className="xl:hidden font-semibold">WhatsApp Us</span>
-                  <MessageCircle className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                </motion.button>
+                  <Image
+                    src="/images/logo.png"
+                    alt="Yathrananda - A Travel Fusion"
+                    width={280}
+                    height={80}
+                    className="h-12 lg:h-16 pr-4 w-auto object-contain group-hover:scale-110 transition-all duration-500 drop-shadow-lg"
+                    loading="eager"
+                    priority
+                  />
+                </Link>
               </motion.div>
 
-              {/* Vertical Navigation - Enhanced Size and Spacing */}
+              {/* Enhanced Desktop Navigation */}
               <motion.nav
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                className="flex flex-col items-end space-y-8 bg-transparent rounded-2xl px-4 py-2 backdrop-blur-[1px]"
+                initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.2,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="hidden lg:flex items-center space-x-1 rounded-full px-2 py-2"
                 role="navigation"
                 aria-label="Main navigation"
               >
                 {navigationItems.map((item, index) => (
                   <motion.div
                     key={item.name}
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
+                    initial={{ opacity: 0, y: -15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 + 0.1 * index }}
                   >
                     <Link
                       href={item.href}
-                      className={`text-base lg:text-lg font-medium transition-all duration-300 ease-out relative group text-right block hover:translate-x-[-8px] py-2 px-1 ${
+                      className={`relative text-sm font-semibold transition-all duration-300 ease-out group py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-lg ${
                         item.active
-                          ? "text-white font-semibold scale-110"
-                          : "text-white/90 hover:text-white hover:scale-105"
+                          ? "text-white bg-white/30 shadow-xl"
+                          : "text-white/95 hover:text-white hover:bg-white/20"
                       }`}
                       aria-label={`Navigate to ${item.name}`}
                       aria-current={item.active ? "page" : undefined}
                     >
-                      <span className="relative inline-block">
-                        {item.name}
-                        <span
-                          className={`absolute -bottom-1 right-0 h-0.5 bg-primary transition-all duration-300 ease-out ${
-                            item.active ? "w-full" : "w-0 group-hover:w-full"
-                          }`}
-                          aria-hidden="true"
+                      <span className="relative z-10">{item.name}</span>
+                      {item.active && (
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full"
+                          layoutId="activeTab"
+                          transition={{
+                            type: "spring",
+                            bounce: 0.2,
+                            duration: 0.6,
+                          }}
                         />
-                        {/* Enhanced decorative dot for active state */}
-                        {item.active && (
-                          <motion.span
-                            className="absolute -right-6 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-primary rounded-full shadow-lg"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        )}
-                      </span>
+                      )}
                     </Link>
                   </motion.div>
                 ))}
               </motion.nav>
+
+              {/* Enhanced Right Side Actions */}
+              <div className="flex items-center space-x-3">
+                {/* Enhanced WhatsApp Button - Desktop */}
+                <motion.div
+                  initial={{ opacity: 0, x: 30, scale: 0.9 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.4,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                  className="hidden lg:block"
+                >
+                  <motion.button
+                    className="relative flex items-center space-x-3 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:from-green-700 hover:to-green-800 shadow-xl hover:shadow-2xl group border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:ring-offset-2 focus:ring-offset-transparent"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleWhatsAppClick}
+                    aria-label="Contact Yathrananda on WhatsApp"
+                  >
+                    <MessageCircle className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="hidden xl:inline">+91 62829 48617</span>
+                    <span className="xl:hidden">WhatsApp</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </motion.button>
+                </motion.div>
+
+                {/* Enhanced Mobile Actions */}
+                <div className="lg:hidden flex items-center space-x-3">
+                  <motion.button
+                    className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 text-white p-3 rounded-full transition-all duration-200 hover:from-green-700 hover:to-green-800 shadow-lg border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleWhatsAppClick}
+                    aria-label="Contact Yathrananda on WhatsApp"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                  </motion.button>
+
+                  <motion.button
+                    className="flex items-center justify-center p-3 text-white bg-white/25 backdrop-blur-lg rounded-full transition-all duration-200 hover:bg-white/35 shadow-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    onClick={toggleMobileMenu}
+                    aria-label={
+                      isMobileMenuOpen
+                        ? "Close navigation menu"
+                        : "Open navigation menu"
+                    }
+                    aria-expanded={isMobileMenuOpen}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <AnimatePresence mode="wait">
+                      {isMobileMenuOpen ? (
+                        <motion.div
+                          key="close"
+                          initial={{ rotate: -90, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: 90, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <X className="w-5 h-5" />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="menu"
+                          initial={{ rotate: 90, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: -90, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <Menu className="w-5 h-5" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.button>
+                </div>
+              </div>
             </div>
-          </div>
+          </header>
 
-          {/* Mobile Header - Enhanced and Functional */}
-          <div className="lg:hidden absolute top-0 right-0 z-50 p-3 sm:p-4">
-            <div className="flex items-center space-x-3">
-              {/* Mobile WhatsApp Button */}
-              <motion.button
-                className="flex items-center justify-center bg-green-600/90 backdrop-blur-sm text-white p-3 rounded-full font-medium transition-all duration-200 hover:bg-green-700/90 shadow-lg active:scale-95"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleWhatsAppClick}
-                aria-label="Contact Yathrananda on WhatsApp"
-              >
-                <MessageCircle className="w-5 h-5" />
-              </motion.button>
-
-              {/* Mobile Menu Toggle Button */}
-              <motion.button
-                className="flex items-center justify-center p-3 text-white bg-white/15 backdrop-blur-sm rounded-full transition-all duration-200 hover:bg-white/20 active:scale-95 shadow-lg"
-                onClick={toggleMobileMenu}
-                aria-label={
-                  isMobileMenuOpen
-                    ? "Close navigation menu"
-                    : "Open navigation menu"
-                }
-                aria-expanded={isMobileMenuOpen}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <AnimatePresence mode="wait">
-                  {isMobileMenuOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="w-6 h-6" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Menu className="w-6 h-6" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation Menu - Full Screen Overlay */}
+          {/* Enhanced Mobile Navigation Menu */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <>
-                {/* Backdrop */}
                 <motion.div
-                  className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                  className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -560,36 +607,31 @@ export default function HomePage() {
                   onClick={closeMobileMenu}
                 />
 
-                {/* Mobile Menu Panel */}
                 <motion.div
-                  className="lg:hidden fixed top-0 right-0 bottom-0 w-full max-w-sm bg-black/95 backdrop-blur-md z-50 shadow-2xl"
+                  className="lg:hidden fixed top-0 right-0 bottom-0 w-full max-w-sm bg-black backdrop-blur-xl z-50 shadow-2xl"
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 >
                   <div className="flex flex-col h-full">
-                    {/* Mobile Menu Header */}
-                    <div className="flex items-center justify-between p-6 border-b border-white/10">
-                      <div className="flex items-center space-x-3">
-                        <Image
-                          src="/images/logo.png"
-                          alt="Yathrananda"
-                          width={120}
-                          height={34}
-                          className="h-8 w-auto object-contain"
-                        />
-                      </div>
+                    <div className="flex items-center justify-between p-6">
+                      <Image
+                        src="/images/logo.png"
+                        alt="Yathrananda"
+                        width={120}
+                        height={34}
+                        className="h-12 w-auto object-contain"
+                      />
                       <button
                         onClick={closeMobileMenu}
-                        className="p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/10"
+                        className="p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
                         aria-label="Close navigation menu"
                       >
                         <X className="w-6 h-6" />
                       </button>
                     </div>
 
-                    {/* Mobile Navigation Links */}
                     <nav
                       className="flex-1 px-6 py-8"
                       role="navigation"
@@ -605,9 +647,9 @@ export default function HomePage() {
                           >
                             <Link
                               href={item.href}
-                              className={`block py-4 px-4 text-lg font-medium transition-all duration-200 rounded-xl ${
+                              className={`block py-4 px-4 text-lg font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 ${
                                 item.active
-                                  ? "text-white bg-primary/20 font-semibold border-l-4 border-primary shadow-sm"
+                                  ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-400 shadow-lg"
                                   : "text-white/90 hover:text-white hover:bg-white/10 hover:translate-x-2"
                               }`}
                               onClick={closeMobileMenu}
@@ -618,7 +660,7 @@ export default function HomePage() {
                                 {item.name}
                                 {item.active && (
                                   <motion.div
-                                    className="w-2 h-2 bg-primary rounded-full"
+                                    className="w-2 h-2 bg-blue-400 rounded-full shadow-lg"
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{ duration: 0.3 }}
@@ -631,10 +673,9 @@ export default function HomePage() {
                       </div>
                     </nav>
 
-                    {/* Mobile Menu Footer */}
-                    <div className="p-6 border-t border-white/10">
+                    <div className="p-6">
                       <motion.button
-                        className="w-full flex items-center justify-center space-x-3 bg-green-600 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 hover:bg-green-700 active:scale-95 shadow-lg"
+                        className="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 hover:from-green-700 hover:to-green-800 shadow-lg border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
                         onClick={() => {
                           handleWhatsAppClick();
                           closeMobileMenu();
@@ -653,196 +694,189 @@ export default function HomePage() {
             )}
           </AnimatePresence>
 
-          {/* Subtle Floating Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none z-30">
-            <motion.div
-              className="absolute top-20 left-10 w-2 h-2 bg-white/20 rounded-full"
-              animate={{
-                opacity: [0.2, 0.4, 0.2],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute top-40 right-20 w-1 h-1 bg-white/25 rounded-full"
-              animate={{
-                opacity: [0.25, 0.5, 0.25],
-                y: [0, -8, 0],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Number.POSITIVE_INFINITY,
-                delay: 1,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-white/15 rounded-full"
-              animate={{
-                opacity: [0.15, 0.35, 0.15],
-                x: [0, 10, 0],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Number.POSITIVE_INFINITY,
-                delay: 2,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute bottom-20 right-10 w-1 h-1 bg-white/30 rounded-full"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.3, 1],
-              }}
-              transition={{
-                duration: 3.5,
-                repeat: Number.POSITIVE_INFINITY,
-                delay: 3,
-                ease: "easeInOut",
-              }}
-            />
+          {/* Enhanced Main Hero Content */}
+          <div className="relative z-30 flex items-center justify-center min-h-[calc(100vh-140px)]">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="space-y-8 sm:space-y-10"
+              >
+                {/* Enhanced Main Headline */}
+                <div className="space-y-6">
+                  <motion.h1
+                    id="hero-heading"
+                    className="text-white font-bold leading-[1.1] tracking-tight"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.3 }}
+                    style={{
+                      fontSize: "clamp(2rem, 8vw, 4.5rem)",
+                      textShadow:
+                        "0 4px 20px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.1)",
+                    }}
+                  >
+                    <motion.span
+                      className="block"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.5 }}
+                    >
+                      Explore The World
+                    </motion.span>
+                    <motion.span
+                      className="block bg-gradient-to-r from-primary via-primary to-primary bg-clip-text text-transparent font-extrabold"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.7 }}
+                    >
+                      With Confidence
+                    </motion.span>
+                  </motion.h1>
+
+                  <motion.p
+                    className="text-white/95 font-medium leading-relaxed max-w-3xl mx-auto"
+                    style={{
+                      fontSize: "clamp(1rem, 3vw, 1.25rem)",
+                      textShadow: "0 2px 10px rgba(0,0,0,0.3)",
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.9 }}
+                  >
+                    From the Backwaters of Kerala to Every Corner of the Globe
+                  </motion.p>
+                </div>
+
+                {/* Enhanced Search Bar */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 1, delay: 1.1 }}
+                  className="max-w-2xl mx-auto"
+                >
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 via-primary/50 to-primary/50 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-all duration-500"></div>
+                    <div className="relative flex flex-col sm:flex-row bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/30 group-hover:border-white/50 transition-all duration-300">
+                      <div className="flex-1 flex items-center px-6 py-5">
+                        <Search className="w-5 h-5 text-slate-500 mr-4 flex-shrink-0 group-hover:text-primary transition-colors duration-300" />
+                        <input
+                          type="text"
+                          placeholder="Where do you want to go?"
+                          className="flex-1 text-base font-medium text-slate-900 bg-transparent outline-none placeholder:text-slate-500 focus:placeholder:text-slate-400 transition-colors duration-200"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              router.push(`/packages?search=${searchQuery}`);
+                            }
+                          }}
+                          aria-label="Search for travel destinations"
+                        />
+                      </div>
+                      <motion.button
+                        type="button"
+                        onClick={() => {
+                          router.push(`/packages?search=${searchQuery}`);
+                        }}
+                        className="relative bg-gradient-to-r from-primary via-primary-hover to-primary text-white px-8 py-5 font-bold text-base hover:from-primary-hover hover:via-primary-hover hover:to-primary-hover transition-all duration-300 shadow-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-2 focus:ring-offset-white"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        aria-label="Search for travel packages"
+                      >
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <span>Let's Go</span>
+                          <motion.div
+                            animate={{ x: [0, 4, 0] }}
+                            transition={{
+                              duration: 1.5,
+                              repeat: Number.POSITIVE_INFINITY,
+                            }}
+                          >
+                            →
+                          </motion.div>
+                        </span>
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: "100%" }}
+                          transition={{ duration: 0.8 }}
+                        />
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
           </div>
 
-          {/* Hero Content - Left Bottom Aligned */}
-          <div className="relative z-30 max-w-5xl px-4 sm:px-6 pb-16 sm:pb-20 lg:pb-24 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 50, x: -30 }}
-              animate={{ opacity: 1, y: 0, x: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="space-y-6 sm:space-y-8"
-            >
-              {/* Main Headline - Left Aligned */}
-              <div className="space-y-4 sm:space-y-6">
-                <motion.h1
-                  id="hero-heading"
-                  className="text-white text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-left"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                >
-                  <motion.span
-                    className="block drop-shadow-2xl"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                  >
-                    Explore The World
-                  </motion.span>
-                  <motion.span
-                    className="block text-primary drop-shadow-2xl"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                  >
-                    With Confidence
-                  </motion.span>
-                </motion.h1>
+          {/* Enhanced Bottom Navigation Elements */}
+          <div className="absolute bottom-0 left-0 right-0 z-30">
+            <div className="flex items-end justify-between px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8">
+              {/* Enhanced Scroll Indicator */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 1.6 }}
+                className="hidden sm:flex flex-col items-center space-y-3 group cursor-pointer"
+                onClick={() =>
+                  window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <div className="w-5 h-8 border-2 border-white/50 rounded-full flex justify-center hover:border-white/80 transition-all duration-300 group-hover:scale-110 backdrop-blur-sm bg-white/10">
+                  <motion.div
+                    className="w-1 h-2 bg-white/70 rounded-full mt-1.5"
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    }}
+                  />
+                </div>
+                <span className="text-white/70 text-xs font-semibold group-hover:text-white/90 transition-colors duration-300">
+                  Scroll to explore
+                </span>
+              </motion.div>
 
-                <motion.p
-                  className="text-white/95 text-base sm:text-lg md:text-xl lg:text-2xl font-light max-w-3xl leading-relaxed drop-shadow-lg text-left"
+              {/* Enhanced Carousel Indicators */}
+              {!isLoading && heroContent.length > 1 && (
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.8 }}
+                  transition={{ duration: 1, delay: 1.8 }}
+                  className="flex flex-col items-center space-y-3"
                 >
-                  From the Backwaters of Kerala to Every Corner of the Globe
-                </motion.p>
-              </div>
-
-              {/* Enhanced Search Bar - Left Aligned */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1 }}
-                className="max-w-2xl"
-              >
-                <div className="flex flex-col sm:flex-row bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden border border-white/20 hover:shadow-3xl transition-all duration-300 group">
-                  <div className="flex-1 flex items-center px-4 sm:px-6 py-3 sm:py-4 lg:py-5">
-                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground mr-3 sm:mr-4 flex-shrink-0 group-hover:text-primary transition-colors duration-300" />
-                    <input
-                      type="text"
-                      placeholder="Where do you want to go?"
-                      className="flex-1 text-base sm:text-lg text-foreground bg-transparent outline-none placeholder:text-muted-foreground font-medium"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          router.push(`/packages?search=${searchQuery}`);
-                        }
-                      }}
-                    />
+                  <span className="text-white/70 text-xs font-semibold hidden lg:block">
+                    Gallery
+                  </span>
+                  <div className="space-x-3 bg-black/30 backdrop-blur-sm rounded-full px-4 py-3 border border-white/20 hidden lg:flex">
+                    {heroContent.map((_, index) => (
+                      <motion.button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`w-2.5 h-2.5 rounded-full transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent ${
+                          currentImageIndex === index
+                            ? "bg-white scale-125 shadow-lg"
+                            : "bg-white/50 hover:bg-white/80 hover:scale-110"
+                        }`}
+                        whileHover={{ scale: 1.4 }}
+                        whileTap={{ scale: 0.9 }}
+                        aria-label={`Go to slide ${index + 1} of ${
+                          heroContent.length
+                        }`}
+                        aria-current={currentImageIndex === index}
+                      />
+                    ))}
                   </div>
-                  <motion.button
-                    type="button"
-                    onClick={() => {
-                      router.push(`/packages?search=${searchQuery}`);
-                    }}
-                    className="bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 lg:py-5 font-semibold text-base sm:text-lg hover:bg-primary-hover transition-all duration-300 shadow-lg relative overflow-hidden"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="relative z-10">Let's Go</span>
-                    <motion.div
-                      className="absolute inset-0 bg-white/10"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                  </motion.button>
-                </div>
-              </motion.div>
-            </motion.div>
+                </motion.div>
+              )}
+            </div>
           </div>
-
-          {/* Carousel Indicators - Bottom Center */}
-          {!isLoading && heroContent.length > 1 && (
-            <div className="absolute bottom-6 sm:bottom-8 lg:bottom-12 left-1/2 transform -translate-x-1/2 z-30">
-              <div className="flex space-x-2 sm:space-x-3 bg-black/15 backdrop-blur-sm rounded-full px-3 sm:px-4 py-2">
-                {heroContent.map((_, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-500 ${
-                      currentImageIndex === index
-                        ? "bg-white scale-125 shadow-lg"
-                        : "bg-white/50 hover:bg-white/70 hover:scale-110"
-                    }`}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    aria-label={`Go to slide ${index + 1}`}
-                    aria-current={currentImageIndex === index}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Scroll Indicator - Right Side (Desktop Only) */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 1.4 }}
-            className="absolute bottom-20 right-6 z-30 hidden lg:flex flex-col items-center space-y-2"
-          >
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center hover:border-white/50 transition-colors">
-              <motion.div
-                className="w-1 h-3 bg-white/60 rounded-full mt-2"
-                animate={{ y: [0, 12, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-              />
-            </div>
-            <span className="text-white/60 text-xs font-medium writing-mode-vertical-rl text-orientation-mixed rotate-180">
-              Scroll to explore
-            </span>
-          </motion.div>
         </section>
 
         <UpcomingToursSection />
