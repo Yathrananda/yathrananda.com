@@ -22,6 +22,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { HeroMedia } from "@/types/package-detail";
 import Link from "next/link";
 import Footer from "./_components/footer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -113,6 +119,8 @@ export default function HomePage() {
   const [testimonialsError, setTestimonialsError] = useState<string | null>(
     null
   );
+  const [isTestimonialsTooltipOpen, setIsTestimonialsTooltipOpen] =
+    useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
@@ -228,6 +236,18 @@ export default function HomePage() {
     }
   }, [heroContent.length, nextImage]);
 
+  const nextTestimonial = useCallback(() => {
+    if (isTestimonialsTooltipOpen) return;
+    setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+  }, [isTestimonialsTooltipOpen, testimonials.length]);
+
+  useEffect(() => {
+    if (testimonials.length > 0) {
+      const intervalId = setInterval(nextTestimonial, 5000);
+      return () => clearInterval(intervalId);
+    }
+  }, [testimonials.length, nextTestimonial]);
+
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
@@ -256,16 +276,6 @@ export default function HomePage() {
 
     fetchTestimonials();
   }, []);
-
-  useEffect(() => {
-    if (testimonials.length > 0) {
-      const intervalId = setInterval(() => {
-        setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-      }, 5000);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [testimonials.length]);
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -1000,7 +1010,7 @@ export default function HomePage() {
                     alt="Beautiful nature landscape showcasing Yathrananda's adventure travel services"
                     width={600}
                     height={400}
-                    className="w-full h-48 sm:h-64 object-cover transition-transform duration-200 ease-out group-hover:scale-105"
+                    className="w-full h-48 sm:h-72 object-cover transition-transform duration-200 ease-out group-hover:scale-105"
                     loading="lazy"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -1323,9 +1333,22 @@ export default function HomePage() {
                         >
                           "
                         </div>
-                        <p className="text-card-foreground mb-6 text-sm sm:text-base">
-                          {testimonials[currentTestimonialIndex].message}
-                        </p>
+                        <TooltipProvider>
+                          <Tooltip onOpenChange={(open) => {
+                            setIsTestimonialsTooltipOpen(open);
+                          }}>
+                            <TooltipTrigger asChild>
+                              <p className="text-card-foreground mb-6 text-sm sm:text-base line-clamp-6 cursor-pointer">
+                                {testimonials[currentTestimonialIndex].message}
+                              </p>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-md max-h-96 overflow-y-auto">
+                                {testimonials[currentTestimonialIndex].message}
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                         <footer className="flex items-center space-x-4">
                           <Image
                             src={
@@ -1379,7 +1402,7 @@ export default function HomePage() {
               >
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl group">
                   <Image
-                    src="/images/people.jpg"
+                    src="/images/bovz3mzbk88htcllt0bp.jpg"
                     alt="Happy travelers enjoying their journey"
                     width={600}
                     height={500}
