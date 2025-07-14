@@ -1127,7 +1127,7 @@ export default function HomePage() {
 
         {/* FAQ Section */}
         <AnimatedSection
-          className="py-12 sm:py-16 px-4 sm:px-6"
+          className="py-12 sm:py-16 px-4 sm:px-6 hidden"
           aria-labelledby="faq-heading"
         >
           <div className="max-w-4xl mx-auto">

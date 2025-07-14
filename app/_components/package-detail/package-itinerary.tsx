@@ -176,33 +176,35 @@ function DayItinerary({
             </div>
 
             {/* Activities */}
-            <div>
-              <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
-                {/* <span className="inline-block w-1.5 h-1.5 bg-primary rounded-full"></span> */}
-                Activities & Sightseeing
-              </h4>
-              {activitiesDisplayType === "points" && (
-                <ul className="space-y-2 text-muted-foreground pl-4">
-                  {day.activities.map((activity, actIndex) => (
-                    <li
-                      key={actIndex}
-                      className="text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
-                    >
-                      {activity}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {activitiesDisplayType === "description" && (
-                <>
-                  {day.activities.map((activity, actIndex) => (
-                    <p className="text-muted-foreground" key={actIndex}>
-                      {activity}
-                    </p>
-                  ))}
-                </>
-              )}
-            </div>
+            {day.activities?.filter((i) => i !== "").length > 0 && (
+              <div>
+                <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
+                  {/* <span className="inline-block w-1.5 h-1.5 bg-primary rounded-full"></span> */}
+                  Activities & Sightseeing
+                </h4>
+                {activitiesDisplayType === "points" && (
+                  <ul className="space-y-2 text-muted-foreground pl-4">
+                    {day.activities.map((activity, actIndex) => (
+                      <li
+                        key={actIndex}
+                        className="text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
+                      >
+                        {activity}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {activitiesDisplayType === "description" && (
+                  <>
+                    {day.activities.map((activity, actIndex) => (
+                      <p className="text-muted-foreground" key={actIndex}>
+                        {activity}
+                      </p>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
 
             {/* Notes */}
             {day.notes && (

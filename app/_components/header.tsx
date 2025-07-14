@@ -39,11 +39,11 @@ function Header() {
               { name: "Domestic Tours", href: "/domestic-tours", active: pathname === "/domestic-tours" },
               { name: "Kerala Tours", href: "/kerala-tours", active: pathname === "/kerala-tours" },
               { name: "Customised Tours", href: "/customised-tours", active: pathname === "/customised-tours" },
-              {
-                name: "Other Services",
-                href: "/services",
-                active: pathname === "/services",
-              },
+              // {
+              //   name: "Other Services",
+              //   href: "/services",
+              //   active: pathname === "/services",
+              // },
             ].map((item) => (
               <Link
                 key={item.name}

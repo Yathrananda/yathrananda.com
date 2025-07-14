@@ -42,11 +42,11 @@ function Header() {
       href: "/customized-tours",
       active: pathname === "/customized-tours",
     },
-    {
-      name: "Other Services",
-      href: "/services",
-      active: pathname === "/services",
-    },
+    // {
+    //   name: "Other Services",
+    //   href: "/services",
+    //   active: pathname === "/services",
+    // },
   ];
 
   return (
