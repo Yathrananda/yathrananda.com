@@ -334,275 +334,139 @@ export default function HomePage() {
           Skip to main content
         </a>
 
-        {/* Hero Section with Static Header */}
-        <section
-          id="home"
-          className="relative min-h-screen overflow-hidden bg-slate-900"
-          aria-labelledby="hero-heading"
-        >
-          {/* Enhanced Background Carousel */}
-          <div className="absolute inset-0">
-            <div className="w-full h-full relative">
-              {/* Background Images/Videos */}
-              <div className="absolute inset-0 z-0">
-                {isLoading ? (
-                  <img
-                    src="/images/hero-background-4.jpg?height=1080&width=1920"
-                    alt="Breathtaking travel destination showcasing natural beauty"
-                    className="w-full h-full object-cover scale-105"
-                    draggable="false"
-                  />
-                ) : (
-                  <AnimatePresence>
-                    {heroContent.map(
-                      (content, index) =>
-                        index === currentImageIndex && (
-                          <motion.div
-                            key={`${index}-${content.url}`}
-                            initial={{ opacity: 0, scale: 1.05 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{
-                              duration: 1.5,
-                              ease: [0.25, 0.46, 0.45, 0.94],
-                            }}
-                            className="absolute inset-0"
-                          >
-                            {content.type === "video" ? (
-                              <video
-                                src={content.url}
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                className="w-full h-full object-cover scale-105"
-                                aria-label="Travel destination video showcasing beautiful landscapes"
-                              />
-                            ) : (
-                              <img
-                                src={
-                                  content.url ||
-                                  "/images/hero-background-4.jpg?height=1080&width=1920"
-                                }
-                                alt="Stunning travel destination with breathtaking landscapes"
-                                className="w-full h-full object-cover scale-105"
-                                draggable="false"
-                              />
-                            )}
-                          </motion.div>
-                        )
-                    )}
-                  </AnimatePresence>
-                )}
-              </div>
-
-              {/* Sophisticated Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-900/60 via-slate-800/40 to-slate-900/70 z-10" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/20 z-10" />
+        {/* Header on white background */}
+        <header className="w-full bg-white shadow-sm z-40 sticky top-0">
+          <div className="flex items-center justify-between px-4 sm:px-6 lg:px-12 py-4">
+            <Link
+              href="/"
+              className="block group focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-lg"
+              aria-label="Return to Yathrananda homepage"
+            >
+              <Image
+                src="/images/logo.png"
+                alt="Yathrananda - A Travel Fusion"
+                width={180}
+                height={60}
+                className="h-10 lg:h-14 w-auto object-contain group-hover:scale-110 transition-all duration-500"
+                loading="eager"
+                priority
+              />
+            </Link>
+            <nav className="hidden lg:flex items-center space-x-1 rounded-full px-2 py-2" role="navigation" aria-label="Main navigation">
+              {navigationItems.map((item, index) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`relative text-sm font-semibold transition-all duration-300 group py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 ${item.active ? "text-primary bg-primary/10" : "text-foreground hover:text-primary hover:bg-primary/10"}`}
+                  aria-label={`Navigate to ${item.name}`}
+                  aria-current={item.active ? "page" : undefined}
+                >
+                  <span className="relative z-10">{item.name}</span>
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center space-x-3">
+              <button
+                className="hidden lg:block bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:from-green-700 hover:to-green-800 shadow-xl border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                onClick={handleWhatsAppClick}
+                aria-label="Contact Yathrananda on WhatsApp"
+              >
+                <MessageCircle className="w-4 h-4 inline-block mr-2" />
+                <span>+91 62829 48617</span>
+              </button>
             </div>
           </div>
+        </header>
 
-          {/* Refined Floating Elements */}
-          <div className="absolute inset-0 z-20 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-1/4 right-1/4 w-2 h-2 bg-gradient-to-br from-blue-400/40 to-purple-400/40 rounded-full blur-sm"
-              animate={{
-                opacity: [0.4, 0.8, 0.4],
-                scale: [1, 1.3, 1],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute top-3/4 left-1/3 w-1.5 h-1.5 bg-gradient-to-br from-emerald-400/30 to-teal-400/30 rounded-full blur-sm"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                y: [0, -15, 0],
-                x: [0, 10, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-            />
-            <motion.div
-              className="absolute top-1/2 right-1/3 w-1 h-1 bg-gradient-to-br from-orange-400/25 to-red-400/25 rounded-full blur-sm"
-              animate={{
-                opacity: [0.25, 0.5, 0.25],
-                scale: [1, 1.5, 1],
-                rotate: [0, -180, -360],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: 2,
-              }}
-            />
-          </div>
-
-          {/* Enhanced Header */}
-          <header className="relative z-40 w-full">
-            {/* Multi-layer blur backdrop for sophisticated blending */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
-            <div className="relative flex items-center justify-between px-4 sm:px-6 lg:px-12 py-4">
-              {/* Logo with Enhanced Animation */}
-              <motion.div
-                initial={{ opacity: 0, x: -30, scale: 0.9 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              >
-                <Link
-                  href="/"
-                  className="block group transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg"
-                  aria-label="Return to Yathrananda homepage"
-                >
-                  <Image
-                    src="/images/logo.png"
-                    alt="Yathrananda - A Travel Fusion"
-                    width={280}
-                    height={80}
-                    className="h-12 lg:h-16 pr-4 w-auto object-contain group-hover:scale-110 transition-all duration-500 drop-shadow-lg"
-                    loading="eager"
-                    priority
-                  />
-                </Link>
-              </motion.div>
-
-              {/* Enhanced Desktop Navigation */}
-              <motion.nav
-                initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-                className="hidden lg:flex items-center space-x-1 rounded-full px-2 py-2"
-                role="navigation"
-                aria-label="Main navigation"
-              >
-                {navigationItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, y: -15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 + 0.1 * index }}
-                  >
-                    <Link
-                      href={item.href}
-                      className={`relative text-sm font-semibold transition-all duration-300 ease-out group py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-lg ${
-                        item.active
-                          ? "text-white bg-white/30 shadow-xl"
-                          : "text-white/95 hover:text-white hover:bg-white/20"
-                      }`}
-                      aria-label={`Navigate to ${item.name}`}
-                      aria-current={item.active ? "page" : undefined}
+        {/* Hero Section as Bento Grid */}
+        <section id="home" className="relative py-8 sm:py-12 bg-background" aria-labelledby="hero-heading">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-6 md:grid-rows-3 gap-4 min-h-[520px]">
+              {/* Main Search Bar (big cell) */}
+              <div className="md:col-span-2 md:row-span-2 row-span-1 bg-white rounded-2xl shadow-lg flex flex-col justify-center items-center p-8 order-1 md:order-none">
+                <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-4">Find Your Next Destination</h1>
+                <div className="w-full max-w-md">
+                  <div className="flex bg-background rounded-xl shadow border border-primary/20 overflow-hidden">
+                    <input
+                      type="text"
+                      placeholder="Where do you want to go?"
+                      className="flex-1 px-4 py-3 text-base text-foreground bg-transparent outline-none placeholder:text-muted-foreground"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          router.push(`/packages?search=${searchQuery}`);
+                        }
+                      }}
+                      aria-label="Search for travel destinations"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/packages?search=${searchQuery}`)}
+                      className="bg-primary text-primary-foreground px-6 font-bold text-base hover:bg-primary/90 transition-all"
+                      aria-label="Search for travel packages"
                     >
-                      <span className="relative z-10">{item.name}</span>
-                      {item.active && (
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full"
-                          layoutId="activeTab"
-                          transition={{
-                            type: "spring",
-                            bounce: 0.2,
-                            duration: 0.6,
-                          }}
-                        />
-                      )}
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.nav>
-
-              {/* Enhanced Right Side Actions */}
-              <div className="flex items-center space-x-3">
-                {/* Enhanced WhatsApp Button - Desktop */}
-                <motion.div
-                  initial={{ opacity: 0, x: 30, scale: 0.9 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  transition={{
-                    duration: 0.8,
-                    delay: 0.4,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className="hidden lg:block"
-                >
-                  <motion.button
-                    className="relative flex items-center space-x-3 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:from-green-700 hover:to-green-800 shadow-xl hover:shadow-2xl group border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:ring-offset-2 focus:ring-offset-transparent"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleWhatsAppClick}
-                    aria-label="Contact Yathrananda on WhatsApp"
-                  >
-                    <MessageCircle className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="hidden xl:inline">+91 62829 48617</span>
-                    <span className="xl:hidden">WhatsApp</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </motion.button>
-                </motion.div>
-
-                {/* Enhanced Mobile Actions */}
-                <div className="lg:hidden flex items-center space-x-3">
-                  <motion.button
-                    className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 text-white p-3 rounded-full transition-all duration-200 hover:from-green-700 hover:to-green-800 shadow-lg border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleWhatsAppClick}
-                    aria-label="Contact Yathrananda on WhatsApp"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                  </motion.button>
-
-                  <motion.button
-                    className="flex items-center justify-center p-3 text-white bg-white/25 backdrop-blur-lg rounded-full transition-all duration-200 hover:bg-white/35 shadow-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    onClick={toggleMobileMenu}
-                    aria-label={
-                      isMobileMenuOpen
-                        ? "Close navigation menu"
-                        : "Open navigation menu"
-                    }
-                    aria-expanded={isMobileMenuOpen}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <AnimatePresence mode="wait">
-                      {isMobileMenuOpen ? (
-                        <motion.div
-                          key="close"
-                          initial={{ rotate: -90, opacity: 0 }}
-                          animate={{ rotate: 0, opacity: 1 }}
-                          exit={{ rotate: 90, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <X className="w-5 h-5" />
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="menu"
-                          initial={{ rotate: 90, opacity: 0 }}
-                          animate={{ rotate: 0, opacity: 1 }}
-                          exit={{ rotate: -90, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <Menu className="w-5 h-5" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.button>
+                      Let's Go →
+                    </button>
+                  </div>
                 </div>
               </div>
+              {/* Grid Images/Videos or Skeletons */}
+              {isLoading ? (
+                Array.from({ length: 7 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className={`relative rounded-2xl overflow-hidden shadow-lg bg-background animate-pulse flex items-end justify-start ${idx === 0 ? "md:col-span-2 md:row-span-1" : "md:col-span-1 md:row-span-1"}`}
+                    style={{ minHeight: '180px', height: '100%' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 animate-shimmer" />
+                    <div className="absolute bottom-4 left-4 bg-slate-300/80 text-slate-400 px-4 py-2 rounded-lg text-base font-semibold w-32 h-6" />
+                  </div>
+                ))
+              ) : (
+                heroContent.slice(0, 4).map((content, idx) => (
+                  <div
+                    key={content.id}
+                    className={`relative rounded-2xl overflow-hidden shadow-lg group flex items-end justify-start ${idx === 0 ? "md:col-span-2 md:row-span-1" : "md:col-span-1 md:row-span-1"} bg-background`}
+                    style={{ minHeight: '180px', height: '100%' }}
+                  >
+                    {content.type === "video" ? (
+                      <video
+                        src={content.url}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover"
+                        aria-label="Travel destination video"
+                      />
+                    ) : (
+                      <Image
+                        src={content.url}
+                        alt="Travel destination"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    )}
+                    {/* Overlay label/button */}
+                    <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-lg text-base font-semibold shadow-lg">
+                      {(() => {
+                        switch (idx) {
+                          case 0: return "Upcoming Tours →";
+                          case 1: return "Customize Your Tour →";
+                          case 2: return "Domestic Tours →";
+                          case 3: return "International Tours →";
+                          default: return "Explore →";
+                        }
+                      })()}
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
-          </header>
+          </div>
+        </section>
 
           {/* Enhanced Mobile Navigation Menu */}
           <AnimatePresence>
@@ -703,191 +567,7 @@ export default function HomePage() {
               </>
             )}
           </AnimatePresence>
-
-          {/* Enhanced Main Hero Content */}
-          <div className="relative z-30 flex items-center justify-center min-h-[calc(100vh-140px)]">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="space-y-8 sm:space-y-10"
-              >
-                {/* Enhanced Main Headline */}
-                <div className="space-y-6">
-                  <motion.h1
-                    id="hero-heading"
-                    className="text-white font-bold leading-[1.1] tracking-tight"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                    style={{
-                      fontSize: "clamp(2rem, 8vw, 4.5rem)",
-                      textShadow:
-                        "0 4px 20px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.1)",
-                    }}
-                  >
-                    <motion.span
-                      className="block"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.5 }}
-                    >
-                      Explore The World
-                    </motion.span>
-                    <motion.span
-                      className="block bg-gradient-to-r from-primary via-primary to-primary bg-clip-text text-transparent font-extrabold"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.7 }}
-                    >
-                      With Confidence
-                    </motion.span>
-                  </motion.h1>
-
-                  <motion.p
-                    className="text-white/95 font-medium leading-relaxed max-w-3xl mx-auto"
-                    style={{
-                      fontSize: "clamp(1rem, 3vw, 1.25rem)",
-                      textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-                    }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.9 }}
-                  >
-                    From the Backwaters of Kerala to Every Corner of the Globe
-                  </motion.p>
-                </div>
-
-                {/* Enhanced Search Bar */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 1, delay: 1.1 }}
-                  className="max-w-2xl mx-auto"
-                >
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 via-primary/50 to-primary/50 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-all duration-500"></div>
-                    <div className="relative flex flex-col sm:flex-row bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/30 group-hover:border-white/50 transition-all duration-300">
-                      <div className="flex-1 flex items-center px-6 py-5">
-                        <Search className="w-5 h-5 text-slate-500 mr-4 flex-shrink-0 group-hover:text-primary transition-colors duration-300" />
-                        <input
-                          type="text"
-                          placeholder="Where do you want to go?"
-                          className="flex-1 text-base font-medium text-slate-900 bg-transparent outline-none placeholder:text-slate-500 focus:placeholder:text-slate-400 transition-colors duration-200"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              router.push(`/packages?search=${searchQuery}`);
-                            }
-                          }}
-                          aria-label="Search for travel destinations"
-                        />
-                      </div>
-                      <motion.button
-                        type="button"
-                        onClick={() => {
-                          router.push(`/packages?search=${searchQuery}`);
-                        }}
-                        className="relative bg-gradient-to-r from-primary via-primary-hover to-primary text-white px-8 py-5 font-bold text-base hover:from-primary-hover hover:via-primary-hover hover:to-primary-hover transition-all duration-300 shadow-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-2 focus:ring-offset-white"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        aria-label="Search for travel packages"
-                      >
-                        <span className="relative z-10 flex items-center justify-center space-x-2">
-                          <span>Let's Go</span>
-                          <motion.div
-                            animate={{ x: [0, 4, 0] }}
-                            transition={{
-                              duration: 1.5,
-                              repeat: Number.POSITIVE_INFINITY,
-                            }}
-                          >
-                            →
-                          </motion.div>
-                        </span>
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
-                          initial={{ x: "-100%" }}
-                          whileHover={{ x: "100%" }}
-                          transition={{ duration: 0.8 }}
-                        />
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Enhanced Bottom Navigation Elements */}
-          <div className="absolute bottom-0 left-0 right-0 z-30">
-            <div className="flex items-end justify-between px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8">
-              {/* Enhanced Scroll Indicator */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1.6 }}
-                className="hidden sm:flex flex-col items-center space-y-3 group cursor-pointer"
-                onClick={() =>
-                  window.scrollTo({
-                    top: window.innerHeight,
-                    behavior: "smooth",
-                  })
-                }
-              >
-                <div className="w-5 h-8 border-2 border-white/50 rounded-full flex justify-center hover:border-white/80 transition-all duration-300 group-hover:scale-110 backdrop-blur-sm bg-white/10">
-                  <motion.div
-                    className="w-1 h-2 bg-white/70 rounded-full mt-1.5"
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                  />
-                </div>
-                <span className="text-white/70 text-xs font-semibold group-hover:text-white/90 transition-colors duration-300">
-                  Scroll to explore
-                </span>
-              </motion.div>
-
-              {/* Enhanced Carousel Indicators */}
-              {!isLoading && heroContent.length > 1 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 1.8 }}
-                  className="flex flex-col items-center space-y-3"
-                >
-                  <span className="text-white/70 text-xs font-semibold hidden lg:block">
-                    Gallery
-                  </span>
-                  <div className="space-x-3 bg-black/30 backdrop-blur-sm rounded-full px-4 py-3 border border-white/20 hidden lg:flex">
-                    {heroContent.map((_, index) => (
-                      <motion.button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`w-2.5 h-2.5 rounded-full transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent ${
-                          currentImageIndex === index
-                            ? "bg-white scale-125 shadow-lg"
-                            : "bg-white/50 hover:bg-white/80 hover:scale-110"
-                        }`}
-                        whileHover={{ scale: 1.4 }}
-                        whileTap={{ scale: 0.9 }}
-                        aria-label={`Go to slide ${index + 1} of ${
-                          heroContent.length
-                        }`}
-                        aria-current={currentImageIndex === index}
-                      />
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </section>
+        </div>
 
         <UpcomingToursSection />
         <TrendingToursSection />
@@ -1507,7 +1187,6 @@ export default function HomePage() {
           </div>
         </AnimatedSection> */}
         <Footer />
-      </div>
       <VideoModal
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
