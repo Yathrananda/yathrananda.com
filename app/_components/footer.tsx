@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
 
 const currentYear = new Date().getFullYear();
@@ -22,6 +22,50 @@ const socialLinks = [
   },
 ];
 
+const locations = [
+  {
+    name: "Kozhikode Office",
+    address:
+      "Merry Land Square, V Panoli Road, Thiruthiyad, Kozhikode, Kerala 673004",
+    mapUrl:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.0149679186184!2d75.78641078374645!3d11.26030892152943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xae36d8118c378243%3A0xcbfdd3d81c10b28e!2sYathrananda!5e0!3m2!1sen!2sin!4v1752559148939!5m2!1sen!2sin",
+  },
+  {
+    name: "Thalassery Office",
+    address:
+      "First Floor, City Centre, Opposite Co-op Hospital, Thalassery, Kannur, Kerala 670101",
+    mapUrl:
+      "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15624.301913646712!2d75.48976529823007!3d11.759733504320906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sYathrananda%2C%20First%20Floor%2C%20City%20Centre%2C%20Opposite%20Co-op%20Hospital%2C%20Thalassery%2C%20Kannur%2C%C2%A0Kerala%C2%A0670101!5e0!3m2!1sen!2sin!4v1752559328220!5m2!1sen!2sin",
+  },
+  {
+    name: "Thiruvananthapuram Office",
+    address:
+      "Thottaykadu Building, MG Radhakrishnan Rd, near Kerala Cricket Association, Paund Colony, Vazhuthacaud, Thiruvananthapuram, Kerala 695014",
+    mapUrl:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.054433444134!2d76.95061529678955!3d8.49408870000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bb2ffae43273%3A0xb43b5957733cedf8!2sYathrananda%20A%20Travel%20Fusion!5e0!3m2!1sen!2sin!4v1752559234078!5m2!1sen!2sin",
+  },
+];
+
+const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-primary via-primary-hover to-primary text-white">
@@ -29,9 +73,9 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 lg:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
             {/* Logo and Description */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -86,10 +130,10 @@ export default function Footer() {
                   <div>
                     <p className="text-sm text-background">Call Us</p>
                     <a
-                      href="tel:+919876543210"
+                      href="tel:+15551234567"
                       className="text-background font-semibold hover:text-muted transition-colors duration-300"
                     >
-                      +91 98765 43210
+                      +1 (555) 123-4567
                     </a>
                   </div>
                 </motion.div>
@@ -112,28 +156,6 @@ export default function Footer() {
                     >
                       support@yathrananda.com
                     </a>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="flex items-start space-x-3 group"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 mt-1">
-                    <MapPin className="w-5 h-5 text-background" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-background">Visit Us</p>
-                    <p className="text-background font-semibold">
-                      Kerala, India
-                      <br />
-                      <span className="text-sm font-normal text-background">
-                        God's Own Country
-                      </span>
-                    </p>
                   </div>
                 </motion.div>
               </div>
@@ -193,6 +215,81 @@ export default function Footer() {
               </motion.p>
             </div>
           </div>
+        </div>
+
+        {/* Office Locations */}
+        <div className="py-8 lg:py-12 border-t border-muted">
+          <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <h3 className="text-xl sm:text-2xl font-bold text-background mb-3">
+              Our Office Locations
+            </h3>
+            <p className="text-muted text-sm max-w-2xl mx-auto">
+              Visit us at any of our convenient locations across Kerala.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            {locations.map((location, index) => (
+              <motion.div
+                key={index}
+                className="bg-primary/20 border border-primary/30 rounded-xl overflow-hidden shadow-lg"
+                variants={fadeInUp}
+              >
+                <div className="p-4">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                      <MapPin
+                        className="w-5 h-5 text-background"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 className="text-lg font-bold text-background">
+                      {location.name}
+                    </h4>
+                  </div>
+                  <p className="text-background/90 text-sm leading-relaxed mb-3">
+                    {location.address}
+                    {index < 2 && (
+                      <p className="text-background/90 text-sm leading-relaxed mb-3">
+                        <a
+                          href={location.mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          ‎ 
+                        </a>
+                      </p>
+                    )}
+                  </p>
+                </div>
+                <div className="h-32">
+                  <iframe
+                    src={location.mapUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title={`Map showing ${location.name}`}
+                    className="min-h-[128px]"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
 
         {/* Footer Bottom */}
