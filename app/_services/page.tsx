@@ -722,10 +722,10 @@ export default function ServicesPage() {
                 {
                   icon: Mail,
                   title: "Email Us",
-                  content: "services@yathrananda.com",
+                  content: "support@yathrananda.com",
                   description: "Get detailed information about our services",
                   action: "Send Email",
-                  href: "mailto:services@yathrananda.com",
+                  href: "mailto:support@yathrananda.com",
                 },
                 {
                   icon: Calendar,

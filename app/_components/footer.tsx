@@ -107,10 +107,10 @@ export default function Footer() {
                   <div>
                     <p className="text-sm text-background">Email Us</p>
                     <a
-                      href="mailto:info@yathrananda.com"
+                      href="mailto:support@yathrananda.com"
                       className="text-background font-semibold hover:text-muted transition-colors duration-300"
                     >
-                      info@yathrananda.com
+                      support@yathrananda.com
                     </a>
                   </div>
                 </motion.div>

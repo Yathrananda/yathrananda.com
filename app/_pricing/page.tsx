@@ -396,9 +396,9 @@ export default function PricingPage() {
                 {
                   icon: Mail,
                   title: "Email Us",
-                  content: "pricing@yathrananda.com",
+                  content: "support@yathrananda.com",
                   description: "Get detailed pricing information",
-                  href: "mailto:pricing@yathrananda.com",
+                  href: "mailto:support@yathrananda.com",
                 },
                 {
                   icon: Calendar,

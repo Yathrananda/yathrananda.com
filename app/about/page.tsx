@@ -539,9 +539,9 @@ export default function AboutPage() {
                     {
                       icon: Mail,
                       title: "Email Us",
-                      content: "hello@Yathrananda.com",
+                      content: "support@Yathrananda.com",
                       description: "Send us your travel inquiries anytime",
-                      href: "mailto:hello@Yathrananda.com",
+                      href: "mailto:support@Yathrananda.com",
                     },
                     {
                       icon: Phone,

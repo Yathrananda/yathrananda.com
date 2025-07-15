@@ -86,7 +86,7 @@ export default function PackageDetailPage() {
           contact: {
             phone: "+916282948617",
             whatsapp: "+916282948617",
-            email: "info@yathrananda.com",
+            email: "support@yathrananda.com",
             socialLinks: {
               facebook: "https://facebook.com/yathrananda",
               instagram: "https://instagram.com/yathrananda",
