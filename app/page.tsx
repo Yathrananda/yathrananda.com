@@ -146,10 +146,10 @@ export default function HomePage() {
       active: pathname === "/customised-tours",
     },
     {
-      name: "Other Services",
-      href: "/services",
-      active: pathname === "/services",
-    },
+      name: "Contact Us",
+      href: "/contact",
+      active: pathname === "/contact",
+    }
   ];
 
   useEffect(() => {
