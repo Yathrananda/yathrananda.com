@@ -1,10 +1,8 @@
 "use client";
 
 import type React from "react";
-import Link from "next/link";
-import { Mail, Phone, MapPin, Clock, Send, MessageCircle } from "lucide-react";
-import { motion, useInView, Variants } from "framer-motion";
-import { HTMLAttributes, useEffect, useRef, useState, JSX } from "react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { motion, Variants } from "framer-motion";
 import Header from "../_components/header";
 
 const fadeInUp: Variants = {
@@ -16,7 +14,7 @@ const fadeInUp: Variants = {
   },
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -36,90 +34,23 @@ const scaleIn: Variants = {
   },
 };
 
-interface AnimatedSectionProps extends HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-  className?: string;
-  variant?: Variants;
-  as?: keyof JSX.IntrinsicElements;
-}
-
-const AnimatedSection = ({
-  children,
-  className = "",
-  variant = fadeInUp,
-  as: Component = "section",
-}: AnimatedSectionProps) => {
-  const ref = useRef(null);
-  const [mounted, setMounted] = useState(false);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={mounted && isInView ? "visible" : "hidden"}
-      variants={variant}
-      className={className}
-      // @ts-ignore
-      // as={Component}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-  };
-
-  const contactMethods = [
+  const locations = [
     {
-      icon: Phone,
-      title: "Call Us",
-      content: "+1 (555) 123-4567",
-      description: "Speak directly with our travel experts",
-      href: "tel:+15551234567",
-      available: "Mon-Fri 9AM-6PM EST",
+      name: "Kozhikode Office",
+      address: "Merry Land Square, V Panoli Road, Thiruthiyad, Kozhikode, Kerala 673004",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.0149679186184!2d75.78641078374645!3d11.26030892152943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xae36d8118c378243%3A0xcbfdd3d81c10b28e!2sYathrananda!5e0!3m2!1sen!2sin!4v1752559148939!5m2!1sen!2sin"
     },
     {
-      icon: Mail,
-      title: "Email Us",
-      content: "hello@yathrananda.com",
-      description: "Send us your travel inquiries",
-      href: "mailto:hello@yathrananda.com",
-      available: "Response within 24 hours",
+      name: "Thalassery Office",
+      address: "First Floor, City Centre, Opposite Co-op Hospital, Thalassery, Kannur, Kerala 670101",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15624.301913646712!2d75.48976529823007!3d11.759733504320906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sYathrananda%2C%20First%20Floor%2C%20City%20Centre%2C%20Opposite%20Co-op%20Hospital%2C%20Thalassery%2C%20Kannur%2C%C2%A0Kerala%C2%A0670101!5e0!3m2!1sen!2sin!4v1752559328220!5m2!1sen!2sin"
     },
     {
-      icon: MapPin,
-      title: "Visit Our Office",
-      content: "123 Travel Street, Adventure City, AC 12345",
-      description: "Schedule an in-person consultation",
-      href: "https://maps.google.com",
-      available: "By appointment only",
-    },
+      name: "Thiruvananthapuram Office",
+      address: "Thottaykadu Building, MG Radhakrishnan Rd, near Kerala Cricket Association, Paund Colony, Vazhuthacaud, Thiruvananthapuram, Kerala 695014",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.054433444134!2d76.95061529678955!3d8.49408870000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bb2ffae43273%3A0xb43b5957733cedf8!2sYathrananda%20A%20Travel%20Fusion!5e0!3m2!1sen!2sin!4v1752559234078!5m2!1sen!2sin"
+    }
   ];
 
   return (
@@ -137,377 +68,135 @@ export default function ContactPage() {
 
       <main id="main-content">
         {/* Page Header */}
-        <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+        <section className="relative py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
           <div className="max-w-7xl mx-auto text-center">
-            <motion.div
-              className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-              <MessageCircle className="w-4 h-4" aria-hidden="true" />
-              <span>Get In Touch</span>
-            </motion.div>
-
             <motion.h1
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              Contact Our Travel Experts
+              Contact Us
             </motion.h1>
 
             <motion.p
               className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+              transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
             >
-              Ready to start planning your next adventure? Our experienced
-              travel consultants are here to help you create the perfect
-              itinerary tailored to your dreams and preferences.
+              Get in touch with our travel experts. We're here to help you plan your perfect journey.
             </motion.p>
           </div>
         </section>
 
-        {/* Contact Methods */}
-        <AnimatedSection
-          className="py-16 sm:py-20 px-4 sm:px-6"
-          aria-labelledby="contact-methods-heading"
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2
-                id="contact-methods-heading"
-                className="text-2xl sm:text-3xl font-bold text-foreground mb-4"
-              >
-                How to Reach Us
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Choose the contact method that works best for you. We're here to
-                help make your travel dreams come true.
-              </p>
-            </div>
-
+        {/* Contact Information */}
+        <section className="pb-6 sm:pb-8 px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto">
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16"
+              className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-6"
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
             >
-              {contactMethods.map((method, index) => (
-                <motion.a
+              <motion.div
+                className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center shadow-lg flex-1 max-w-xs"
+                variants={scaleIn}
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Phone className="w-6 h-6 text-primary" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-bold text-card-foreground mb-2">
+                  Phone
+                </h3>
+                <p className="text-primary font-semibold text-base">
+                  +1 (555) 123-4567
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center shadow-lg flex-1 max-w-xs"
+                variants={scaleIn}
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-6 h-6 text-primary" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-bold text-card-foreground mb-2">
+                  Email
+                </h3>
+                <p className="text-primary font-semibold text-base">
+                  support@yathrananda.com
+                </p>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Office Locations */}
+        <section className="py-8 sm:py-12 px-4 sm:px-6 bg-muted">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              className="text-center mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
+                Our Office Locations
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Visit us at any of our convenient locations across Kerala.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="space-y-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              {locations.map((location, index) => (
+                <motion.div
                   key={index}
-                  href={method.href}
-                  className="bg-card border border-border rounded-2xl p-6 sm:p-8 text-center shadow-lg transition-all duration-200 ease-out group hover:shadow-xl hover:border-primary/50"
-                  variants={scaleIn}
-                  whileHover={{ y: -5 }}
+                  className="bg-card border border-border rounded-2xl overflow-hidden shadow-lg"
+                  variants={fadeInUp}
                 >
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-200 group-hover:bg-primary/20">
-                    <method.icon
-                      className="w-8 h-8 text-primary"
-                      aria-hidden="true"
-                    />
+                  <div className="grid grid-cols-1 lg:grid-cols-2">
+                    <div className="p-6 sm:p-8">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                          <MapPin className="w-6 h-6 text-primary" aria-hidden="true" />
+                        </div>
+                        <h3 className="text-xl font-bold text-card-foreground">
+                          {location.name}
+                        </h3>
+                      </div>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {location.address}
+                      </p>
+                    </div>
+                    <div className="h-48 lg:h-full">
+                      <iframe
+                        src={location.mapUrl}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={`Map showing ${location.name}`}
+                        className="min-h-[192px] lg:min-h-full"
+                      />
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-card-foreground mb-3">
-                    {method.title}
-                  </h3>
-                  <p className="text-primary font-semibold mb-2">
-                    {method.content}
-                  </p>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {method.description}
-                  </p>
-                  <div className="flex items-center justify-center space-x-2 text-xs text-muted-foreground">
-                    <Clock className="w-3 h-3" aria-hidden="true" />
-                    <span>{method.available}</span>
-                  </div>
-                </motion.a>
+                </motion.div>
               ))}
             </motion.div>
           </div>
-        </AnimatedSection>
-
-        {/* Contact Form */}
-        <AnimatedSection
-          className="py-16 sm:py-20 px-4 sm:px-6 bg-muted"
-          aria-labelledby="contact-form-heading"
-        >
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2
-                id="contact-form-heading"
-                className="text-2xl sm:text-3xl font-bold text-foreground mb-4"
-              >
-                Send Us a Message
-              </h2>
-              <p className="text-muted-foreground">
-                Fill out the form below and we'll get back to you within 24
-                hours with personalized travel recommendations.
-              </p>
-            </div>
-
-            <motion.div
-              className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-lg"
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-6"
-                aria-label="Contact form"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-card-foreground mb-2"
-                    >
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out bg-background text-foreground placeholder:text-muted-foreground"
-                      placeholder="Enter your full name"
-                      aria-label="Full name"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-card-foreground mb-2"
-                    >
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out bg-background text-foreground placeholder:text-muted-foreground"
-                      placeholder="Enter your email address"
-                      aria-label="Email address"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-card-foreground mb-2"
-                  >
-                    Subject
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out bg-background text-foreground"
-                    aria-label="Select inquiry subject"
-                  >
-                    <option value="">Select inquiry type</option>
-                    <option value="trip-planning">
-                      Trip Planning Consultation
-                    </option>
-                    <option value="booking">Booking Assistance</option>
-                    <option value="pricing">Pricing Information</option>
-                    <option value="group-travel">Group Travel</option>
-                    <option value="support">Travel Support</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-card-foreground mb-2"
-                  >
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={6}
-                    required
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-sm transition-all duration-200 ease-out bg-background text-foreground placeholder:text-muted-foreground resize-vertical"
-                    placeholder="Tell us about your travel plans, preferred destinations, budget, or any specific questions you have..."
-                    aria-label="Your message"
-                  />
-                </div>
-
-                <motion.button
-                  type="submit"
-                  className="w-full bg-primary text-primary-foreground py-3 px-6 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg flex items-center justify-center space-x-2"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  aria-label="Send your message to Yathrananda"
-                >
-                  <Send className="w-4 h-4" aria-hidden="true" />
-                  <span>Send Message</span>
-                </motion.button>
-              </form>
-            </motion.div>
-          </div>
-        </AnimatedSection>
-
-        {/* Office Hours & Additional Info */}
-        <AnimatedSection
-          className="py-16 sm:py-20 px-4 sm:px-6"
-          aria-labelledby="office-info-heading"
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
-              <motion.div
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                <h3
-                  id="office-info-heading"
-                  className="text-xl sm:text-2xl font-bold text-foreground mb-6"
-                >
-                  Office Hours & Information
-                </h3>
-                <div className="bg-card border border-border rounded-xl p-6 shadow-lg">
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center py-2 border-b border-border">
-                      <span className="text-muted-foreground">
-                        Monday - Friday:
-                      </span>
-                      <span className="text-card-foreground font-medium">
-                        9:00 AM - 6:00 PM EST
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-border">
-                      <span className="text-muted-foreground">Saturday:</span>
-                      <span className="text-card-foreground font-medium">
-                        10:00 AM - 4:00 PM EST
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-border">
-                      <span className="text-muted-foreground">Sunday:</span>
-                      <span className="text-card-foreground font-medium">
-                        Closed
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-muted-foreground">
-                        Emergency Support:
-                      </span>
-                      <span className="text-card-foreground font-medium">
-                        24/7 for active travelers
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-6">
-                  What to Expect
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-success/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 bg-success rounded-full" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-card-foreground mb-1">
-                        Quick Response
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        We respond to all inquiries within 24 hours during
-                        business days.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-success/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 bg-success rounded-full" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-card-foreground mb-1">
-                        Personalized Consultation
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        Every response is tailored to your specific travel needs
-                        and preferences.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-success/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <div className="w-2 h-2 bg-success rounded-full" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-card-foreground mb-1">
-                        No Obligation
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        Initial consultations and quotes are completely free
-                        with no commitment required.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </AnimatedSection>
-
-        {/* Final CTA */}
-        <AnimatedSection className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              className="bg-gradient-to-r from-primary to-primary-hover rounded-2xl p-8 sm:p-12 text-primary-foreground relative overflow-hidden shadow-2xl"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              <div className="relative z-10">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                  Ready to Start Your Adventure?
-                </h2>
-                <p className="text-base sm:text-lg mb-6 opacity-90 max-w-2xl mx-auto">
-                  Don't wait any longer to turn your travel dreams into reality.
-                  Contact us today and let's start planning your perfect journey
-                  together.
-                </p>
-                <motion.button
-                  className="bg-background text-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-background/90 shadow-lg"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  aria-label="Call Yathrananda now"
-                >
-                  Call Us Now: +1 (555) 123-4567
-                </motion.button>
-              </div>
-              <div
-                className="absolute inset-0 bg-foreground/10"
-                aria-hidden="true"
-              />
-            </motion.div>
-          </div>
-        </AnimatedSection>
+        </section>
       </main>
     </div>
   );
