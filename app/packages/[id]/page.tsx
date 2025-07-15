@@ -59,14 +59,14 @@ export default function PackageDetailPage() {
             alt: data.package.hero_image_alt
           },
           overview: data.package.overview,
-          activities_display_type: data.package.activities_display_type,
+          activities_display_type: data?.package?.activities_display_type,
           highlights: [
             { id: "1", label: "Nature", icon: "nature" },
             { id: "2", label: "Adventure", icon: "adventure" },
             { id: "3", label: "Family Friendly", icon: "family" },
             { id: "4", label: "Culture", icon: "culture" },
           ],
-          itinerary: data.package.itinerary.map((day: APIItineraryDay) => ({
+          itinerary: data?.package?.itinerary.map((day: APIItineraryDay) => ({
             day: day.day,
             title: day.title,
             route: day.route,
@@ -75,14 +75,14 @@ export default function PackageDetailPage() {
             notes: day.notes,
             images: day.images
           })),
-          gallery: data.package.gallery.map((item: APIGalleryItem, index: number) => ({
+          gallery: data?.package?.gallery.map((item: APIGalleryItem, index: number) => ({
             id: String(index + 1),
             url: item.url,
             alt: item.alt,
             caption: item.caption
           })),
-          bookingInfo: data.package.bookingInfo,
-          cancellationPolicy: data.package.cancellationPolicy,
+          bookingInfo: data?.package?.bookingInfo,
+          cancellationPolicy: data?.package?.cancellationPolicy,
           contact: {
             phone: "+916282948617",
             whatsapp: "+916282948617",
@@ -98,8 +98,9 @@ export default function PackageDetailPage() {
             currency: "₹",
             per: "per person",
           },
-          duration: data.package.duration,
-          groupSize: data.package.group_size,
+          duration: data?.package?.duration,
+          groupSize: data?.package?.group_size,
+          testimonials: data?.package?.testimonials || [],
         };
 
         setPackageData(transformedData);

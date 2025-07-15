@@ -8,6 +8,7 @@ import { CancellationPolicySection } from "./package-detail/cancellation-policy"
 import { ContactSection } from "./package-detail/contact-section";
 import { GallerySection } from "./package-detail/gallery-section";
 import { HeroSection } from "./package-detail/hero-section";
+import { TestimonialsSection } from "./package-detail/testimonials-section";
 import { useState } from "react";
 import Header from "./header";
 
@@ -26,6 +27,7 @@ export function TravelPackageDetail({
     { id: "overview", label: "Overview" },
     { id: "itinerary", label: "Itinerary" },
     { id: "gallery", label: "Gallery" },
+    { id: "testimonials", label: "Testimonials" },
     { id: "booking", label: "Booking Info" },
     { id: "contact", label: "Contact" },
   ];
@@ -107,6 +109,7 @@ export function TravelPackageDetail({
           </div>
           <PackageItinerary itinerary={data.itinerary} activitiesDisplayType={data.activities_display_type} />
           <GallerySection images={data.gallery} />
+          <TestimonialsSection testimonials={data.testimonials} />
           <BookingInfoSection
             bookingInfo={data.bookingInfo}
             contact={data.contact}
