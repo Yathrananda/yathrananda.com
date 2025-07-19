@@ -545,7 +545,7 @@ export default function HomePage() {
                     aria-label="Contact Yathrananda on WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="hidden xl:inline">+91 62829 48617</span>
+                    <span className="hidden xl:inline">+91 75938 73555</span>
                     <span className="xl:hidden">WhatsApp</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </motion.button>
@@ -695,7 +695,7 @@ export default function HomePage() {
                         aria-label="Contact Yathrananda on WhatsApp"
                       >
                         <MessageCircle className="w-5 h-5" />
-                        <span>+91 62829 48617</span>
+                        <span>+91 75938 73555</span>
                       </motion.button>
                     </div>
                   </div>
