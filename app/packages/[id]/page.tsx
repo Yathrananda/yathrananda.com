@@ -84,8 +84,8 @@ export default function PackageDetailPage() {
           bookingInfo: data?.package?.bookingInfo,
           cancellationPolicy: data?.package?.cancellationPolicy,
           contact: {
-            phone: "+916282948617",
-            whatsapp: "+916282948617",
+            phone: "+917593873555",
+            whatsapp: "+917593873555",
             email: "support@yathrananda.com",
             socialLinks: {
               facebook: "https://facebook.com/yathrananda",

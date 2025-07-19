@@ -88,7 +88,7 @@ function Header() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Get started with Yathrananda"
-            onClick={() => window.location.href = "https://wa.me/6282948617"}
+            onClick={() => window.location.href = "https://wa.me/7593873555"}
           >
             Whatsapp Us
           </motion.button>

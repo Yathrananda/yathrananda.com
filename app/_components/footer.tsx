@@ -130,10 +130,10 @@ export default function Footer() {
                   <div>
                     <p className="text-sm text-background">Call Us</p>
                     <a
-                      href="tel:+15551234567"
+                      href="tel:+917593873555"
                       className="text-background font-semibold hover:text-muted transition-colors duration-300"
                     >
-                      +1 (555) 123-4567
+                      +91 7593873555
                     </a>
                   </div>
                 </motion.div>

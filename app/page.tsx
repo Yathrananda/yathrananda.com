@@ -307,7 +307,7 @@ export default function HomePage() {
   }, []);
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = "+916282948617";
+    const phoneNumber = "+917593873555";
     const message = "Hi! I'm interested in your travel services.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
@@ -892,7 +892,7 @@ export default function HomePage() {
         <UpcomingToursSection />
         <TrendingToursSection />
         {/* Statistics Section */}
-        <AnimatedSection
+        {/* <AnimatedSection
           className="py-12 sm:py-16 px-4 sm:px-6 bg-mu"
           aria-labelledby="stats-heading"
         >
@@ -979,7 +979,7 @@ export default function HomePage() {
               ))}
             </motion.div>
           </div>
-        </AnimatedSection>
+        </AnimatedSection> */}
         {/* Explore Events */}
         <InternationalToursSection />
         <DomesticToursSection />
