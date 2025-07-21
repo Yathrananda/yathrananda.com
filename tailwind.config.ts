@@ -9,6 +9,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'large': ['var(--font-voltaire)', 'sans-serif'],
+        'sub-large': ['var(--font-cuprum)', 'sans-serif'],
+        'small': ['var(--font-shanti)', 'sans-serif'],
+        'voltaire': ['var(--font-voltaire)', 'sans-serif'],
+        'cuprum': ['var(--font-cuprum)', 'sans-serif'],
+        'shanti': ['var(--font-shanti)', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

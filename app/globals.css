@@ -34,6 +34,11 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 142.1 76.2% 36.3%;
 
+    /* Fonts */
+    --font-large: var(--font-voltaire);
+    --font-sub-large: var(--font-cuprum);
+    --font-small: var(--font-shanti);
+
     /* Spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -133,6 +138,19 @@
   * {
     border-color: hsl(var(--border));
   }
+
+  /* Font Size to Font Family Mapping */
+  h1, .text-4xl, .text-5xl, .text-6xl {
+    font-family: var(--font-voltaire), sans-serif;
+  }
+
+  h2, h3, .text-xl, .text-2xl, .text-3xl {
+    font-family: var(--font-cuprum), sans-serif;
+  }
+
+  body, p, span, .text-sm, .text-base, .text-lg {
+    font-family: var(--font-shanti), sans-serif;
+  }
 }
 
 @layer utilities {
@@ -148,6 +166,19 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Font Family Utilities */
+  .font-large {
+    font-family: var(--font-voltaire), sans-serif;
+  }
+
+  .font-sub-large {
+    font-family: var(--font-cuprum), sans-serif;
+  }
+
+  .font-small {
+    font-family: var(--font-shanti), sans-serif;
   }
 }
 
