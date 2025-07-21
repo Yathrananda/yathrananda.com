@@ -94,7 +94,7 @@ export default function TopDestinationsHero() {
   const currentDestination = destinations[currentIndex];
 
   return (
-    <section className="h-[55em] sm:h-[65em] md:h-[65em] lg:h-screen section py-[10vh] relative overflow-hidden pl-12">
+    <section className="h-[55em] sm:h-[65em] md:h-[65em] lg:h-screen section py-[10vh] relative overflow-hidden pl-12 rounded-sm">
       <div className="absolute h-full top-0 left-0 bottom-0 right-0 -z-[10]">
         <Image
           alt={currentDestination.name}
