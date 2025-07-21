@@ -234,3 +234,26 @@
 .shimmer {
   animation: shimmer 2s infinite;
 }
+
+.curve-reveal-motion {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.main-content {
+  transition: opacity 0.3s ease;
+}
+
+.main-content.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.main-content.visible {
+  opacity: 1;
+  pointer-events: auto;
+}

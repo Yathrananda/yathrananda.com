@@ -262,7 +262,7 @@ export default function Footer() {
                   <p className="text-background/90 text-sm leading-relaxed mb-3">
                     {location.address}
                     {index < 2 && (
-                      <p className="text-background/90 text-sm leading-relaxed mb-3">
+                      <span className="text-background/90 text-sm leading-relaxed mb-3">
                         <a
                           href={location.mapUrl}
                           target="_blank"
@@ -270,7 +270,7 @@ export default function Footer() {
                         >
                           ‎ 
                         </a>
-                      </p>
+                      </span>
                     )}
                   </p>
                 </div>

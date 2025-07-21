@@ -28,6 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import IntroAnimation from "./_components/intro-animation";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -122,6 +123,8 @@ export default function HomePage() {
   const [isTestimonialsTooltipOpen, setIsTestimonialsTooltipOpen] =
     useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isIntroAnimationComplete, setIsIntroAnimationComplete] =
+    useState(false);
 
   const navigationItems = [
     { name: "Home", href: "/" },
@@ -149,8 +152,15 @@ export default function HomePage() {
       name: "Contact Us",
       href: "/contact",
       active: pathname === "/contact",
-    }
+    },
   ];
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsIntroAnimationComplete(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchHeroContent = async () => {
@@ -323,6 +333,10 @@ export default function HomePage() {
     setIsMobileMenuOpen(false);
   };
 
+  // if (!isIntroAnimationComplete) {
+  //   return <IntroAnimation />;
+  // }
+
   return (
     <>
       <div className="min-h-screen bg-background">
@@ -333,17 +347,13 @@ export default function HomePage() {
         >
           Skip to main content
         </a>
-
-        {/* Hero Section with Static Header */}
         <section
           id="home"
           className="relative min-h-screen overflow-hidden bg-slate-900"
           aria-labelledby="hero-heading"
         >
-          {/* Enhanced Background Carousel */}
           <div className="absolute inset-0">
             <div className="w-full h-full relative">
-              {/* Background Images/Videos */}
               <div className="absolute inset-0 z-0">
                 {isLoading ? (
                   <img
@@ -395,66 +405,19 @@ export default function HomePage() {
                   </AnimatePresence>
                 )}
               </div>
-
-              {/* Sophisticated Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-900/60 via-slate-800/40 to-slate-900/70 z-10" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/20 z-10" />
             </div>
           </div>
-
-          {/* Refined Floating Elements */}
-          <div className="absolute inset-0 z-20 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-1/4 right-1/4 w-2 h-2 bg-gradient-to-br from-blue-400/40 to-purple-400/40 rounded-full blur-sm"
-              animate={{
-                opacity: [0.4, 0.8, 0.4],
-                scale: [1, 1.3, 1],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute top-3/4 left-1/3 w-1.5 h-1.5 bg-gradient-to-br from-emerald-400/30 to-teal-400/30 rounded-full blur-sm"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                y: [0, -15, 0],
-                x: [0, 10, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-            />
-            <motion.div
-              className="absolute top-1/2 right-1/3 w-1 h-1 bg-gradient-to-br from-orange-400/25 to-red-400/25 rounded-full blur-sm"
-              animate={{
-                opacity: [0.25, 0.5, 0.25],
-                scale: [1, 1.5, 1],
-                rotate: [0, -180, -360],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: 2,
-              }}
-            />
-          </div>
-
-          {/* Enhanced Header */}
-          <header className="relative z-40 w-full">
-            {/* Multi-layer blur backdrop for sophisticated blending */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
-            <div className="relative flex items-center justify-between px-4 sm:px-6 lg:px-12 py-4">
-              {/* Logo with Enhanced Animation */}
+          <header className="relative z-40 w-full bg-background">
+            <div className="relative bg-primary">
+              <div className="flex items-center justify-between px-4 sm:px-8 lg:px-[84px] py-2">
+                <div className="flex items-center space-x-4">
+                  <Link href="/">Home</Link>
+                  <Link href="/about">About</Link>
+                  <Link href="/contact">Contact</Link>
+                </div>
+              </div>
+            </div>
+            <div className="relative flex items-center justify-between px-4 sm:px-8 lg:px-20 py-2">
               <motion.div
                 initial={{ opacity: 0, x: -30, scale: 0.9 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -470,7 +433,7 @@ export default function HomePage() {
                     alt="Yathrananda - A Travel Fusion"
                     width={280}
                     height={80}
-                    className="h-12 lg:h-16 pr-4 w-auto object-contain group-hover:scale-110 transition-all duration-500 drop-shadow-lg"
+                    className="h-12 lg:h-16 pr-4 w-auto object-contain transition-all duration-500"
                     loading="eager"
                     priority
                   />
@@ -501,8 +464,8 @@ export default function HomePage() {
                       href={item.href}
                       className={`relative text-sm font-semibold transition-all duration-300 ease-out group py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-lg ${
                         item.active
-                          ? "text-white bg-white/30 shadow-xl"
-                          : "text-white/95 hover:text-white hover:bg-white/20"
+                          ? "text-foreground bg-white/30 shadow-xl"
+                          : "text-foreground/95 hover:text-foreground hover:bg-white/20"
                       }`}
                       aria-label={`Navigate to ${item.name}`}
                       aria-current={item.active ? "page" : undefined}
@@ -526,7 +489,6 @@ export default function HomePage() {
 
               {/* Enhanced Right Side Actions */}
               <div className="flex items-center space-x-3">
-                {/* Enhanced WhatsApp Button - Desktop */}
                 <motion.div
                   initial={{ opacity: 0, x: 30, scale: 0.9 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -538,15 +500,12 @@ export default function HomePage() {
                   className="hidden lg:block"
                 >
                   <motion.button
-                    className="relative flex items-center space-x-3 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:from-green-700 hover:to-green-800 shadow-xl hover:shadow-2xl group border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:ring-offset-2 focus:ring-offset-transparent"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="relative flex items-center space-x-3 bg-primary text-white px-6 py-3 font-semibold text-sm transition-all duration-300 hover:bg-primary-hover"
                     onClick={handleWhatsAppClick}
                     aria-label="Contact Yathrananda on WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="hidden xl:inline">+91 75938 73555</span>
-                    <span className="xl:hidden">WhatsApp</span>
+                    <span className="xl:inline">WhatsApp Us</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </motion.button>
                 </motion.div>
@@ -604,7 +563,7 @@ export default function HomePage() {
             </div>
           </header>
 
-          {/* Enhanced Mobile Navigation Menu */}
+          {/* Mobile Navigation Menu */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <>
@@ -685,7 +644,7 @@ export default function HomePage() {
 
                     <div className="p-6">
                       <motion.button
-                        className="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 hover:from-green-700 hover:to-green-800 shadow-lg border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                        className="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-primary to-primary-hover text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 hover:from-primary-hover hover:to-primary-hover"
                         onClick={() => {
                           handleWhatsAppClick();
                           closeMobileMenu();
@@ -703,123 +662,6 @@ export default function HomePage() {
               </>
             )}
           </AnimatePresence>
-
-          {/* Enhanced Main Hero Content */}
-          <div className="relative z-30 flex items-center justify-center min-h-[calc(100vh-140px)]">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="space-y-8 sm:space-y-10"
-              >
-                {/* Enhanced Main Headline */}
-                <div className="space-y-6">
-                  <motion.h1
-                    id="hero-heading"
-                    className="text-white font-bold leading-[1.1] tracking-tight"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                    style={{
-                      fontSize: "clamp(2rem, 8vw, 4.5rem)",
-                      textShadow:
-                        "0 4px 20px rgba(0,0,0,0.2), 0 2px 10px rgba(0,0,0,0.1)",
-                    }}
-                  >
-                    <motion.span
-                      className="block"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.5 }}
-                    >
-                      Explore The World
-                    </motion.span>
-                    <motion.span
-                      className="block bg-gradient-to-r from-primary via-primary to-primary bg-clip-text text-transparent font-extrabold"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.7 }}
-                    >
-                      With Confidence
-                    </motion.span>
-                  </motion.h1>
-
-                  <motion.p
-                    className="text-white/95 font-medium leading-relaxed max-w-3xl mx-auto"
-                    style={{
-                      fontSize: "clamp(1rem, 3vw, 1.25rem)",
-                      textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-                    }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.9 }}
-                  >
-                    From the Backwaters of Kerala to Every Corner of the Globe
-                  </motion.p>
-                </div>
-
-                {/* Enhanced Search Bar */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 1, delay: 1.1 }}
-                  className="max-w-2xl mx-auto"
-                >
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 via-primary/50 to-primary/50 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-all duration-500"></div>
-                    <div className="relative flex flex-col sm:flex-row bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/30 group-hover:border-white/50 transition-all duration-300">
-                      <div className="flex-1 flex items-center px-6 py-5">
-                        <Search className="w-5 h-5 text-slate-500 mr-4 flex-shrink-0 group-hover:text-primary transition-colors duration-300" />
-                        <input
-                          type="text"
-                          placeholder="Where do you want to go?"
-                          className="flex-1 text-base font-medium text-slate-900 bg-transparent outline-none placeholder:text-slate-500 focus:placeholder:text-slate-400 transition-colors duration-200"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              router.push(`/packages?search=${searchQuery}`);
-                            }
-                          }}
-                          aria-label="Search for travel destinations"
-                        />
-                      </div>
-                      <motion.button
-                        type="button"
-                        onClick={() => {
-                          router.push(`/packages?search=${searchQuery}`);
-                        }}
-                        className="relative bg-gradient-to-r from-primary via-primary-hover to-primary text-white px-8 py-5 font-bold text-base hover:from-primary-hover hover:via-primary-hover hover:to-primary-hover transition-all duration-300 shadow-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-2 focus:ring-offset-white"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        aria-label="Search for travel packages"
-                      >
-                        <span className="relative z-10 flex items-center justify-center space-x-2">
-                          <span>Let's Go</span>
-                          <motion.div
-                            animate={{ x: [0, 4, 0] }}
-                            transition={{
-                              duration: 1.5,
-                              repeat: Number.POSITIVE_INFINITY,
-                            }}
-                          >
-                            →
-                          </motion.div>
-                        </span>
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
-                          initial={{ x: "-100%" }}
-                          whileHover={{ x: "100%" }}
-                          transition={{ duration: 0.8 }}
-                        />
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
 
           {/* Enhanced Bottom Navigation Elements */}
           <div className="absolute bottom-0 left-0 right-0 z-30">
@@ -1334,9 +1176,11 @@ export default function HomePage() {
                           "
                         </div>
                         <TooltipProvider>
-                          <Tooltip onOpenChange={(open) => {
-                            setIsTestimonialsTooltipOpen(open);
-                          }}>
+                          <Tooltip
+                            onOpenChange={(open) => {
+                              setIsTestimonialsTooltipOpen(open);
+                            }}
+                          >
                             <TooltipTrigger asChild>
                               <p className="text-card-foreground mb-6 text-sm sm:text-base line-clamp-6 cursor-pointer">
                                 {testimonials[currentTestimonialIndex].message}

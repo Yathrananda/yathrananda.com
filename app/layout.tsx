@@ -78,6 +78,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={dmsans.variable}>
       <head>
+        <link
+          rel="preload"
+          href="/loading-animation.json"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/title.png"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
         <link rel="icon" href="/icon.png" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.png" />
@@ -90,8 +102,6 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         {children}
-        
-        {/* Microsoft Clarity Script */}
         <Script
           id="microsoft-clarity"
           strategy="afterInteractive"
