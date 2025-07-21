@@ -121,7 +121,7 @@ export default function TopDestinationsHero() {
                 width: `${destinations.length * 275}px`,
               }}
             >
-              {destinations.map((destination, index) => (
+              {destinations.map((destination) => (
                 <div
                   key={destination.id}
                   className="flex-shrink-0 mr-[15px]"

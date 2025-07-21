@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear();
 const socialLinks = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/yathrananda",
+    href: "https://www.facebook.com/p/Yathrananda-100088112573328",
     icon: Facebook,
     bgColor: "bg-blue-600",
     color: "text-white",
