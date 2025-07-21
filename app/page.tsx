@@ -10,6 +10,8 @@ import {
   X,
   Menu,
   MessageCircle,
+  Mail,
+  Phone,
 } from "lucide-react";
 import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { HTMLAttributes, useRef, useState } from "react";
@@ -29,6 +31,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import IntroAnimation from "./_components/intro-animation";
+import TopDestinationsHero from "./_components/hero-section/v1";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -340,7 +343,6 @@ export default function HomePage() {
   return (
     <>
       <div className="min-h-screen bg-background">
-        {/* Skip to main content */}
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg z-50 transition-all duration-200"
@@ -349,71 +351,43 @@ export default function HomePage() {
         </a>
         <section
           id="home"
-          className="relative min-h-screen overflow-hidden bg-slate-900"
+          className="relative min-h-screen overflow-hidden bg-background"
           aria-labelledby="hero-heading"
         >
           <div className="absolute inset-0">
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 z-0">
-                {isLoading ? (
-                  <img
-                    src="/images/hero-background-4.jpg?height=1080&width=1920"
-                    alt="Breathtaking travel destination showcasing natural beauty"
-                    className="w-full h-full object-cover scale-105"
-                    draggable="false"
-                  />
-                ) : (
-                  <AnimatePresence>
-                    {heroContent.map(
-                      (content, index) =>
-                        index === currentImageIndex && (
-                          <motion.div
-                            key={`${index}-${content.url}`}
-                            initial={{ opacity: 0, scale: 1.05 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{
-                              duration: 1.5,
-                              ease: [0.25, 0.46, 0.45, 0.94],
-                            }}
-                            className="absolute inset-0"
-                          >
-                            {content.type === "video" ? (
-                              <video
-                                src={content.url}
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                className="w-full h-full object-cover scale-105"
-                                aria-label="Travel destination video showcasing beautiful landscapes"
-                              />
-                            ) : (
-                              <img
-                                src={
-                                  content.url ||
-                                  "/images/hero-background-4.jpg?height=1080&width=1920"
-                                }
-                                alt="Stunning travel destination with breathtaking landscapes"
-                                className="w-full h-full object-cover scale-105"
-                                draggable="false"
-                              />
-                            )}
-                          </motion.div>
-                        )
-                    )}
-                  </AnimatePresence>
-                )}
+              <div className="absolute inset-0 z-0 px-12 py-32">
+                <TopDestinationsHero />
               </div>
             </div>
           </div>
           <header className="relative z-40 w-full bg-background">
-            <div className="relative bg-primary">
+            <div className="relative bg-primary text-sm font-medium text-background hidden md:block">
               <div className="flex items-center justify-between px-4 sm:px-8 lg:px-[84px] py-2">
                 <div className="flex items-center space-x-4">
-                  <Link href="/">Home</Link>
-                  <Link href="/about">About</Link>
-                  <Link href="/contact">Contact</Link>
+                  <Link
+                    href="tel:917593873555"
+                    className="flex items-center space-x-2"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span>+917593873555</span>
+                  </Link>
+                  <Link
+                    href="tel:917593873999"
+                    className="flex items-center space-x-2"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span>+917593873999</span>
+                  </Link>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Link
+                    href="mailto:support@yathrananda.com"
+                    className="flex items-center space-x-2"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>support@yathrananda.com</span>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -500,7 +474,7 @@ export default function HomePage() {
                   className="hidden lg:block"
                 >
                   <motion.button
-                    className="relative flex items-center space-x-3 bg-primary text-white px-6 py-3 font-semibold text-sm transition-all duration-300 hover:bg-primary-hover"
+                    className="relative flex items-center space-x-3 bg-primary text-white px-6 py-3 font-semibold text-sm transition-all duration-300 hover:bg-primary-hover rounded-sm"
                     onClick={handleWhatsAppClick}
                     aria-label="Contact Yathrananda on WhatsApp"
                   >
@@ -663,10 +637,8 @@ export default function HomePage() {
             )}
           </AnimatePresence>
 
-          {/* Enhanced Bottom Navigation Elements */}
-          <div className="absolute bottom-0 left-0 right-0 z-30">
-            <div className="flex items-end justify-between px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8">
-              {/* Enhanced Scroll Indicator */}
+          <div className="absolute bottom-0 right-0 z-30">
+            <div className="flex items-end justify-between px-4 sm:px-6 lg:px-16 pb-6 sm:pb-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -694,39 +666,6 @@ export default function HomePage() {
                   Scroll to explore
                 </span>
               </motion.div>
-
-              {/* Enhanced Carousel Indicators */}
-              {!isLoading && heroContent.length > 1 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 1.8 }}
-                  className="flex flex-col items-center space-y-3"
-                >
-                  <span className="text-white/70 text-xs font-semibold hidden lg:block">
-                    Gallery
-                  </span>
-                  <div className="space-x-3 bg-black/30 backdrop-blur-sm rounded-full px-4 py-3 border border-white/20 hidden lg:flex">
-                    {heroContent.map((_, index) => (
-                      <motion.button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`w-2.5 h-2.5 rounded-full transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent ${
-                          currentImageIndex === index
-                            ? "bg-white scale-125 shadow-lg"
-                            : "bg-white/50 hover:bg-white/80 hover:scale-110"
-                        }`}
-                        whileHover={{ scale: 1.4 }}
-                        whileTap={{ scale: 0.9 }}
-                        aria-label={`Go to slide ${index + 1} of ${
-                          heroContent.length
-                        }`}
-                        aria-current={currentImageIndex === index}
-                      />
-                    ))}
-                  </div>
-                </motion.div>
-              )}
             </div>
           </div>
         </section>
