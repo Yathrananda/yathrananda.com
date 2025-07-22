@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ReactLenis } from "lenis/react";
 import TopDestinationsHero from "./_components/hero-section/v1";
+import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -644,101 +645,22 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-
           <UpcomingToursSection />
-          <TrendingToursSection />
-          {/* Statistics Section */}
-          {/* <AnimatedSection
-          className="py-12 sm:py-16 px-4 sm:px-6 bg-mu"
-          aria-labelledby="stats-heading"
-        >
-          <div className="max-w-[1440px] mx-auto">
-            <div className="text-center mb-8 sm:mb-12">
-              <h2
-                id="stats-heading"
-                className="text-2xl sm:text-3xl font-bold text-foreground mb-4"
-              >
-                Why Choose Yathrananda Travel Agency
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base px-4">
-                With a commitment to security and efficiency, our travel
-                services leverage advanced technologies for seamless and secure
-                booking experiences.
-              </p>
-            </div>
-
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              {[
-                {
-                  number: "234",
-                  suffix: "M",
-                  text: "Supporting multiple currencies for international travelers",
-                  bg: "bg-card",
-                  textColor: "text-card-foreground",
-                  subTextColor: "text-muted-foreground",
-                },
-                {
-                  number: "768",
-                  suffix: "K",
-                  text: "Creating new travel friendships every single month",
-                  bg: "bg-primary",
-                  textColor: "text-primary-foreground",
-                  subTextColor: "text-primary-foreground/80",
-                },
-                {
-                  number: "5.0",
-                  suffix: "+",
-                  text: "High star ratings from satisfied travel clients",
-                  bg: "bg-card",
-                  textColor: "text-card-foreground",
-                  subTextColor: "text-muted-foreground",
-                },
-                {
-                  number: "58.8",
-                  suffix: "B",
-                  text: "Travel consulting increased revenue consistently",
-                  bg: "bg-card",
-                  textColor: "text-card-foreground",
-                  subTextColor: "text-muted-foreground",
-                },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className={`${stat.bg} p-6 sm:p-8 rounded-xl sm:rounded-2xl text-center shadow-lg border border-border transition-all duration-200 ease-out hover:shadow-xl`}
-                  variants={fadeInUp}
-                  whileHover={{ scale: 1.03 }}
-                >
-                  <motion.div
-                    className={`text-3xl sm:text-4xl font-bold mb-2 ${stat.textColor}`}
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{
-                      duration: 0.4,
-                      ease: "easeOut",
-                      delay: index * 0.05,
-                    }}
-                    viewport={{ once: true }}
-                  >
-                    {stat.number}
-                    <span className="text-xl sm:text-2xl">{stat.suffix}</span>
-                  </motion.div>
-                  <p className={`text-xs sm:text-sm ${stat.subTextColor}`}>
-                    {stat.text}
-                  </p>
-                </motion.div>
-              ))}
-            </motion.div>
+          <div className="relative h-[1200px] overflow-hidden md:px-12">
+            <iframe
+              src="https://widgets.sociablekit.com/google-reviews/iframe/25580492"
+              frameBorder="0"
+              width="100%"
+              height="1200px"
+              scrolling="no"
+              className="block w-full h-[1200px]"
+            ></iframe>
+            <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white"></div>
           </div>
-        </AnimatedSection> */}
-          {/* Explore Events */}
+          <TrendingToursSection />
           <InternationalToursSection />
           <DomesticToursSection />
+          <YouTubeShortsMasonry />
           {/* Services Section */}
           <AnimatedSection
             id="services"

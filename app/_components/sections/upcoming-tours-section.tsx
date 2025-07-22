@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import type React from "react"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
-import PackageCard from "@/app/_components/package-card"
-import { UpcomingPackage } from "@/types/package-detail"
+import { useEffect, useState } from "react";
+import type React from "react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import PackageCard from "@/app/_components/package-card";
+import { UpcomingPackage } from "@/types/package-detail";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,31 +17,34 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-}
+};
 
 const UpcomingToursSection: React.FC = () => {
-  const [upcomingTours, setUpcomingTours] = useState<UpcomingPackage[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [upcomingTours, setUpcomingTours] = useState<UpcomingPackage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUpcomingTours = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/upcoming`, {
-          headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/upcoming`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            },
           }
-        });
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch upcoming tours');
+          throw new Error("Failed to fetch upcoming tours");
         }
 
         const data = await response.json();
         setUpcomingTours(data.packages);
       } catch (err) {
-        console.error('Error fetching upcoming tours:', err);
-        setError('Failed to load upcoming tours');
+        console.error("Error fetching upcoming tours:", err);
+        setError("Failed to load upcoming tours");
       } finally {
         setIsLoading(false);
       }
@@ -81,7 +84,10 @@ const UpcomingToursSection: React.FC = () => {
   }
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background" aria-labelledby="upcoming-tours-heading">
+    <section
+      className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background"
+      aria-labelledby="upcoming-tours-heading"
+    >
       <div className="max-w-[1440px] mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 space-y-4 sm:space-y-0">
@@ -129,24 +135,24 @@ const UpcomingToursSection: React.FC = () => {
 
         {/* Tours Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
           {upcomingTours.map((tour) => (
-            <PackageCard 
-              key={tour.id} 
-              package={tour} 
-              aspectRatio="landscape" 
-              type="upcoming" 
+            <PackageCard
+              key={tour.id}
+              package={tour}
+              aspectRatio="landscape"
+              type="upcoming"
             />
           ))}
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default UpcomingToursSection
+export default UpcomingToursSection;
