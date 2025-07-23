@@ -28,6 +28,7 @@ import TopDestinationsHero from "./_components/hero-section/v1";
 import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
 import Marquee from "./_components/marquee";
 import ImageAccordion from "./_components/image-accordion";
+import AllToursMarquee from "./_components/sections/packages-marquee";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -654,6 +655,7 @@ export default function HomePage() {
             <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white"></div>
           </div>
           <TrendingToursSection />
+          <AllToursMarquee />
           <InternationalToursSection />
           <DomesticToursSection />
           <YouTubeShortsMasonry />
