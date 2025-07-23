@@ -189,11 +189,11 @@ export default function TopDestinationsHero() {
       {/* Hero Background Carousel */}
       <div className="absolute h-full top-0 left-0 bottom-0 right-0 -z-[10]">
         {heroLoading ? (
-          <div className="h-full w-full bg-gray-800 flex items-center justify-center">
+          <div className="h-full w-full bg-gradient-to-tr from-gray-200 to-gray-300 flex items-center justify-center">
             <div className="text-white">Loading...</div>
           </div>
         ) : heroError ? (
-          <div className="h-full w-full bg-gray-800 flex items-center justify-center">
+          <div className="h-full w-full bg-gradient-to-tr from-gray-700 to-gray-800 flex items-center justify-center">
             <div className="text-white">Error loading media</div>
           </div>
         ) : (
@@ -320,7 +320,7 @@ export default function TopDestinationsHero() {
           >
             <Link
               className="h-full w-full px-6 py-3 flex items-center justify-center gap-2"
-              href="/malaysia"
+              href="/packages"
             >
               Explore
               <ArrowRight className="w-6 h-6" />
