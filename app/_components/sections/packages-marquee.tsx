@@ -3,21 +3,30 @@
 import { useEffect, useState } from "react";
 import Marquee from "@/components/ui-layouts/marquee";
 import { UpcomingPackage } from "@/types/package-detail";
+import { useRouter } from "next/navigation";
 
 const PackageCard = ({
+  id,
   img,
   title,
   description,
   location,
 }: {
+  id: string;
   img: string;
   title: string;
   description: string;
   location: string;
 }) => {
+  const router = useRouter();
   return (
-    <div className="relative w-80 h-48 cursor-pointer overflow-hidden rounded-2xl group">
-      <div 
+    <div
+      onClick={() => {
+        router.push(`/packages/${id}`);
+      }}
+      className="relative w-80 h-48 cursor-pointer overflow-hidden rounded-2xl group"
+    >
+      <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
         style={{ backgroundImage: `url(${img})` }}
       />
@@ -93,8 +102,9 @@ const AllToursMarquee = () => {
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background pt-20">
       <Marquee pauseOnHover className="[--duration:25s]">
         {firstRow.map((pkg) => (
-          <PackageCard 
-            key={pkg.id} 
+          <PackageCard
+            key={pkg.id}
+            id={pkg.id}
             img={pkg.image_url || "/placeholder.jpg"}
             title={pkg.title || "Travel Package"}
             description={pkg.description || "Discover amazing destinations"}
@@ -104,8 +114,9 @@ const AllToursMarquee = () => {
       </Marquee>
       <Marquee reverse pauseOnHover className="[--duration:25s]">
         {secondRow.map((pkg) => (
-          <PackageCard 
-            key={pkg.id} 
+          <PackageCard
+            key={pkg.id}
+            id={pkg.id}
             img={pkg.image_url || "/placeholder.jpg"}
             title={pkg.title || "Travel Package"}
             description={pkg.description || "Discover amazing destinations"}
