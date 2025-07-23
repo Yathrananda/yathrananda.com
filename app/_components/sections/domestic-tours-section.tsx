@@ -98,7 +98,7 @@ const DomesticToursSection: React.FC = () => {
                 Domestic Tours
               </motion.h2>
               <motion.p
-                className="text-muted-foreground text-sm sm:text-base"
+                className="text-muted-foreground text-sm sm:text-base font-shanti"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
