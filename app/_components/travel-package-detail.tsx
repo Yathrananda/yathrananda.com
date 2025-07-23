@@ -11,6 +11,7 @@ import { HeroSection } from "./package-detail/hero-section";
 import { TestimonialsSection } from "./package-detail/testimonials-section";
 import { useState } from "react";
 import Header from "./header";
+import SimpleFooter from "./simple-footer";
 
 interface TravelPackageDetailProps {
   data: TravelPackageDetailData;
@@ -18,9 +19,7 @@ interface TravelPackageDetailProps {
   backLabel?: string;
 }
 
-export function TravelPackageDetail({
-  data,
-}: TravelPackageDetailProps) {
+export function TravelPackageDetail({ data }: TravelPackageDetailProps) {
   const [activeSection, setActiveSection] = useState("overview");
 
   const sections = [
@@ -101,13 +100,17 @@ export function TravelPackageDetail({
                 <div>
                   <p className="text-sm text-muted-foreground">Price</p>
                   <p className="font-medium">
-                    {data.price.currency}{data.price.amount} {data.price.per}
+                    {data.price.currency}
+                    {data.price.amount} {data.price.per}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <PackageItinerary itinerary={data.itinerary} activitiesDisplayType={data.activities_display_type} />
+          <PackageItinerary
+            itinerary={data.itinerary}
+            activitiesDisplayType={data.activities_display_type}
+          />
           <GallerySection images={data.gallery} />
           <TestimonialsSection testimonials={data.testimonials} />
           <BookingInfoSection
@@ -121,6 +124,7 @@ export function TravelPackageDetail({
           <ContactSection contact={data.contact} />
         </div>
       </main>
+      <SimpleFooter />
     </div>
   );
 }
