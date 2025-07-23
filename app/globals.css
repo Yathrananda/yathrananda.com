@@ -289,22 +289,23 @@
   pointer-events: auto;
 }
 
-@keyframes marquee {
+/* @keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 .animate-marquee {
-  display: inline-block;
-  white-space: nowrap;
   animation: marquee 20s linear infinite;
 }
 
-.stroke-text {
-  -webkit-text-stroke: 1.5px black;
-  color: transparent;
+ .stroke-text {
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0);
+  white-space: nowrap;
 }
+
+ */

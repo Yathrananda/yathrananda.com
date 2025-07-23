@@ -656,7 +656,7 @@ export default function HomePage() {
           <InternationalToursSection />
           <DomesticToursSection />
           <YouTubeShortsMasonry />
-          <div className="relative overflow-hidden md:px-12 py-12">
+          <div className="relative overflow-hidden py-12">
             <Marquee />
           </div>
           {/* Services Section */}

@@ -3,7 +3,7 @@ import React from "react";
 const YouTubeShort: React.FC<{ videoId: string, size: "large" | "medium" | "small" }> = ({ videoId, size }) => {
   return (
     <div
-      className={`rounded-sm overflow-hidden group relative border-0 bg-gray-100 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer ${
+      className={`rounded-md overflow-hidden group relative border-0 bg-gray-100 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer ${
         size === "large"
           ? "col-span-2 row-span-3 sm:col-span-2 md:col-span-2 lg:col-span-3 xl:col-span-3"
           : size === "medium"
