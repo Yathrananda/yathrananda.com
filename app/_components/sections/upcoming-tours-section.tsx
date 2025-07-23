@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import PackageCard from "@/app/_components/package-card";
 import { UpcomingPackage } from "@/types/package-detail";
+import UpcomingToursCard from "../cards/upcoming-tours-card";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -132,22 +133,15 @@ const UpcomingToursSection: React.FC = () => {
             </Link>
           </motion.div>
         </div>
-
-        {/* Tours Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 sm:gap-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
           {upcomingTours.map((tour) => (
-            <PackageCard
-              key={tour.id}
-              package={tour}
-              aspectRatio="landscape"
-              type="upcoming"
-            />
+            <UpcomingToursCard key={tour.id} data={tour} />
           ))}
         </motion.div>
       </div>

@@ -128,23 +128,27 @@ const DomesticToursSection: React.FC = () => {
             </Link>
           </motion.div>
         </div>
-
-        {/* Tours Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+          className="overflow-x-auto scrollbar-hide"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {domesticTours.slice(0, 8).map((tour) => (
-            <PackageCard 
-              key={tour.id} 
-              package={tour} 
-              aspectRatio="landscape" 
-              type="domestic" 
-            />
-          ))}
+          <div className="flex gap-4 sm:gap-6 pb-4 min-w-max">
+            {domesticTours.map((tour) => (
+              <div
+                key={tour.id}
+                className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px]"
+              >
+                <PackageCard 
+                  package={tour} 
+                  aspectRatio="landscape" 
+                  type="domestic" 
+                />
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

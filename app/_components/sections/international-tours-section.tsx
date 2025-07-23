@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import type React from "react"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
-import PackageCard from "@/app/_components/package-card"
-import { UpcomingPackage } from "@/types/package-detail"
+import { useEffect, useState } from "react";
+import type React from "react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import PackageCard from "@/app/_components/package-card";
+import { UpcomingPackage } from "@/types/package-detail";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,31 +17,36 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-}
+};
 
 const InternationalToursSection: React.FC = () => {
-  const [internationalTours, setInternationalTours] = useState<UpcomingPackage[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [internationalTours, setInternationalTours] = useState<
+    UpcomingPackage[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchInternationalTours = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/international`, {
-          headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_DOMAIN}/api/packages/international`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            },
           }
-        });
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch international tours');
+          throw new Error("Failed to fetch international tours");
         }
 
         const data = await response.json();
         setInternationalTours(data.packages);
       } catch (err) {
-        console.error('Error fetching international tours:', err);
-        setError('Failed to load international tours');
+        console.error("Error fetching international tours:", err);
+        setError("Failed to load international tours");
       } finally {
         setIsLoading(false);
       }
@@ -133,7 +138,7 @@ const InternationalToursSection: React.FC = () => {
         </div>
 
         {/* Tours Grid */}
-        <motion.div
+        {/* <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
@@ -148,10 +153,33 @@ const InternationalToursSection: React.FC = () => {
               type="international" 
             />
           ))}
+        </motion.div> */}
+        <motion.div
+          className="overflow-x-auto scrollbar-hide"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          <div className="flex gap-4 sm:gap-6 pb-4 min-w-max">
+            {internationalTours.map((tour) => (
+              <div
+                key={tour.id}
+                className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px]"
+              >
+                <PackageCard
+                  key={tour.id}
+                  package={tour}
+                  aspectRatio="landscape"
+                  type="international"
+                />
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default InternationalToursSection
+export default InternationalToursSection;
