@@ -29,6 +29,7 @@ import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
 import Marquee from "./_components/marquee";
 import ImageAccordion from "./_components/image-accordion";
 import AllToursMarquee from "./_components/sections/packages-marquee";
+import IntroAnimation from "./_components/intro-animation";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -158,7 +159,7 @@ export default function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsIntroAnimationComplete(true);
-    }, 3000);
+    }, 2200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -333,9 +334,9 @@ export default function HomePage() {
     setIsMobileMenuOpen(false);
   };
 
-  // if (!isIntroAnimationComplete) {
-  //   return <IntroAnimation />;
-  // }
+  if (!isIntroAnimationComplete) {
+    return <IntroAnimation />;
+  }
 
   return (
     <>
