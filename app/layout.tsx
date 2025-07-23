@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Voltaire, Cuprum, Shanti } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import LenisReactProvider from "./lenis-react-provider";
 
 const voltaire = Voltaire({
   subsets: ["latin"],
@@ -91,7 +92,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${voltaire.variable} ${cuprum.variable} ${shanti.variable}`}>
+    <html
+      lang="en"
+      className={`${voltaire.variable} ${cuprum.variable} ${shanti.variable}`}
+    >
       <head>
         <link
           rel="preload"
@@ -116,7 +120,7 @@ export default function RootLayout({
         className={`${shanti.className} antialiased bg-background text-foreground`}
         suppressHydrationWarning={true}
       >
-        {children}
+        <LenisReactProvider>{children}</LenisReactProvider>
         <Script
           id="microsoft-clarity"
           strategy="afterInteractive"

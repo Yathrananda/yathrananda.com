@@ -4,7 +4,6 @@ import { JSX, useCallback, useEffect } from "react";
 import type React from "react";
 import Image from "next/image";
 import {
-  Play,
   ChevronDown,
   X,
   Menu,
@@ -23,7 +22,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { HeroMedia } from "@/types/package-detail";
 import Link from "next/link";
 import Footer from "./_components/footer";
-import { ReactLenis } from "lenis/react";
 import TopDestinationsHero from "./_components/hero-section/v1";
 import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
 import Marquee from "./_components/marquee";
@@ -340,7 +338,7 @@ export default function HomePage() {
 
   return (
     <>
-      <ReactLenis root>
+    
         <div className="min-h-screen bg-background">
           <a
             href="#main-content"
@@ -816,7 +814,6 @@ export default function HomePage() {
           onClose={() => setIsVideoModalOpen(false)}
           videoUrl="https://www.youtube.com/dQw4w9WgXcQ"
         />
-      </ReactLenis>
     </>
   );
 }
