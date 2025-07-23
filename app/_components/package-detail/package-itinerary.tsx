@@ -112,7 +112,7 @@ function DayItinerary({
                     </DialogTitle>
                     <Carousel className="w-full">
                       <CarouselContent>
-                        {day.images.map((image, idx) => (
+                        {day.images.filter((image) => image.url).map((image, idx) => (
                           <CarouselItem key={idx}>
                             <div className="relative aspect-[16/9]">
                               <Image
@@ -140,7 +140,7 @@ function DayItinerary({
                 }}
               >
                 <CarouselContent className="-ml-2 md:-ml-4">
-                  {day.images.map((image, idx) => (
+                  {day.images.filter((img) => img.url).map((image, idx) => (
                     <CarouselItem
                       key={idx}
                       className="pl-2 md:pl-4 basis-2/3 md:basis-1/2 lg:basis-1/3"

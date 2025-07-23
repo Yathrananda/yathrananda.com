@@ -3,6 +3,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { UpcomingPackage } from "@/types/package-detail";
+import { useRouter } from "next/navigation";
 import PackageCard from "./package-card";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -13,6 +14,7 @@ function FramerCarousel({
 }: {
   items: UpcomingPackage[]
 }) {
+  const router = useRouter();
   const [activeItem, setActiveItem] = useState(items[0]);
   const [width, setWidth] = useState(0);
   const carousel = useRef(null);
@@ -36,7 +38,9 @@ function FramerCarousel({
         {items?.map((tour) => {
           return (
             <motion.div key={tour.id} className="min-w-[20rem] min-h-[25rem] p-2">
-              <div className="relative w-full h-full">
+              <div className="relative w-full h-full" onClick={() => {
+                router.push(`/packages/${tour.id}`)
+              }}>
                 <Image
                   src={tour.hero_image_url}
                   width={400}

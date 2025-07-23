@@ -20,7 +20,7 @@ export function GallerySection({ images }: GallerySectionProps) {
   return (
     <>
       <div id="gallery" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
-        {images.map((image, index) => (
+        {images.filter((image) => image.url).map((image, index) => (
           <motion.div
             key={image.id}
             initial={{ opacity: 0, y: 20 }}
