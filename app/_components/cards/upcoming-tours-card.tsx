@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
-import { MessageCircle, Calendar, MapPin, User, Clock, Plane, Train } from "lucide-react";
+import { MessageCircle, Calendar, User, Plane, Train } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function TravelCard({
   data,
@@ -18,15 +20,19 @@ export default function TravelCard({
     departure_type?: string;
   };
 }) {
+  const router = useRouter();
   return (
-    <div className="w-full max-w-sm mx-auto bg-white rounded-2xl overflow-hidden h-[520px] flex flex-col">
+    <div className="w-full max-w-sm mx-auto bg-white rounded-2xl overflow-hidden h-[470px] flex flex-col">
       <div className="relative flex-shrink-0">
         <Image
           src={data.image_url || "/placeholder.jpg"}
           alt={data.hero_image_alt || data.title || "Travel package"}
           width={400}
           height={320}
-          className="w-full h-80 object-cover"
+          className="w-full h-80 object-cover rounded-b-2xl cursor-pointer"
+          onClick={() => {
+            router.push(`/packages/${data.id}`);
+          }}
         />
 
         {typeof data.price !== "undefined" && (
@@ -43,7 +49,6 @@ export default function TravelCard({
             </div>
           </div>
         )}
-
         {data.departure_date && (
           <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2">
             <div className="flex items-center text-white text-xs font-medium">
@@ -55,54 +60,50 @@ export default function TravelCard({
                 year: "numeric",
               })}
             </div>
+            {data.departure_place && data.departure_type && (
+              <div className="flex items-center text-white text-xs font-medium">
+                {data.departure_type === "plane" ? (
+                  <Plane className="w-3 h-3 mr-1" />
+                ) : (
+                  <Train className="w-3 h-3 mr-1" />
+                )}
+                <span>Departing from {data.departure_place}</span>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      <div className="p-4 flex-1 flex flex-col">
+      <div className="py-4 px-1 flex-1 flex flex-col">
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-1">
+          <h3 className="text-xl font-bold text-gray-900 line-clamp-2 font-cuprum">
             {data.title || "Travel Package"}
           </h3>
-
-          <div className="space-y-2">
-            {data.location && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4 mr-2 text-primary" />
-                <span className="line-clamp-1">{data.location}</span>
-              </div>
-            )}
-
-            {data.duration && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Clock className="w-4 h-4 mr-2 text-primary" />
-                <span>{data.duration}</span>
-              </div>
-            )}
-
-            {data.departure_place && data.departure_type ? (
-              <div className="flex items-center text-sm text-muted-foreground">
-                {data.departure_type === "plane" ? (
-                  <Plane className="w-4 h-4 mr-2 text-primary" />
-                ) : (
-                  <Train className="w-4 h-4 mr-2 text-primary" />
-                )}
-                <span>Departing from {data.departure_place}</span>
-              </div>
-            ) : (
-              <div className="flex items-center text-sm text-muted-foreground">
-                --------------------------
-              </div>
-            )}
-          </div>
+          {data.duration && (
+            <div className="flex items-center text-md text-muted-foreground font-shanti">
+              <span className="line-clamp-1 font-shanti">{data.duration}</span>
+            </div>
+          )}
         </div>
 
-        {/* Action buttons - always at bottom */}
         <div className="flex gap-2 text-xs mt-auto">
-          <button className="flex-1 bg-primary hover:bg-primary-hover text-white font-medium px-3 py-2 rounded-sm transition-colors border border-primary">
+          <button
+            onClick={() => {
+              router.push(`/packages/${data.id}`);
+            }}
+            className="font-shanti flex-1 bg-primary hover:bg-primary-hover text-white font-medium px-3 py-2 rounded-sm transition-colors border border-primary"
+          >
             Know More
           </button>
-          <button className="flex-1 border border-primary text-primary hover:bg-muted font-medium px-3 py-2 rounded-sm transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={() => {
+              window.open(
+                `https://wa.me/917593873555?text=I'm interested in the ${data.title} package`,
+                "_blank"
+              );
+            }}
+            className="font-shanti flex-1 border border-primary text-primary hover:bg-muted font-medium px-3 py-2 rounded-sm transition-colors flex items-center justify-center gap-2"
+          >
             <MessageCircle className="w-4 h-4" />
             WhatsApp
           </button>
