@@ -25,6 +25,7 @@ const socialLinks = [
 const locations = [
   {
     name: "Kozhikode Office",
+    contact: "+91 7593873501",
     address:
       "Merry Land Square, V Panoli Road, Thiruthiyad, Kozhikode, Kerala 673004",
     mapUrl:
@@ -32,6 +33,7 @@ const locations = [
   },
   {
     name: "Thalassery Office",
+    contact: "+91 7593873503",
     address:
       "First Floor, City Centre, Opposite Co-op Hospital, Thalassery, Kannur, Kerala 670101",
     mapUrl:
@@ -39,6 +41,7 @@ const locations = [
   },
   {
     name: "Thiruvananthapuram Office",
+    contact: "+91 7593873502",
     address:
       "Thottaykadu Building, MG Radhakrishnan Rd, near Kerala Cricket Association, Paund Colony, Vazhuthacaud, Thiruvananthapuram, Kerala 695014",
     mapUrl:
@@ -261,14 +264,25 @@ export default function Footer() {
                   </div>
                   <p className="text-background/90 text-sm leading-relaxed mb-3">
                     {location.address}
-                    {index < 2 && (
+                    {index < 2 ? (
                       <span className="text-background/90 text-sm leading-relaxed mb-3">
+                        <br />
                         <a
-                          href={location.mapUrl}
+                          href={`tel:${location.contact}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          ‎ 
+                          Contact: {location.contact}
+                        </a>
+                      </span>
+                    ) : (
+                      <span className="text-background/90 text-sm leading-relaxed mb-3">
+                        <a
+                          href={`tel:${location.contact}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          , Contact: {location.contact}
                         </a>
                       </span>
                     )}
