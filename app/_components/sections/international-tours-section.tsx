@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import PackageCard from "@/app/_components/package-card";
 import { UpcomingPackage } from "@/types/package-detail";
+import FramerCarousel from "../framer-carousel";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -154,7 +155,7 @@ const InternationalToursSection: React.FC = () => {
             />
           ))}
         </motion.div> */}
-        <motion.div
+        {/* <motion.div
           className="overflow-x-auto scrollbar-hide"
           variants={containerVariants}
           initial="hidden"
@@ -176,7 +177,8 @@ const InternationalToursSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </motion.div> */}
+        <FramerCarousel items={internationalTours} />
       </div>
     </section>
   );
