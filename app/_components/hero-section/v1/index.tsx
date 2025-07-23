@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 interface Destination {
   id: string;
@@ -198,33 +198,48 @@ export default function TopDestinationsHero() {
           </div>
         ) : (
           <>
-            {currentHeroMedia && (
-              <>
-                {currentHeroMedia.type === "image" ? (
-                  <Image
-                    alt="Hero background"
-                    priority
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,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"
-                    loading="eager"
-                    width={1800}
-                    height={1000}
-                    className="object-cover object-center h-full w-full brightness-75"
-                    src={currentHeroMedia.url}
-                  />
-                ) : (
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    className="object-cover object-center h-full w-full brightness-75"
-                    style={{ width: "100%", height: "100%" }}
-                  >
-                    <source src={currentHeroMedia.url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-              </>
+            {heroMedia.length > 0 && (
+              <div className="relative h-full w-full overflow-hidden">
+                <div
+                  className="flex h-full transition-transform duration-1000 ease-in-out"
+                  style={{
+                    transform: `translateX(-${heroCurrentIndex * 100}vw)`,
+                    width: `${heroMedia.length * 100}vw`,
+                  }}
+                >
+                  {heroMedia.map((media, index) => (
+                    <div
+                      key={media.id}
+                      className="h-full flex-shrink-0"
+                      style={{ width: "100vw" }}
+                    >
+                      {media.type === "image" ? (
+                        <Image
+                          alt="Hero background"
+                          priority={index === 0}
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,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"
+                          loading={index === 0 ? "eager" : "lazy"}
+                          width={1800}
+                          height={1000}
+                          className="object-cover object-center h-full w-full brightness-75"
+                          src={media.url}
+                        />
+                      ) : (
+                        <video
+                          autoPlay
+                          muted
+                          loop
+                          className="object-cover object-center h-full w-full brightness-75"
+                        >
+                          <source src={media.url} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
 
             {heroMedia.length > 1 && (
