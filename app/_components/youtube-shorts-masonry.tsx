@@ -5,6 +5,10 @@ const YouTubeShortsBentoGrid: React.FC = () => {
   const shorts = [
     {
       videoId: "PTysogWtEtk",
+      size: "small",
+    },
+    {
+      videoId: "RM9pJ8QhN1I",
       size: "large",
     },
     {
@@ -20,13 +24,10 @@ const YouTubeShortsBentoGrid: React.FC = () => {
       size: "small",
     },
     {
-      videoId: "RM9pJ8QhN1I",
-      size: "small",
-    },
-    {
       videoId: "RTSMF5R8GmE",
       size: "small",
     },
+   
     {
       videoId: "JosrSfnpMn8",
       size: "medium",
@@ -46,7 +47,7 @@ const YouTubeShortsBentoGrid: React.FC = () => {
   ];
 
   return (
-    <div className="relative h-[800px] overflow-hidden">
+    <div className="relative h-[800px] overflow-hidden mb-12">
       <div className="px-2 md:px-12 py-6">
         <div className="grid auto-rows-[200px] grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
           {shorts.map((short, index) => (

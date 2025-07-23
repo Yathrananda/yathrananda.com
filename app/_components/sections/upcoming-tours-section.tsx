@@ -55,7 +55,7 @@ const UpcomingToursSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background">
+      <section className="pt-12 pb-6 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
             <div className="h-8 w-48 bg-muted rounded mb-4"></div>
@@ -85,7 +85,7 @@ const UpcomingToursSection: React.FC = () => {
 
   return (
     <section
-      className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background"
+      className="pt-12 pb-6 sm:pb-12 sm:pt-16 lg:pt-20 px-4 sm:px-6 bg-background"
       aria-labelledby="upcoming-tours-heading"
     >
       <div className="max-w-[1440px] mx-auto">

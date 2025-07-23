@@ -27,6 +27,7 @@ import { ReactLenis } from "lenis/react";
 import TopDestinationsHero from "./_components/hero-section/v1";
 import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
 import Marquee from "./_components/marquee";
+import ImageAccordion from "./_components/image-accordion";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -641,14 +642,14 @@ export default function HomePage() {
             </div>
           </section>
           <UpcomingToursSection />
-          <div className="relative h-[1200px] overflow-hidden md:px-12">
+          <div className="relative h-[600px] overflow-hidden md:px-12">
             <iframe
               src="https://widgets.sociablekit.com/google-reviews/iframe/25580492"
               frameBorder="0"
               width="100%"
-              height="1200px"
+              height="1000px"
               scrolling="no"
-              className="block w-full h-[1200px]"
+              className="block w-full h-[600px]"
             ></iframe>
             <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white"></div>
           </div>
@@ -656,7 +657,10 @@ export default function HomePage() {
           <InternationalToursSection />
           <DomesticToursSection />
           <YouTubeShortsMasonry />
-          <div className="relative overflow-hidden py-12">
+          <div className="relative overflow-hidden mb-12">
+            <ImageAccordion />
+          </div>
+          <div className="relative overflow-hidden mb-12">
             <Marquee />
           </div>
           {/* Services Section */}
