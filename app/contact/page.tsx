@@ -111,7 +111,7 @@ export default function ContactPage() {
                   Phone
                 </h3>
                 <p className="text-primary font-semibold text-base">
-                  +1 (555) 123-4567
+                  +91 7593873555 
                 </p>
               </motion.div>
 
