@@ -118,17 +118,17 @@ const PackageCard: React.FC<PackageCardProps> = ({
             </h3>
           )}
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             {pkg.location && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4 mr-2 text-primary" />
+              <div className="flex items-center text-md text-muted-foreground">
+                <MapPin className="w-5 h-5 mr-2 text-primary" />
                 <span className="line-clamp-1">{pkg.location}</span>
               </div>
             )}
 
             {pkg.duration && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Clock className="w-4 h-4 mr-2 text-primary" />
+              <div className="flex items-center text-md text-muted-foreground">
+                <Clock className="w-5 h-5 mr-2 text-primary" />
                 <span>{pkg.duration}</span>
               </div>
             )}
