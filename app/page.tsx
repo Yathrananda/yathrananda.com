@@ -23,15 +23,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { HeroMedia } from "@/types/package-detail";
 import Link from "next/link";
 import Footer from "./_components/footer";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { ReactLenis } from "lenis/react";
 import TopDestinationsHero from "./_components/hero-section/v1";
 import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
+import Marquee from "./_components/marquee";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -661,14 +656,26 @@ export default function HomePage() {
           <InternationalToursSection />
           <DomesticToursSection />
           <YouTubeShortsMasonry />
+          <div className="relative overflow-hidden md:px-12 py-12">
+            <Marquee />
+          </div>
           {/* Services Section */}
           <AnimatedSection
             id="services"
-            className="py-12 sm:py-16 px-4 sm:px-6 bg-background"
+            className="py-12 sm:py-16 px-4 sm:px-6 bg-muted"
             aria-labelledby="services-heading"
           >
-            <div className="max-w-[1440px] mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div className="w-full px-4 md:px-24 relative">
+              <div className="absolute bottom-20 -left-20 w-full h-full z-0">
+                <Image
+                  src="/images/tree.png"
+                  alt="Services Background"
+                  width={1000}
+                  height={1000}
+                  className="w-[28rem] lg:w-[34rem] h-auto object-cover opacity-5"
+                />
+              </div>
+              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
                 <motion.div
                   className="order-2 lg:order-1"
                   initial={{ opacity: 0, x: -30 }}
@@ -676,44 +683,36 @@ export default function HomePage() {
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   viewport={{ once: true }}
                 >
-                  <h2
-                    id="services-heading"
-                    className="text-2xl sm:text-3xl font-bold text-foreground mb-6 sm:mb-8"
-                  >
-                    Our Travel Services
+                  <h2 className="text-8xl font-extrabold text-foreground">
+                    Love to <br />
+                    Travel ?
                   </h2>
-                  <div className="relative rounded-xl sm:rounded-2xl overflow-hidden group">
-                    <Image
-                      src="/images/hero-background-4.jpg"
-                      alt="Beautiful nature landscape showcasing Yathrananda's adventure travel services"
-                      width={600}
-                      height={400}
-                      className="w-full h-48 sm:h-72 object-cover transition-transform duration-200 ease-out group-hover:scale-105"
-                      loading="lazy"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
+                  <p className="text-muted-foreground">
+                    We are here to help you plan your next adventure.
+                  </p>
+                  <div className="flex gap-4 items-center justify-center">
                     <motion.button
-                      className="absolute inset-0 flex items-center justify-center bg-foreground/30 transition-all duration-200 ease-out hover:bg-foreground/40"
+                      className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg border border-primary"
                       whileHover={{ scale: 1.02 }}
-                      onClick={() => setIsVideoModalOpen(true)}
-                      aria-label="Play video about Yathrananda travel services"
+                      whileTap={{ scale: 0.98 }}
+                      aria-label="View all Yathrananda travel services"
+                      onClick={() => {
+                        router.push("/packages");
+                      }}
                     >
-                      <motion.div
-                        className="w-12 h-12 sm:w-16 sm:h-16 bg-background rounded-full flex items-center justify-center transition-all duration-200 ease-out shadow-lg"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <Play
-                          className="w-4 h-4 sm:w-6 sm:h-6 text-foreground ml-1"
-                          aria-hidden="true"
-                        />
-                      </motion.div>
+                      Explore →
                     </motion.button>
-                    <div className="absolute bottom-4 left-4 bg-background/90 px-3 py-1 rounded-full border border-border">
-                      <span className="text-xs sm:text-sm font-medium text-foreground">
-                        Nature Adventures
-                      </span>
-                    </div>
+                    <motion.button
+                      className="w-full bg-transparent py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out shadow-lg border border-primary text-primary"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      aria-label="View all Yathrananda travel services"
+                      onClick={() => {
+                        router.push("/contact");
+                      }}
+                    >
+                      Contact Us →
+                    </motion.button>
                   </div>
                 </motion.div>
 
@@ -799,400 +798,10 @@ export default function HomePage() {
                       </AnimatePresence>
                     </motion.div>
                   ))}
-
-                  <motion.button
-                    className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    aria-label="View all Yathrananda travel services"
-                  >
-                    Explore All Services →
-                  </motion.button>
                 </motion.div>
               </div>
             </div>
           </AnimatedSection>
-
-          {/* FAQ Section */}
-          <AnimatedSection
-            className="py-12 sm:py-16 px-4 sm:px-6 hidden"
-            aria-labelledby="faq-heading"
-          >
-            <div className="max-w-4xl mx-auto">
-              <h2
-                id="faq-heading"
-                className="text-2xl sm:text-3xl font-bold text-foreground mb-8 sm:mb-12 text-center"
-              >
-                Frequently Asked Questions
-              </h2>
-
-              {isFaqsLoading ? (
-                <div className="space-y-3 sm:space-y-4">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="animate-pulse">
-                      <div className="bg-card rounded-lg p-4 sm:p-6 border border-border">
-                        <div className="flex justify-between items-center">
-                          <div className="h-4 bg-muted rounded w-3/4"></div>
-                          <div className="h-4 w-4 bg-muted rounded"></div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : faqsError || faqs.length === 0 ? null : (
-                <motion.div
-                  className="space-y-3 sm:space-y-4"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-50px" }}
-                >
-                  {faqs.map((item, index) => (
-                    <motion.div
-                      key={item.id}
-                      className="border border-border rounded-lg transition-all duration-200 ease-out hover:shadow-md bg-card"
-                      variants={fadeInUp}
-                      whileHover={{ scale: 1.01 }}
-                    >
-                      <motion.button
-                        className="w-full flex items-center justify-between p-4 sm:p-6 text-left transition-all duration-200 ease-out hover:bg-muted rounded-lg"
-                        onClick={() =>
-                          setExpandedFaqId(
-                            expandedFaqId === item.id ? null : item.id
-                          )
-                        }
-                        aria-expanded={expandedFaqId === item.id}
-                        aria-controls={`faq-answer-${item.id}`}
-                      >
-                        <span className="font-medium text-card-foreground text-sm sm:text-base pr-4">
-                          {index + 1}. {item.question}
-                        </span>
-                        <motion.div
-                          animate={{
-                            rotate: expandedFaqId === item.id ? 180 : 0,
-                          }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="text-primary flex-shrink-0"
-                        >
-                          <ChevronDown
-                            className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
-                            aria-hidden="true"
-                          />
-                        </motion.div>
-                      </motion.button>
-                      <AnimatePresence initial={false}>
-                        {expandedFaqId === item.id && (
-                          <motion.div
-                            id={`faq-answer-${item.id}`}
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                              <p className="text-muted-foreground text-sm">
-                                {item.answer}
-                              </p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </div>
-          </AnimatedSection>
-
-          {/* Client Review */}
-          <AnimatedSection
-            id="about"
-            className="py-12 sm:py-16 px-4 sm:px-6 bg-muted"
-            aria-labelledby="testimonials-heading"
-          >
-            <div className="max-w-[1440px] mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-                <motion.div
-                  className="order-2 lg:order-1"
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  viewport={{ once: true }}
-                >
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-                    <h2
-                      id="testimonials-heading"
-                      className="text-2xl sm:text-3xl font-bold text-foreground"
-                    >
-                      Client Testimonials
-                    </h2>
-                    {isTestimonialsLoading ? (
-                      <div className="flex items-center space-x-2">
-                        <div className="flex -space-x-2">
-                          {[1, 2, 3, 4].map((i) => (
-                            <div
-                              key={i}
-                              className="w-6 h-6 sm:w-8 sm:h-8 bg-muted animate-pulse rounded-full border-2 border-background"
-                            />
-                          ))}
-                        </div>
-                        <div className="text-xs sm:text-sm text-muted-foreground animate-pulse">
-                          <div className="h-4 w-24 bg-muted rounded"></div>
-                          <div className="h-3 w-20 bg-muted rounded mt-1"></div>
-                        </div>
-                      </div>
-                    ) : testimonialsError ||
-                      testimonials.length === 0 ? null : (
-                      <div className="flex items-center space-x-2">
-                        <div className="flex -space-x-2">
-                          {testimonials.slice(0, 4).map((testimonial) => (
-                            <motion.div
-                              key={testimonial.id}
-                              className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-background overflow-hidden"
-                              initial={{ scale: 0 }}
-                              whileInView={{ scale: 1 }}
-                              transition={{
-                                duration: 0.2,
-                                ease: "easeOut",
-                              }}
-                              viewport={{ once: true }}
-                            >
-                              <Image
-                                src={testimonial.image_url}
-                                alt={testimonial.client_name}
-                                fill
-                                className="object-cover"
-                                sizes="32px"
-                              />
-                            </motion.div>
-                          ))}
-                        </div>
-                        <div className="text-xs sm:text-sm text-muted-foreground">
-                          <span className="font-semibold">More than 900+</span>
-                          <br />
-                          <span>Happy Travelers</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {isTestimonialsLoading ? (
-                    <div className="animate-pulse">
-                      <div className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border">
-                        <div className="h-6 w-12 bg-muted rounded mb-4"></div>
-                        <div className="space-y-3">
-                          <div className="h-4 bg-muted rounded w-full"></div>
-                          <div className="h-4 bg-muted rounded w-5/6"></div>
-                          <div className="h-4 bg-muted rounded w-4/6"></div>
-                        </div>
-                        <div className="mt-6 flex items-center space-x-4">
-                          <div className="w-10 h-10 bg-muted rounded-full"></div>
-                          <div className="space-y-2">
-                            <div className="h-4 bg-muted rounded w-24"></div>
-                            <div className="h-3 bg-muted rounded w-32"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : testimonialsError || testimonials.length === 0 ? null : (
-                    <div className="relative">
-                      <AnimatePresence mode="wait">
-                        <motion.blockquote
-                          key={testimonials[currentTestimonialIndex].id}
-                          className="bg-card p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg border border-border transition-all duration-200 ease-out hover:shadow-xl"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <div
-                            className="text-primary text-3xl sm:text-4xl mb-4"
-                            aria-hidden="true"
-                          >
-                            "
-                          </div>
-                          <TooltipProvider>
-                            <Tooltip
-                              onOpenChange={(open) => {
-                                setIsTestimonialsTooltipOpen(open);
-                              }}
-                            >
-                              <TooltipTrigger asChild>
-                                <p className="text-card-foreground mb-6 text-sm sm:text-base line-clamp-6 cursor-pointer">
-                                  {
-                                    testimonials[currentTestimonialIndex]
-                                      .message
-                                  }
-                                </p>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-md max-h-96 overflow-y-auto">
-                                  {
-                                    testimonials[currentTestimonialIndex]
-                                      .message
-                                  }
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          <footer className="flex items-center space-x-4">
-                            <Image
-                              src={
-                                testimonials[currentTestimonialIndex].image_url
-                              }
-                              alt={`${testimonials[currentTestimonialIndex].client_name}'s profile picture`}
-                              width={48}
-                              height={48}
-                              className="rounded-full object-cover border border-border"
-                            />
-                            <div>
-                              <cite className="font-semibold text-card-foreground text-sm sm:text-base not-italic">
-                                {
-                                  testimonials[currentTestimonialIndex]
-                                    .client_name
-                                }
-                              </cite>
-                              <div className="text-xs sm:text-sm text-muted-foreground">
-                                Happy Traveler
-                              </div>
-                            </div>
-                          </footer>
-                        </motion.blockquote>
-                      </AnimatePresence>
-
-                      <div className="flex justify-center space-x-2 mt-4">
-                        {testimonials.map((_, index) => (
-                          <button
-                            key={index}
-                            onClick={() => setCurrentTestimonialIndex(index)}
-                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                              currentTestimonialIndex === index
-                                ? "bg-primary w-4"
-                                : "bg-border hover:bg-border/80"
-                            }`}
-                            aria-label={`Go to testimonial ${index + 1}`}
-                            aria-current={currentTestimonialIndex === index}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-
-                <motion.div
-                  className="relative order-1 lg:order-2"
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  viewport={{ once: true }}
-                >
-                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl group">
-                    <Image
-                      src="/images/bovz3mzbk88htcllt0bp.jpg"
-                      alt="Happy travelers enjoying their journey"
-                      width={600}
-                      height={500}
-                      className="w-full h-64 sm:h-80 lg:h-96 object-cover transition-transform duration-200 ease-out group-hover:scale-105"
-                      loading="lazy"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </AnimatedSection>
-
-          {/* Newsletter Section */}
-          <AnimatedSection
-            id="contact"
-            className="py-12 sm:py-16 px-4 sm:px-6"
-            aria-labelledby="newsletter-heading"
-          >
-            <div className="max-w-4xl mx-auto text-center">
-              <motion.div
-                className="bg-background border border-border rounded-xl sm:rounded-2xl p-8 sm:p-12 relative overflow-hidden"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              >
-                <div className="relative z-10">
-                  <h2
-                    id="newsletter-heading"
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground"
-                  >
-                    Start Your Adventure Today
-                  </h2>
-                  <p className="text-base sm:text-lg mb-6 sm:mb-8 text-muted-foreground">
-                    Join thousands of travelers who trust Yathrananda for their
-                    perfect journey
-                  </p>
-                  <motion.button
-                    className="group/button relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-primary px-8 py-3 text-base font-semibold text-primary-foreground transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="Start planning your trip with Yathrananda"
-                    onClick={handleWhatsAppClick}
-                  >
-                    <span className="relative z-10">Plan Your Trip Now</span>
-                    <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-12deg)_translateX(100%)]">
-                      <div className="relative h-full w-8 bg-white/20"></div>
-                    </div>
-                  </motion.button>
-                </div>
-                <div
-                  className="absolute inset-0 bg-foreground/5"
-                  aria-hidden="true"
-                ></div>
-              </motion.div>
-            </div>
-          </AnimatedSection>
-          {/* <AnimatedSection className="py-16 sm:py-20 px-4 sm:px-6 bg-muted">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              className="bg-gradient-to-r from-primary to-primary-hover rounded-2xl p-8 sm:p-12 text-primary-foreground relative overflow-hidden shadow-2xl"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              <div className="relative z-10">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-                  Ready for Your Next Adventure?
-                </h2>
-                <p className="text-base sm:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-                  Let our expert team create a personalized travel experience
-                  that exceeds your expectations. Your dream destination is just
-                  one conversation away.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <motion.button
-                    className="bg-background text-primary-hover px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-background/90 shadow-lg"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="Start planning your trip with Yathrananda"
-                    onClick={() => {
-                      router.push("/contact");
-                    }}
-                  >
-                    Call Us Now: +91 6282928617
-                  </motion.button>
-                  <motion.button
-                    onClick={() => {
-                      router.push("/packages");
-                    }}
-                    className="border-2 border-primary-foreground text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:bg-background/90 hover:text-primary-hover"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="View our travel destinations"
-                  >
-                    View Destinations
-                  </motion.button>
-                </div>
-              </div>
-              <div
-                className="absolute inset-0 bg-foreground/10"
-                aria-hidden="true"
-              />
-            </motion.div>
-          </div>
-        </AnimatedSection> */}
           <Footer />
         </div>
         <VideoModal

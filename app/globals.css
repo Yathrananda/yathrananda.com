@@ -288,3 +288,23 @@
   opacity: 1;
   pointer-events: auto;
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+
+.stroke-text {
+  -webkit-text-stroke: 1.5px black;
+  color: transparent;
+}

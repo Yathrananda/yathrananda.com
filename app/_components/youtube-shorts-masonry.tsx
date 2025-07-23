@@ -58,7 +58,7 @@ const YouTubeShortsBentoGrid: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white"></div>
+      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-muted"></div>
     </div>
   );
 };

@@ -68,7 +68,7 @@ const staggerContainer: Variants = {
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-primary via-primary-hover to-primary text-white">
+    <footer className="bg-gradient-to-r from-primary via-primary-hover to-primary text-white z-10 relative">
       {/* Footer Section */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
@@ -305,21 +305,6 @@ export default function Footer() {
               <p className="text-muted text-sm text-center sm:text-left">
                 © {currentYear} Yathrananda. All rights reserved.
               </p>
-              <div className="flex items-center space-x-4 text-sm">
-                <Link
-                  href="/privacy"
-                  className="text-muted hover:text-background transition-colors duration-300"
-                >
-                  Privacy Policy
-                </Link>
-                <span className="text-gray-400">•</span>
-                <Link
-                  href="/terms"
-                  className="text-muted hover:text-background transition-colors duration-300"
-                >
-                  Terms of Service
-                </Link>
-              </div>
             </div>
             <motion.div
               className="flex items-center space-x-2 text-sm text-background"
