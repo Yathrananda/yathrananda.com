@@ -105,7 +105,7 @@ export default function ContactPage() {
               viewport={{ once: true, margin: "-50px" }}
             >
               <motion.div
-                className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center shadow-lg flex-1 max-w-xs"
+                className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center shadow-lg flex-1 w-full md:max-w-xs"
                 variants={scaleIn}
               >
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -120,7 +120,7 @@ export default function ContactPage() {
               </motion.div>
 
               <motion.div
-                className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center shadow-lg flex-1 max-w-xs"
+                className="bg-card border border-border rounded-xl p-4 sm:p-6 text-center shadow-lg flex-1 w-full md:max-w-xs"
                 variants={scaleIn}
               >
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
