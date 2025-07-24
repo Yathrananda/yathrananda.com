@@ -1,6 +1,7 @@
 "use client";
 import PackagesSectionType from "@/app/_components/packages-section";
 import Header from "../_components/header";
+import SimpleFooter from "../_components/simple-footer";
 
 export default function PackagesPage() {
   return (
@@ -17,6 +18,7 @@ export default function PackagesPage() {
       <main id="main-content">
         <PackagesSectionType title="Popular Destinations in Kerala" />
       </main>
+      <SimpleFooter />
     </div>
   );
 }

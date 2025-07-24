@@ -35,7 +35,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
   const pathname = usePathname();
   return (
     <motion.div
-      className="group relative bg-card rounded-xl overflow-hidden border border-border/40 transition-all duration-300 ease-out hover:shadow-xl hover:border-border/80"
+      className="group relative bg-card rounded-xl overflow-hidden border border-border/90 transition-all duration-300 ease-out hover:shadow-xl hover:border-border/80"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -113,22 +113,22 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
         <div className="p-4 space-y-3">
           {pkg.title && (
-            <h3 className="font-semibold text-xl text-card-foreground line-clamp-1 group-hover:text-primary transition-colors">
+            <h3 className="font-semibold text-xl text-card-foreground line-clamp-2 group-hover:text-primary transition-colors">
               {pkg.title}
             </h3>
           )}
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             {pkg.location && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4 mr-2 text-primary" />
+              <div className="flex items-center text-md text-muted-foreground">
+                <MapPin className="w-5 h-5 mr-2 text-primary" />
                 <span className="line-clamp-1">{pkg.location}</span>
               </div>
             )}
 
             {pkg.duration && (
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Clock className="w-4 h-4 mr-2 text-primary" />
+              <div className="flex items-center text-md text-muted-foreground">
+                <Clock className="w-5 h-5 mr-2 text-primary" />
                 <span>{pkg.duration}</span>
               </div>
             )}
@@ -136,16 +136,16 @@ const PackageCard: React.FC<PackageCardProps> = ({
             {(type && type === "upcoming" || pathname !== "/") && (
               <>
                 {pkg.departure_place && pkg.departure_type ? (
-                  <div className="flex items-center text-sm text-muted-foreground">
+                  <div className="flex items-center text-md text-muted-foreground">
                     {pkg.departure_type === "plane" ? (
-                      <Plane className="w-4 h-4 mr-2 text-primary" />
+                      <Plane className="w-5 h-5 mr-2 text-primary" />
                     ) : (
-                      <Train className="w-4 h-4 mr-2 text-primary" />
+                      <Train className="w-5 h-5 mr-2 text-primary" />
                     )}
                     <span>Departing from {pkg.departure_place}</span>
                   </div>
                 ) : (
-                  <div className="flex items-center text-sm text-muted-foreground">
+                  <div className="flex items-center text-md text-muted-foreground">
                     Departing: Not Specified
                   </div>
                 )}

@@ -94,6 +94,8 @@ export interface TravelPackageDetailData {
   duration: string;
   groupSize: string;
   testimonials: Testimonial[];
+  inclusions: string[];
+  exclusions: string[];
 }
 
 export interface UpcomingPackage {

@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear();
 const socialLinks = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/yathrananda",
+    href: "https://www.facebook.com/p/Yathrananda-100088112573328",
     icon: Facebook,
     bgColor: "bg-blue-600",
     color: "text-white",
@@ -25,6 +25,7 @@ const socialLinks = [
 const locations = [
   {
     name: "Kozhikode Office",
+    contact: "+91 7593873501",
     address:
       "Merry Land Square, V Panoli Road, Thiruthiyad, Kozhikode, Kerala 673004",
     mapUrl:
@@ -32,6 +33,7 @@ const locations = [
   },
   {
     name: "Thalassery Office",
+    contact: "+91 7593873503",
     address:
       "First Floor, City Centre, Opposite Co-op Hospital, Thalassery, Kannur, Kerala 670101",
     mapUrl:
@@ -39,6 +41,7 @@ const locations = [
   },
   {
     name: "Thiruvananthapuram Office",
+    contact: "+91 7593873502",
     address:
       "Thottaykadu Building, MG Radhakrishnan Rd, near Kerala Cricket Association, Paund Colony, Vazhuthacaud, Thiruvananthapuram, Kerala 695014",
     mapUrl:
@@ -68,7 +71,7 @@ const staggerContainer: Variants = {
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-primary via-primary-hover to-primary text-white">
+    <footer className="bg-gradient-to-r from-primary via-primary-hover to-primary text-white z-10 relative">
       {/* Footer Section */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
@@ -261,16 +264,27 @@ export default function Footer() {
                   </div>
                   <p className="text-background/90 text-sm leading-relaxed mb-3">
                     {location.address}
-                    {index < 2 && (
-                      <p className="text-background/90 text-sm leading-relaxed mb-3">
+                    {index < 2 ? (
+                      <span className="text-background/90 text-sm leading-relaxed mb-3">
+                        <br />
                         <a
-                          href={location.mapUrl}
+                          href={`tel:${location.contact}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          ‎ 
+                          Contact: {location.contact}
                         </a>
-                      </p>
+                      </span>
+                    ) : (
+                      <span className="text-background/90 text-sm leading-relaxed mb-3">
+                        <a
+                          href={`tel:${location.contact}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          , Contact: {location.contact}
+                        </a>
+                      </span>
                     )}
                   </p>
                 </div>
@@ -305,21 +319,6 @@ export default function Footer() {
               <p className="text-muted text-sm text-center sm:text-left">
                 © {currentYear} Yathrananda. All rights reserved.
               </p>
-              <div className="flex items-center space-x-4 text-sm">
-                <Link
-                  href="/privacy"
-                  className="text-muted hover:text-background transition-colors duration-300"
-                >
-                  Privacy Policy
-                </Link>
-                <span className="text-gray-400">•</span>
-                <Link
-                  href="/terms"
-                  className="text-muted hover:text-background transition-colors duration-300"
-                >
-                  Terms of Service
-                </Link>
-              </div>
             </div>
             <motion.div
               className="flex items-center space-x-2 text-sm text-background"

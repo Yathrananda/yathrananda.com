@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title:
     "Contact Us - Yathrananda Travel Agency | Get In Touch With Travel Experts",
   description:
-    "Contact Yathrananda's travel experts for personalized trip planning. Call +1 (555) 123-4567, email support@yathrananda.com, or fill out our contact form. Free consultation available.",
+    "Contact Yathrananda's travel experts for personalized trip planning. Call +917593873555, email support@yathrananda.com, or fill out our contact form. Free consultation available.",
   keywords:
     "contact Yathrananda, travel agency contact, trip planning consultation, travel experts contact, travel planning help, travel agency phone number, travel consultation",
   openGraph: {

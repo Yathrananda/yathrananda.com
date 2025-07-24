@@ -1,15 +1,31 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Voltaire, Cuprum, Shanti } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import LenisReactProvider from "./lenis-react-provider";
 
-const dmsans = DM_Sans({
+const voltaire = Voltaire({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-dmsans",
-  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-voltaire",
+  weight: ["400"],
 });
+
+const cuprum = Cuprum({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-cuprum",
+  weight: ["400", "500", "600", "700"],
+});
+
+const shanti = Shanti({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-shanti",
+  weight: ["400"],
+});
+
 export const metadata: Metadata = {
   title:
     "Yathrananda - Explore the World, One Journey at a Time | Premium Travel Agency",
@@ -76,8 +92,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={dmsans.variable}>
+    <html
+      lang="en"
+      className={`${voltaire.variable} ${cuprum.variable} ${shanti.variable}`}
+    >
       <head>
+        <link
+          rel="preload"
+          href="/loading-animation.json"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/title.png"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
         <link rel="icon" href="/icon.png" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.png" />
@@ -86,12 +117,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
-        className={`${dmsans.className} antialiased bg-background text-foreground`}
+        className={`${shanti.className} antialiased bg-background text-foreground`}
         suppressHydrationWarning={true}
       >
-        {children}
-        
-        {/* Microsoft Clarity Script */}
+        <LenisReactProvider>{children}</LenisReactProvider>
         <Script
           id="microsoft-clarity"
           strategy="afterInteractive"

@@ -9,6 +9,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'large': ['var(--font-voltaire)', 'sans-serif'],
+        'sub-large': ['var(--font-cuprum)', 'sans-serif'],
+        'small': ['var(--font-shanti)', 'sans-serif'],
+        'voltaire': ['var(--font-voltaire)', 'sans-serif'],
+        'cuprum': ['var(--font-cuprum)', 'sans-serif'],
+        'shanti': ['var(--font-shanti)', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -103,6 +111,18 @@ const config: Config = {
         "fade-in": "fadeIn var(--animation-duration) var(--animation-timing)",
         "slide-up": "slideUp var(--animation-duration) var(--animation-timing)",
         "scale-in": "scaleIn var(--animation-duration) var(--animation-timing)",
+        "marquee": 'marquee var(--duration) linear infinite',
+        "marquee-vertical": 'marquee-vertical var(--duration) linear infinite',
+      },
+    },
+    keyframes: {
+      marquee: {
+        from: { transform: 'translateX(0)' },
+        to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+      },
+      'marquee-vertical': {
+        from: { transform: 'translateY(0)' },
+        to: { transform: 'translateY(calc(-100% - var(--gap)))' },
       },
     },
   },

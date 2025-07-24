@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import PackageCard from "@/app/_components/package-card"
 import { UpcomingPackage } from "@/types/package-detail"
+import FramerCarousel from "../framer-carousel"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -98,7 +99,7 @@ const DomesticToursSection: React.FC = () => {
                 Domestic Tours
               </motion.h2>
               <motion.p
-                className="text-muted-foreground text-sm sm:text-base"
+                className="text-muted-foreground text-sm sm:text-base font-shanti"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
@@ -128,24 +129,29 @@ const DomesticToursSection: React.FC = () => {
             </Link>
           </motion.div>
         </div>
-
-        {/* Tours Grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+        {/* <motion.div
+          className="overflow-x-auto scrollbar-hide"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {domesticTours.slice(0, 8).map((tour) => (
-            <PackageCard 
-              key={tour.id} 
-              package={tour} 
-              aspectRatio="landscape" 
-              type="domestic" 
-            />
-          ))}
-        </motion.div>
+          <div className="flex gap-4 sm:gap-6 pb-4 min-w-max">
+            {domesticTours.map((tour) => (
+              <div
+                key={tour.id}
+                className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px]"
+              >
+                <PackageCard 
+                  package={tour} 
+                  aspectRatio="landscape" 
+                  type="domestic" 
+                />
+              </div>
+            ))}
+          </div>
+        </motion.div> */}
+        <FramerCarousel items={domesticTours} />
       </div>
     </section>
   )
