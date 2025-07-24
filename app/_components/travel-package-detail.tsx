@@ -27,8 +27,6 @@ export function TravelPackageDetail({ data }: TravelPackageDetailProps) {
   const sections = [
     { id: "overview", label: "Overview" },
     { id: "itinerary", label: "Itinerary" },
-    { id: "inclusions", label: "Inclusions" },
-    { id: "exclusions", label: "Exclusions" },
     { id: "gallery", label: "Gallery" },
     { id: "testimonials", label: "Testimonials" },
     { id: "booking", label: "Booking Info" },
