@@ -54,11 +54,11 @@ const IntroAnimation = () => {
             alt="Yathrananda"
             width={280}
             height={80}
-            className="h-16 lg:h-72 w-auto object-contain brightness-0 invert mb-44"
+            className="h-52 md:h-72 w-auto object-contain brightness-0 invert mb-44"
             priority
           />
           {/* Lottie Animation */}
-          <div className="w-32 h-32 lg:w-80 lg:h-80 absolute top-1/4 left-1/2 -translate-x-1/2">
+          <div className="w-36 h-36 lg:w-80 lg:h-80 absolute top-[35%] md:top-1/4 left-1/2 -translate-x-1/2">
             <Lottie
               animationData={animationData}
               loop={true}
