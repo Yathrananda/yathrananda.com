@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ItineraryDay } from "@/types/package-detail";
 import ProgressiveCarousel from "./package-detail/progressive-carousel";
@@ -9,6 +9,7 @@ const HorizontalScrollSection: React.FC<{
   activities_display_type: "points" | "description";
 }> = ({ items, activities_display_type }) => {
   const containerRef = useRef(null);
+  const [modalDayIndex, setModalDayIndex] = useState<number | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -21,12 +22,64 @@ const HorizontalScrollSection: React.FC<{
     ["0%", `-${items.length * 100}%`]
   );
 
+  const ActivitiesModal = ({
+    day,
+    onClose,
+  }: {
+    day: ItineraryDay;
+    onClose: () => void;
+  }) => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+      <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+        <button
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          &times;
+        </button>
+        <h2 className="text-lg font-semibold mb-4 font-cuprum">
+          Day {day.day} Activities
+        </h2>
+        {activities_display_type === "points" ? (
+          <ul className="space-y-1 text-gray-700 list-disc pl-5">
+            {day.activities.map((activity, idx) => (
+              <li key={idx} className="text-sm font-shanti">
+                {activity}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <>
+            {day.activities.map((activity, index) => (
+              <React.Fragment key={index}>
+                <p
+                  key={index}
+                  className="text-gray-700 leading-relaxed text-sm whitespace-pre-line font-shanti"
+                >
+                  {activity}
+                </p>
+                {index < day.activities.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <section
       ref={containerRef}
       className="relative"
       style={{ height: `${(items.length + 1) * 100}vh` }}
     >
+      {modalDayIndex !== null && items[modalDayIndex] && (
+        <ActivitiesModal
+          day={items[modalDayIndex]}
+          onClose={() => setModalDayIndex(null)}
+        />
+      )}
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ x }} className="flex h-screen w-[100vw]">
           {items.map((day, index) => (
@@ -92,31 +145,38 @@ const HorizontalScrollSection: React.FC<{
                               ))}
                           </ul>
                           <ul className="space-y-2 text-muted-foreground md:pl-4">
-                            {day.activities
-                              .map((activity, actIndex) => (
-                                <li
-                                  key={actIndex}
-                                  className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
-                                >
-                                  {activity}
-                                </li>
-                              ))}
+                            {day.activities.map((activity, actIndex) => (
+                              <li
+                                key={actIndex}
+                                className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
+                              >
+                                {activity}
+                              </li>
+                            ))}
                           </ul>
                         </>
                       ) : (
                         <>
                           {day.activities.map((activity, index) => (
-                            <p
-                              key={index}
-                              className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11 whitespace-pre-line line-clamp-4 md:line-clamp-none"
-                            >
-                              {activity}
-                            </p>
+                            <React.Fragment key={index}>
+                              <p
+                                key={index}
+                                className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11 whitespace-pre-line line-clamp-4 md:line-clamp-none"
+                              >
+                                {activity}
+                              </p>
+                              {index < day.activities.length - 1 && <br />}
+                            </React.Fragment>
                           ))}
                         </>
                       )}
                       <span className="md:hidden">
-                        <span className="text-blue-600 text-sm">Read More</span>
+                        <button
+                          className="text-blue-600 text-sm underline focus:outline-none"
+                          onClick={() => setModalDayIndex(index)}
+                        >
+                          Read More
+                        </button>
                       </span>
                     </div>
                     {day.notes && (
