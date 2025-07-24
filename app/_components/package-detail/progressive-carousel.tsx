@@ -25,7 +25,7 @@ function FramerCarousel({
     <>
       <motion.div
         layoutId={"activeItems"}
-        className="rounded-md w-full pb-4 gap-2 items-center cursor-auto"
+        className="rounded-md w-full md:pb-4 gap-2 items-center cursor-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <>
@@ -35,7 +35,7 @@ function FramerCarousel({
                 {index === activeItem && (
                   <motion.figure
                     key={tab?.id}
-                    className="bg-gray-100/60 rounded-md p-4"
+                    className="bg-gray-100/60 rounded-md md:p-4"
                   >
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -66,7 +66,7 @@ function FramerCarousel({
                         width={1000}
                         height={1000}
                         alt={images[activeItem]?.alt || "Travel Image"}
-                        className=" object-contain h-96  mx-auto rounded-md"
+                        className="object-cover md:object-contain h-28 md:h-96 rounded-md"
                       />
                     </motion.div>
                   </motion.figure>
@@ -75,7 +75,7 @@ function FramerCarousel({
             </Fragment>
           ))}
         </>
-        <motion.div className="w-full mt-4 mx-auto overflow-hidden bg-gray-100/60 rounded-md">
+        <motion.div className="w-full mt-1 md:mt-4 md:mx-auto overflow-hidden md:bg-gray-100/60 border md:border-none rounded-md">
           <motion.div
             ref={carousel}
             drag="x"
@@ -97,7 +97,7 @@ function FramerCarousel({
                     width={400}
                     height={400}
                     alt="img"
-                    className="w-28 h-16 object-cover cursor-pointer relative z-[2] rounded-md pointer-events-none"
+                    className="w-12 h-8 md:w-28 md:h-16 object-cover cursor-pointer relative z-[2] rounded-md pointer-events-none"
                   />
                   {index === activeItem && (
                     <motion.div

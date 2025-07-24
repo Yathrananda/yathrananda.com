@@ -39,7 +39,7 @@ const HorizontalScrollSection: React.FC<{
                 className="w-full h-full snap-start flex flex-col lg:flex-row mb-12"
               >
                 {/* TEXT - 2/3 */}
-                <div className="lg:basis-2/3 flex items-center justify-center p-6 lg:p-12">
+                <div className="lg:basis-2/3 flex items-center justify-center p-2 lg:p-12">
                   <div className="w-full space-y-6 pl-4 md:pl-8">
                     <div className="space-y-4">
                       <div className="inline-flex items-center gap-3">
@@ -52,60 +52,84 @@ const HorizontalScrollSection: React.FC<{
                         {day.title}
                       </h1>
                     </div>
-                    <div className="space-y-2">
+                    <div className="lg:hidden">
+                      <ProgressiveCarousel images={day.images} />
+                    </div>
+                    <div className="md:space-y-2">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-orange-50 rounded-lg">
-                          <Utensils className="h-5 w-5 text-orange-600" />
+                        <div className="p-1 md:p-2 bg-orange-50 rounded-lg">
+                          <Utensils className="h-3 w-3 md:h-5 md:w-5 text-orange-600" />
                         </div>
-                        <h2 className="text-lg font-medium text-gray-900">
+                        <h2 className="text-sm md:text-lg font-medium text-gray-900">
                           Meal Plan
                         </h2>
                       </div>
-                      <p className="text-gray-600 leading-relaxed text-lg pl-11">
+                      <p className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11">
                         {day.mealPlan}
                       </p>
                     </div>
-                    <div className="space-y-2">
+                    <div className="md:space-y-2">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-50 rounded-lg">
-                          <MapPin className="h-5 w-5 text-blue-600" />
+                        <div className="p-1 md:p-2 bg-blue-50 rounded-lg">
+                          <MapPin className="h-3 w-3 md:h-5 md:w-5 text-blue-600" />
                         </div>
-                        <h2 className="text-lg font-medium text-gray-900">
+                        <h2 className="text-sm md:text-lg font-medium text-gray-900">
                           Today's Journey
                         </h2>
                       </div>
                       {activities_display_type === "points" ? (
-                        <ul className="space-y-2 text-muted-foreground pl-4">
-                          {day.activities.map((activity, actIndex) => (
-                            <li
-                              key={actIndex}
-                              className="text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
-                            >
-                              {activity}
-                            </li>
-                          ))}
-                        </ul>
+                        <>
+                          <ul className="space-y-2 text-muted-foreground md:pl-4 md:hidden">
+                            {day.activities
+                              ?.slice(0, 6)
+                              .map((activity, actIndex) => (
+                                <li
+                                  key={actIndex}
+                                  className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
+                                >
+                                  {activity}
+                                </li>
+                              ))}
+                          </ul>
+                          <ul className="space-y-2 text-muted-foreground md:pl-4">
+                            {day.activities
+                              .map((activity, actIndex) => (
+                                <li
+                                  key={actIndex}
+                                  className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
+                                >
+                                  {activity}
+                                </li>
+                              ))}
+                          </ul>
+                        </>
                       ) : (
                         <>
                           {day.activities.map((activity, index) => (
-                            <p key={index} className="text-gray-600 leading-relaxed text-lg pl-11 whitespace-pre-line">
+                            <p
+                              key={index}
+                              className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11 whitespace-pre-line line-clamp-4 md:line-clamp-none"
+                            >
                               {activity}
                             </p>
                           ))}
                         </>
                       )}
+                      <span className="md:hidden">
+                        <span className="text-blue-600 text-sm">Read More</span>
+                      </span>
                     </div>
                     {day.notes && (
-                      <div className="space-y-2">
+                      <div className="md:space-y-2">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-gray-100 rounded-lg">
-                            <Info className="h-5 w-5 text-gray-600" />
+                          <div className="p-1 md:p-2 bg-gray-100 rounded-lg">
+                            <Info className="h-3 w-3 md:h-5 md:w-5 text-gray-600" />
                           </div>
-                          <h2 className="text-lg font-medium text-gray-900">
+                          <h2 className="text-sm md:text-lg font-medium text-gray-900">
                             Special Notes
                           </h2>
                         </div>
-                        <p className="text-gray-600 leading-relaxed text-lg pl-11">
+                        <p className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11">
                           {day.notes}
                         </p>
                       </div>
@@ -118,10 +142,6 @@ const HorizontalScrollSection: React.FC<{
                   <div className="relative w-full max-w-md h-[70vh] rounded-2xl overflow-hidden">
                     <ProgressiveCarousel images={day.images} />
                   </div>
-                </div>
-                {/* FADED BACKGROUND IMAGE FOR MOBILE */}
-                <div className="lg:hidden absolute inset-0 -z-10">
-                  <ProgressiveCarousel images={day.images} />
                 </div>
               </div>
             </div>

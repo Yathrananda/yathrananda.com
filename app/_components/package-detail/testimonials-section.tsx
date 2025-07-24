@@ -21,7 +21,7 @@ export function TestimonialsSection({
   return (
     <section id="testimonials" className="mb-12">
       <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
-        Booking & Cancellation
+        What Our Travelers Say
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -162,11 +162,11 @@ export default function PackagesSection({
   }
 
   return (
-    <section className="py-12 px-4 bg-background">
+    <section className="py-6 md:py-12 px-4 bg-background">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">{title}</h2>
+          <h2 className="text-xl md:text-3xl font-bold mb-4">{title}</h2>
           <p className="text-muted-foreground mb-8">{subtitle}</p>
 
           {/* Search Bar */}

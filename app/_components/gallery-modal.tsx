@@ -131,7 +131,7 @@ export const SliderModal = ({
                           {tab.id === newItem.id && (
                             <motion.figure
                               key={tab?.id}
-                              className="bg-white border rounded-md p-4"
+                              className="md:bg-white md:border rounded-md pl-2 md:pl-0 md:p-4"
                             >
                               <motion.div
                                 initial={{ opacity: 0 }}

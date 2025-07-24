@@ -211,7 +211,7 @@ export default function PackageDetailPage() {
       />
       <div className="relative w-full h-full p-4 md:px-12">
         <div className="border-0 bg-white/80 backdrop-blur-sm">
-          <div className="p-6 md:p-8 space-y-8">
+          <div className="p-2 md:p-8 space-y-4 md:space-y-8">
             <div className="space-y-4">
               <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                 <p className="text-slate-700 leading-relaxed text-lg font-shanti font-medium whitespace-pre-line">
