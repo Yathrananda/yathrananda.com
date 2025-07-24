@@ -353,13 +353,13 @@ export default function HomePage() {
           >
             <div className="absolute inset-0">
               <div className="w-full h-full relative">
-                <div className="absolute inset-0 z-0 px-12 py-32">
+                <div className="absolute inset-0 z-0 md:px-12 py-16 md:py-32">
                   <TopDestinationsHero />
                 </div>
               </div>
             </div>
             <header className="relative z-40 w-full bg-background">
-              <div className="relative bg-primary text-sm font-medium text-background hidden md:block">
+              <div className="relative bg-primary text-sm font-medium text-background block">
                 <div className="flex items-center justify-between px-4 sm:px-8 lg:px-[84px] py-2">
                   <div className="flex items-center space-x-4">
                     <Link
@@ -371,7 +371,7 @@ export default function HomePage() {
                     </Link>
                     <Link
                       href="tel:917593873999"
-                      className="flex items-center space-x-2"
+                      className="items-center space-x-2 hidden md:flex"
                     >
                       <Phone className="w-4 h-4" />
                       <span>+917593873999</span>
@@ -459,17 +459,17 @@ export default function HomePage() {
                   {/* Enhanced Mobile Actions */}
                   <div className="lg:hidden flex items-center space-x-3">
                     <motion.button
-                      className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 text-white p-3 rounded-full transition-all duration-200 hover:from-green-700 hover:to-green-800 shadow-lg border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                      className="flex items-center justify-center bg-gradient-to-r from-primary to-primary-hover text-white p-3 rounded-sm transition-all duration-200 hover:from-primary-hover hover:to-primary-hover border border-primary focus:outline-none focus:ring-2 focus:ring-primary"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleWhatsAppClick}
                       aria-label="Contact Yathrananda on WhatsApp"
                     >
-                      <MessageCircle className="w-5 h-5" />
+                      <MessageCircle className="w-4 h-4" />
                     </motion.button>
 
                     <motion.button
-                      className="flex items-center justify-center p-3 text-white bg-white/25 backdrop-blur-lg rounded-full transition-all duration-200 hover:bg-white/35 shadow-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
+                      className="flex items-center justify-center p-3 text-primary-hover bg-background backdrop-blur-lg rounded-sm transition-all duration-200 hover:bg-white/35 border border-primary focus:outline-none focus:ring-2 focus:ring-primary"
                       onClick={toggleMobileMenu}
                       aria-label={
                         isMobileMenuOpen
@@ -489,7 +489,7 @@ export default function HomePage() {
                             exit={{ rotate: 90, opacity: 0 }}
                             transition={{ duration: 0.2 }}
                           >
-                            <X className="w-5 h-5" />
+                            <X className="w-4 h-4" />
                           </motion.div>
                         ) : (
                           <motion.div
@@ -499,7 +499,7 @@ export default function HomePage() {
                             exit={{ rotate: -90, opacity: 0 }}
                             transition={{ duration: 0.2 }}
                           >
-                            <Menu className="w-5 h-5" />
+                            <Menu className="w-4 h-4" />
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -514,7 +514,7 @@ export default function HomePage() {
               {isMobileMenuOpen && (
                 <>
                   <motion.div
-                    className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+                    className="lg:hidden fixed inset-0 bg-white/70 backdrop-blur-sm z-40"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -523,7 +523,7 @@ export default function HomePage() {
                   />
 
                   <motion.div
-                    className="lg:hidden fixed top-0 right-0 bottom-0 w-full max-w-sm bg-black backdrop-blur-xl z-50 shadow-2xl"
+                    className="lg:hidden fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white/70 backdrop-blur-xl z-50 shadow-2xl"
                     initial={{ x: "100%" }}
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
@@ -540,7 +540,7 @@ export default function HomePage() {
                         />
                         <button
                           onClick={closeMobileMenu}
-                          className="p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+                          className="p-2 text-primary hover:text-primary-hover transition-colors rounded-full hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary/50"
                           aria-label="Close navigation menu"
                         >
                           <X className="w-6 h-6" />
@@ -562,10 +562,10 @@ export default function HomePage() {
                             >
                               <Link
                                 href={item.href}
-                                className={`block py-4 px-4 text-lg font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 ${
+                                className={`block py-4 px-4 text-lg font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 ${
                                   item.active
-                                    ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-400 shadow-lg"
-                                    : "text-white/90 hover:text-white hover:bg-white/10 hover:translate-x-2"
+                                    ? "text-primary bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-400 shadow-lg"
+                                    : "text-primary/90 hover:text-primary hover:bg-primary/10 hover:translate-x-2"
                                 }`}
                                 onClick={closeMobileMenu}
                                 aria-label={`Navigate to ${item.name}`}
@@ -671,7 +671,7 @@ export default function HomePage() {
             aria-labelledby="services-heading"
           >
             <div className="w-full px-4 md:px-24 relative">
-              <div className="absolute bottom-20 -left-20 w-full h-full z-0">
+              <div className="absolute -bottom-96 md:bottom-20 -left-20 w-full h-full z-0">
                 <Image
                   src="/images/tree.png"
                   alt="Services Background"
@@ -688,11 +688,11 @@ export default function HomePage() {
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   viewport={{ once: true }}
                 >
-                  <h2 className="text-8xl font-extrabold text-foreground">
+                  <h2 className="text-5xl md:text-8xl font-extrabold text-foreground">
                     Love to <br />
                     Travel ?
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground mt-1 md:mt-0">
                     We are here to help you plan your next adventure.
                   </p>
                   <div className="flex gap-4 items-center justify-center">

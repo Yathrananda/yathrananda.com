@@ -95,7 +95,7 @@ function ImageAccordion() {
   const router = useRouter();
   return (
     <>
-      <div className="group flex max-md:flex-col justify-center gap-2 w-full px-12 pt-12 pb-6">
+      <div className="group flex max-md:flex-col justify-center gap-2 w-full px-4 md:px-12 md:pt-12 md:pb-6">
         {items.map((item) => {
           return (
             <article

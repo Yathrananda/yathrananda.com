@@ -278,13 +278,15 @@ export default function TopDestinationsHero() {
               {destinations.map((destination) => (
                 <div
                   key={destination.id}
-                  className="flex-shrink-0 mr-[15px]"
-                  style={{ width: "260px" }}
+                  className="flex-shrink-0 mr-[15px] w-[160px] md:w-[260px]"
                 >
-                  <div className="w-[260px] flex flex-col gap-1 overflow-hidden h-full">
+                  <div className="w-[160px] md:w-[260px] flex flex-col gap-1 overflow-hidden h-full">
                     <div
-                      className="w-full overflow-hidden mb-1 rounded-xl"
-                      style={{ height: `${destination.height}px` }}
+                      className={`w-full overflow-hidden mb-1 rounded-xl ${
+                        destination.height === 400
+                          ? "h-[200px] md:h-[400px]"
+                          : "h-[150px] md:h-[300px]"
+                      }`}
                     >
                       <Image
                         alt={destination.name}
@@ -316,7 +318,7 @@ export default function TopDestinationsHero() {
             {currentDestination.name}
           </h3>
           <p
-            className="text-sm sm:text-base h-fit transition-opacity duration-300"
+            className="text-sm sm:text-base h-fit transition-opacity duration-300 line-clamp-2 md:line-clamp-4"
             style={{
               opacity: isTransitioning ? 0.7 : 1,
               willChange: "transform",
