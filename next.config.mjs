@@ -163,8 +163,7 @@ const nextConfig = {
   // Output configuration
   output: 'standalone',
   
-  // Enable SWC minification
-  swcMinify: true,
+
   
   // Environment variables
   env: {
