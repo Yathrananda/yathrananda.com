@@ -15,7 +15,7 @@ const nextConfig = {
     minimumCacheTTL: 31536000, // 1 year
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: ['yathrananda.com', 'www.yathrananda.com'],
+    domains: ['yathrananda.com', 'www.yathrananda.com', 'res.cloudinary.com'],
     remotePatterns: [
       {
         protocol: 'https',
