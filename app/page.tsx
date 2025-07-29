@@ -1,9 +1,8 @@
 "use client";
 
-import { JSX, useCallback, useEffect, useState, Suspense, lazy } from "react";
+import { JSX, useCallback, useEffect } from "react";
 import type React from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import {
   ChevronDown,
   X,
@@ -13,93 +12,22 @@ import {
   Phone,
 } from "lucide-react";
 import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
-import { HTMLAttributes, useRef } from "react";
+import { HTMLAttributes, useRef, useState } from "react";
+import { VideoModal } from "./_components/video-modal";
+import UpcomingToursSection from "./_components/sections/upcoming-tours-section";
+import TrendingToursSection from "./_components/sections/trending-tours-section";
+import InternationalToursSection from "./_components/sections/international-tours-section";
+import DomesticToursSection from "./_components/sections/domestic-tours-section";
 import { usePathname, useRouter } from "next/navigation";
 import { HeroMedia } from "@/types/package-detail";
 import Link from "next/link";
-
-// Lazy load components that are not immediately visible
-const VideoModal = dynamic(() => import("./_components/video-modal").then(mod => ({ default: mod.VideoModal })), { 
-  ssr: false,
-  loading: () => <div className="hidden" /> 
-});
-const UpcomingToursSection = dynamic(() => import("./_components/sections/upcoming-tours-section"), { 
-  ssr: false 
-});
-const TrendingToursSection = dynamic(() => import("./_components/sections/trending-tours-section"), { 
-  ssr: false 
-});
-const InternationalToursSection = dynamic(() => import("./_components/sections/international-tours-section"), { 
-  ssr: false 
-});
-const DomesticToursSection = dynamic(() => import("./_components/sections/domestic-tours-section"), { 
-  ssr: false 
-});
-const Footer = dynamic(() => import("./_components/footer"), { 
-  ssr: false 
-});
-const TopDestinationsHero = dynamic(() => import("./_components/hero-section/v1"), { 
-  ssr: false 
-});
-const YouTubeShortsMasonry = dynamic(() => import("./_components/youtube-shorts-masonry"), { 
-  ssr: false 
-});
-const Marquee = dynamic(() => import("./_components/marquee"), { 
-  ssr: false 
-});
-const ImageAccordion = dynamic(() => import("./_components/image-accordion"), { 
-  ssr: false 
-});
-const AllToursMarquee = dynamic(() => import("./_components/sections/packages-marquee"), { 
-  ssr: false 
-});
-const IntroAnimation = dynamic(() => import("./_components/intro-animation"), { 
-  ssr: false 
-});
-
-// Lazy load Google Reviews with intersection observer
-const LazyGoogleReviews = lazy(() => 
-  Promise.resolve({ 
-    default: (() => {
-      const GoogleReviews = () => {
-        const [isLoaded, setIsLoaded] = useState(false);
-        const ref = useRef<HTMLDivElement>(null);
-        const inView = useInView(ref, { once: true, margin: "100px" });
-
-        useEffect(() => {
-          if (inView && !isLoaded) {
-            setIsLoaded(true);
-          }
-        }, [inView, isLoaded]);
-
-        return (
-          <div ref={ref} className="relative h-[600px] overflow-hidden md:px-12">
-            {isLoaded ? (
-              <>
-                <iframe
-                  src="https://widgets.sociablekit.com/google-reviews/iframe/25580492"
-                  frameBorder="0"
-                  width="100%"
-                  height="1000px"
-                  scrolling="no"
-                  className="block w-full h-[600px]"
-                  loading="lazy"
-                  title="Google Reviews for Yathrananda Travel Agency"
-                />
-                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white" />
-              </>
-            ) : (
-              <div className="w-full h-[600px] bg-muted animate-pulse rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">Loading customer reviews...</p>
-              </div>
-            )}
-          </div>
-        );
-      };
-      return GoogleReviews;
-    })()
-  })
-);
+import Footer from "./_components/footer";
+import TopDestinationsHero from "./_components/hero-section/v1";
+import YouTubeShortsMasonry from "./_components/youtube-shorts-masonry";
+import Marquee from "./_components/marquee";
+import ImageAccordion from "./_components/image-accordion";
+import AllToursMarquee from "./_components/sections/packages-marquee";
+import IntroAnimation from "./_components/intro-animation";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -107,6 +35,17 @@ const fadeInUp: Variants = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
   },
 };
 
@@ -121,6 +60,7 @@ const AnimatedSection = ({
   children,
   className = "",
   variant = fadeInUp,
+  as: Component = "section",
 }: AnimatedSectionProps) => {
   const ref = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -137,6 +77,8 @@ const AnimatedSection = ({
       animate={mounted && isInView ? "visible" : "hidden"}
       variants={variant}
       className={className}
+      // @ts-ignore
+      // as={Component}
     >
       {children}
     </motion.div>
@@ -159,6 +101,7 @@ interface Testimonial {
 export default function HomePage() {
   const router = useRouter();
   const pathname = usePathname();
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -173,10 +116,14 @@ export default function HomePage() {
   const [faqsError, setFaqsError] = useState<string | null>(null);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isTestimonialsLoading, setIsTestimonialsLoading] = useState(true);
-  const [testimonialsError, setTestimonialsError] = useState<string | null>(null);
-  const [isTestimonialsTooltipOpen, setIsTestimonialsTooltipOpen] = useState<boolean>(false);
+  const [testimonialsError, setTestimonialsError] = useState<string | null>(
+    null
+  );
+  const [isTestimonialsTooltipOpen, setIsTestimonialsTooltipOpen] =
+    useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isIntroAnimationComplete, setIsIntroAnimationComplete] = useState(false);
+  const [isIntroAnimationComplete, setIsIntroAnimationComplete] =
+    useState(false);
 
   const navigationItems = [
     { name: "Home", href: "/" },
@@ -214,10 +161,7 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Optimize hero content fetching with abort controller
   useEffect(() => {
-    const controller = new AbortController();
-    
     const fetchHeroContent = async () => {
       try {
         const response = await fetch(
@@ -226,7 +170,6 @@ export default function HomePage() {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
-            signal: controller.signal,
           }
         );
 
@@ -240,9 +183,6 @@ export default function HomePage() {
         );
         setHeroContent(sortedMedia);
       } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
-          return; // Request was aborted, don't update state
-        }
         console.error("Error fetching hero content:", err);
         setError("Failed to load hero content");
         // Fallback to default content if API fails
@@ -284,10 +224,6 @@ export default function HomePage() {
     };
 
     fetchHeroContent();
-    
-    return () => {
-      controller.abort();
-    };
   }, []);
 
   const nextImage = useCallback(() => {
@@ -321,10 +257,7 @@ export default function HomePage() {
     }
   }, [testimonials.length, nextTestimonial]);
 
-  // Optimize testimonials fetching
   useEffect(() => {
-    const controller = new AbortController();
-    
     const fetchTestimonials = async () => {
       try {
         const response = await fetch(
@@ -333,7 +266,6 @@ export default function HomePage() {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
-            signal: controller.signal,
           }
         );
 
@@ -344,9 +276,6 @@ export default function HomePage() {
         const data = await response.json();
         setTestimonials(data.testimonials);
       } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
-          return;
-        }
         console.error("Error fetching testimonials:", err);
         setTestimonialsError("Failed to load testimonials");
       } finally {
@@ -355,16 +284,9 @@ export default function HomePage() {
     };
 
     fetchTestimonials();
-    
-    return () => {
-      controller.abort();
-    };
   }, []);
 
-  // Optimize FAQs fetching
   useEffect(() => {
-    const controller = new AbortController();
-    
     const fetchFaqs = async () => {
       try {
         const response = await fetch(
@@ -373,7 +295,6 @@ export default function HomePage() {
             headers: {
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
-            signal: controller.signal,
           }
         );
 
@@ -384,9 +305,6 @@ export default function HomePage() {
         const data = await response.json();
         setFaqs(data.faqs);
       } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
-          return;
-        }
         console.error("Error fetching FAQs:", err);
         setFaqsError("Failed to load FAQs");
       } finally {
@@ -395,403 +313,357 @@ export default function HomePage() {
     };
 
     fetchFaqs();
-    
-    return () => {
-      controller.abort();
-    };
   }, []);
 
-  const handleWhatsAppClick = useCallback(() => {
+  const handleWhatsAppClick = () => {
     const phoneNumber = "+917593873555";
     const message = "Hi! I'm interested in your travel services.";
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  }, []);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
 
-  const toggleMobileMenu = useCallback(() => {
+  const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  }, [isMobileMenuOpen]);
+  };
 
-  const closeMobileMenu = useCallback(() => {
+  const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
-  }, []);
-
-  const handleScrollToExplore = useCallback(() => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth",
-    });
-  }, []);
+  };
 
   if (!isIntroAnimationComplete) {
-    return (
-      <Suspense fallback={<div className="min-h-screen bg-background animate-pulse" />}>
-        <IntroAnimation />
-      </Suspense>
-    );
+    return <IntroAnimation />;
   }
 
   return (
     <>
-      <div className="min-h-screen bg-background">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg z-50 transition-all duration-200"
-        >
-          Skip to main content
-        </a>
-        
-        <section
-          id="home"
-          className="relative min-h-screen overflow-hidden bg-background"
-          aria-labelledby="hero-heading"
-        >
-          <div className="absolute inset-0">
-            <div className="w-full h-full relative">
-              <div className="absolute inset-0 z-0 md:px-12 py-16 md:py-32">
-                <Suspense fallback={<div className="w-full h-full bg-muted animate-pulse" />}>
+    
+        <div className="min-h-screen bg-background">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg z-50 transition-all duration-200"
+          >
+            Skip to main content
+          </a>
+          <section
+            id="home"
+            className="relative min-h-screen overflow-hidden bg-background"
+            aria-labelledby="hero-heading"
+          >
+            <div className="absolute inset-0">
+              <div className="w-full h-full relative">
+                <div className="absolute inset-0 z-0 px-12 py-32">
                   <TopDestinationsHero />
-                </Suspense>
-              </div>
-            </div>
-          </div>
-          
-          <header className="relative z-40 w-full bg-background">
-            <div className="relative bg-primary text-sm font-medium text-background block">
-              <div className="flex items-center justify-between px-4 sm:px-8 lg:px-[84px] py-2">
-                <div className="flex items-center space-x-4">
-                  <Link
-                    href="tel:917593873555"
-                    className="flex items-center space-x-2 hover:text-background/80 transition-colors"
-                    aria-label="Call us at +91 7593873555"
-                  >
-                    <Phone className="w-4 h-4" aria-hidden="true" />
-                    <span>+917593873555</span>
-                  </Link>
-                  <Link
-                    href="tel:917593873999"
-                    className="items-center space-x-2 hidden md:flex hover:text-background/80 transition-colors"
-                    aria-label="Call us at +91 7593873999"
-                  >
-                    <Phone className="w-4 h-4" aria-hidden="true" />
-                    <span>+917593873999</span>
-                  </Link>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <Link
-                    href="mailto:support@yathrananda.com"
-                    className="flex items-center space-x-2 hover:text-background/80 transition-colors"
-                    aria-label="Email us at support@yathrananda.com"
-                  >
-                    <Mail className="w-4 h-4" aria-hidden="true" />
-                    <span>support@yathrananda.com</span>
-                  </Link>
                 </div>
               </div>
             </div>
-            
-            <div className="relative flex items-center justify-between px-4 sm:px-8 lg:px-20 py-2">
-              <div>
-                <Link
-                  href="/"
-                  className="block group transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg"
-                  aria-label="Return to Yathrananda homepage"
-                >
-                  <Image
-                    src="/images/logo.png"
-                    alt="Yathrananda - A Travel Fusion"
-                    width={280}
-                    height={80}
-                    className="h-12 lg:h-16 pr-4 w-auto object-contain transition-all duration-500"
-                    loading="eager"
-                    priority
-                    sizes="(max-width: 768px) 200px, 280px"
-                  />
-                </Link>
-              </div>
-
-              {/* Enhanced Desktop Navigation */}
-              <nav
-                className="hidden lg:flex items-center space-x-1 rounded-full px-2 py-2"
-                role="navigation"
-                aria-label="Main navigation"
-              >
-                {navigationItems.map((item, index) => (
-                  <div key={`nav-${index}`}>
+            <header className="relative z-40 w-full bg-background">
+              <div className="relative bg-primary text-sm font-medium text-background hidden md:block">
+                <div className="flex items-center justify-between px-4 sm:px-8 lg:px-[84px] py-2">
+                  <div className="flex items-center space-x-4">
                     <Link
-                      href={item.href}
-                      className={`relative text-sm font-semibold transition-all duration-300 ease-out group py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-lg ${
-                        item.active
-                          ? "text-foreground bg-white/30 shadow-xl"
-                          : "text-foreground/95 hover:text-foreground hover:bg-white/20"
-                      }`}
-                      aria-label={`Navigate to ${item.name}`}
-                      aria-current={item.active ? "page" : undefined}
+                      href="tel:917593873555"
+                      className="flex items-center space-x-2"
                     >
-                      <span className="relative z-10">{item.name}</span>
-                      {item.active && (
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full"
-                          layoutId="activeTab"
-                          transition={{
-                            type: "spring",
-                            bounce: 0.2,
-                            duration: 0.6,
-                          }}
-                        />
-                      )}
+                      <Phone className="w-4 h-4" />
+                      <span>+917593873555</span>
+                    </Link>
+                    <Link
+                      href="tel:917593873999"
+                      className="flex items-center space-x-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      <span>+917593873999</span>
                     </Link>
                   </div>
-                ))}
-              </nav>
-
-              {/* Enhanced Right Side Actions */}
-              <div className="flex items-center space-x-3">
-                <div className="hidden lg:block">
-                  <motion.button
-                    className="relative flex items-center space-x-3 bg-primary text-white px-6 py-3 font-semibold text-sm transition-all duration-300 hover:bg-primary-hover rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    onClick={handleWhatsAppClick}
-                    aria-label="Contact Yathrananda on WhatsApp"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <MessageCircle className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" aria-hidden="true" />
-                    <span className="xl:inline">WhatsApp Us</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </motion.button>
-                </div>
-
-                {/* Enhanced Mobile Actions */}
-                <div className="lg:hidden flex items-center space-x-3">
-                  <motion.button
-                    className="flex items-center justify-center bg-gradient-to-r from-primary to-primary-hover text-white p-3 rounded-sm transition-all duration-200 hover:from-primary-hover hover:to-primary-hover border border-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleWhatsAppClick}
-                    aria-label="Contact Yathrananda on WhatsApp"
-                  >
-                    <MessageCircle className="w-4 h-4" aria-hidden="true" />
-                  </motion.button>
-
-                  <motion.button
-                    className="flex items-center justify-center p-3 text-primary-hover bg-background backdrop-blur-lg rounded-sm transition-all duration-200 hover:bg-white/35 border border-primary focus:outline-none focus:ring-2 focus:ring-primary"
-                    onClick={toggleMobileMenu}
-                    aria-label={
-                      isMobileMenuOpen
-                        ? "Close navigation menu"
-                        : "Open navigation menu"
-                    }
-                    aria-expanded={isMobileMenuOpen}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <AnimatePresence mode="wait">
-                      {isMobileMenuOpen ? (
-                        <motion.div
-                          key="close"
-                          initial={{ rotate: -90, opacity: 0 }}
-                          animate={{ rotate: 0, opacity: 1 }}
-                          exit={{ rotate: 90, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <X className="w-4 h-4" />
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="menu"
-                          initial={{ rotate: 90, opacity: 0 }}
-                          animate={{ rotate: 0, opacity: 1 }}
-                          exit={{ rotate: -90, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <Menu className="w-4 h-4" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.button>
+                  <div className="flex items-center space-x-4">
+                    <Link
+                      href="mailto:support@yathrananda.com"
+                      className="flex items-center space-x-2"
+                    >
+                      <Mail className="w-4 h-4" />
+                      <span>support@yathrananda.com</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </header>
-
-          {/* Mobile Navigation Menu */}
-          <AnimatePresence>
-            {isMobileMenuOpen && (
-              <>
-                <motion.div
-                  className="lg:hidden fixed inset-0 bg-white/70 backdrop-blur-sm z-40"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={closeMobileMenu}
-                />
-
-                <motion.div
-                  className="lg:hidden fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white/70 backdrop-blur-xl z-50 shadow-2xl"
-                  initial={{ x: "100%" }}
-                  animate={{ x: 0 }}
-                  exit={{ x: "100%" }}
-                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                >
-                  <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between p-6">
-                      <Image
-                        src="/images/logo.png"
-                        alt="Yathrananda"
-                        width={120}
-                        height={34}
-                        className="h-12 w-auto object-contain"
-                        sizes="120px"
-                      />
-                      <button
-                        onClick={closeMobileMenu}
-                        className="p-2 text-primary hover:text-primary-hover transition-colors rounded-full hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary/50"
-                        aria-label="Close navigation menu"
-                      >
-                        <X className="w-6 h-6" />
-                      </button>
-                    </div>
-
-                    <nav
-                      className="flex-1 px-6 py-8"
-                      role="navigation"
-                      aria-label="Mobile navigation"
-                    >
-                      <div className="space-y-2">
-                        {navigationItems.map((item, index) => (
-                          <motion.div
-                            key={item.name}
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                          >
-                            <Link
-                              href={item.href}
-                              className={`block py-4 px-4 text-lg font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 ${
-                                item.active
-                                  ? "text-primary bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-400 shadow-lg"
-                                  : "text-primary/90 hover:text-primary hover:bg-primary/10 hover:translate-x-2"
-                              }`}
-                              onClick={closeMobileMenu}
-                              aria-label={`Navigate to ${item.name}`}
-                              aria-current={item.active ? "page" : undefined}
-                            >
-                              <span className="flex items-center justify-between">
-                                {item.name}
-                                {item.active && (
-                                  <motion.div
-                                    className="w-2 h-2 bg-blue-400 rounded-full shadow-lg"
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{ duration: 0.3 }}
-                                  />
-                                )}
-                              </span>
-                            </Link>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </nav>
-
-                    <div className="p-6">
-                      <motion.button
-                        className="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-primary to-primary-hover text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 hover:from-primary-hover hover:to-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                        onClick={() => {
-                          handleWhatsAppClick();
-                          closeMobileMenu();
-                        }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        aria-label="Contact Yathrananda on WhatsApp"
-                      >
-                        <MessageCircle className="w-5 h-5" aria-hidden="true" />
-                        <span>+91 75938 73555</span>
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-
-          <div className="absolute bottom-0 right-0 z-30">
-            <div className="flex items-end justify-between px-4 sm:px-6 lg:px-16 pb-6 sm:pb-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1.6 }}
-                className="hidden sm:flex flex-col items-center space-y-3 group cursor-pointer"
-                onClick={handleScrollToExplore}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    handleScrollToExplore();
-                  }
-                }}
-                aria-label="Scroll to explore more content"
-              >
-                <div className="w-5 h-8 border-2 border-white/50 rounded-full flex justify-center hover:border-white/80 transition-all duration-300 group-hover:scale-110 backdrop-blur-sm bg-white/10">
-                  <motion.div
-                    className="w-1 h-2 bg-white/70 rounded-full mt-1.5"
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                  />
+              <div className="relative flex items-center justify-between px-4 sm:px-8 lg:px-20 py-2">
+                <div>
+                  <Link
+                    href="/"
+                    className="block group transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent rounded-lg"
+                    aria-label="Return to Yathrananda homepage"
+                  >
+                    <Image
+                      src="/images/logo.png"
+                      alt="Yathrananda - A Travel Fusion"
+                      width={280}
+                      height={80}
+                      className="h-12 lg:h-16 pr-4 w-auto object-contain transition-all duration-500"
+                      loading="eager"
+                      priority
+                    />
+                  </Link>
                 </div>
-                <span className="text-white/70 text-xs font-semibold group-hover:text-white/90 transition-colors duration-300">
-                  Scroll to explore
-                </span>
-              </motion.div>
+
+                {/* Enhanced Desktop Navigation */}
+                <div
+                  className="hidden lg:flex items-center space-x-1 rounded-full px-2 py-2"
+                  role="navigation"
+                  aria-label="Main navigation"
+                >
+                  {navigationItems.map((item, index) => (
+                    <div key={`id${index}`}>
+                      <Link
+                        href={item.href}
+                        className={`relative text-sm font-semibold transition-all duration-300 ease-out group py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-lg ${
+                          item.active
+                            ? "text-foreground bg-white/30 shadow-xl"
+                            : "text-foreground/95 hover:text-foreground hover:bg-white/20"
+                        }`}
+                        aria-label={`Navigate to ${item.name}`}
+                        aria-current={item.active ? "page" : undefined}
+                      >
+                        <span className="relative z-10">{item.name}</span>
+                        {item.active && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full"
+                            layoutId="activeTab"
+                            transition={{
+                              type: "spring",
+                              bounce: 0.2,
+                              duration: 0.6,
+                            }}
+                          />
+                        )}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Enhanced Right Side Actions */}
+                <div className="flex items-center space-x-3">
+                  <div className="hidden lg:block">
+                    <motion.button
+                      className="relative flex items-center space-x-3 bg-primary text-white px-6 py-3 font-semibold text-sm transition-all duration-300 hover:bg-primary-hover rounded-sm"
+                      onClick={handleWhatsAppClick}
+                      aria-label="Contact Yathrananda on WhatsApp"
+                    >
+                      <MessageCircle className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
+                      <span className="xl:inline">WhatsApp Us</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </motion.button>
+                  </div>
+
+                  {/* Enhanced Mobile Actions */}
+                  <div className="lg:hidden flex items-center space-x-3">
+                    <motion.button
+                      className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 text-white p-3 rounded-full transition-all duration-200 hover:from-green-700 hover:to-green-800 shadow-lg border border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleWhatsAppClick}
+                      aria-label="Contact Yathrananda on WhatsApp"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                    </motion.button>
+
+                    <motion.button
+                      className="flex items-center justify-center p-3 text-white bg-white/25 backdrop-blur-lg rounded-full transition-all duration-200 hover:bg-white/35 shadow-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
+                      onClick={toggleMobileMenu}
+                      aria-label={
+                        isMobileMenuOpen
+                          ? "Close navigation menu"
+                          : "Open navigation menu"
+                      }
+                      aria-expanded={isMobileMenuOpen}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <AnimatePresence mode="wait">
+                        {isMobileMenuOpen ? (
+                          <motion.div
+                            key="close"
+                            initial={{ rotate: -90, opacity: 0 }}
+                            animate={{ rotate: 0, opacity: 1 }}
+                            exit={{ rotate: 90, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <X className="w-5 h-5" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="menu"
+                            initial={{ rotate: 90, opacity: 0 }}
+                            animate={{ rotate: 0, opacity: 1 }}
+                            exit={{ rotate: -90, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <Menu className="w-5 h-5" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            {/* Mobile Navigation Menu */}
+            <AnimatePresence>
+              {isMobileMenuOpen && (
+                <>
+                  <motion.div
+                    className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    onClick={closeMobileMenu}
+                  />
+
+                  <motion.div
+                    className="lg:hidden fixed top-0 right-0 bottom-0 w-full max-w-sm bg-black backdrop-blur-xl z-50 shadow-2xl"
+                    initial={{ x: "100%" }}
+                    animate={{ x: 0 }}
+                    exit={{ x: "100%" }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                  >
+                    <div className="flex flex-col h-full">
+                      <div className="flex items-center justify-between p-6">
+                        <Image
+                          src="/images/logo.png"
+                          alt="Yathrananda"
+                          width={120}
+                          height={34}
+                          className="h-12 w-auto object-contain"
+                        />
+                        <button
+                          onClick={closeMobileMenu}
+                          className="p-2 text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+                          aria-label="Close navigation menu"
+                        >
+                          <X className="w-6 h-6" />
+                        </button>
+                      </div>
+
+                      <nav
+                        className="flex-1 px-6 py-8"
+                        role="navigation"
+                        aria-label="Mobile navigation"
+                      >
+                        <div className="space-y-2">
+                          {navigationItems.map((item, index) => (
+                            <motion.div
+                              key={item.name}
+                              initial={{ opacity: 0, x: 50 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                              <Link
+                                href={item.href}
+                                className={`block py-4 px-4 text-lg font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 ${
+                                  item.active
+                                    ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-l-4 border-blue-400 shadow-lg"
+                                    : "text-white/90 hover:text-white hover:bg-white/10 hover:translate-x-2"
+                                }`}
+                                onClick={closeMobileMenu}
+                                aria-label={`Navigate to ${item.name}`}
+                                aria-current={item.active ? "page" : undefined}
+                              >
+                                <span className="flex items-center justify-between">
+                                  {item.name}
+                                  {item.active && (
+                                    <motion.div
+                                      className="w-2 h-2 bg-blue-400 rounded-full shadow-lg"
+                                      initial={{ scale: 0 }}
+                                      animate={{ scale: 1 }}
+                                      transition={{ duration: 0.3 }}
+                                    />
+                                  )}
+                                </span>
+                              </Link>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </nav>
+
+                      <div className="p-6">
+                        <motion.button
+                          className="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-primary to-primary-hover text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 hover:from-primary-hover hover:to-primary-hover"
+                          onClick={() => {
+                            handleWhatsAppClick();
+                            closeMobileMenu();
+                          }}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          aria-label="Contact Yathrananda on WhatsApp"
+                        >
+                          <MessageCircle className="w-5 h-5" />
+                          <span>+91 75938 73555</span>
+                        </motion.button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+
+            <div className="absolute bottom-0 right-0 z-30">
+              <div className="flex items-end justify-between px-4 sm:px-6 lg:px-16 pb-6 sm:pb-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 1.6 }}
+                  className="hidden sm:flex flex-col items-center space-y-3 group cursor-pointer"
+                  onClick={() =>
+                    window.scrollTo({
+                      top: window.innerHeight,
+                      behavior: "smooth",
+                    })
+                  }
+                >
+                  <div className="w-5 h-8 border-2 border-white/50 rounded-full flex justify-center hover:border-white/80 transition-all duration-300 group-hover:scale-110 backdrop-blur-sm bg-white/10">
+                    <motion.div
+                      className="w-1 h-2 bg-white/70 rounded-full mt-1.5"
+                      animate={{ y: [0, 8, 0] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </div>
+                  <span className="text-white/70 text-xs font-semibold group-hover:text-white/90 transition-colors duration-300">
+                    Scroll to explore
+                  </span>
+                </motion.div>
+              </div>
             </div>
+          </section>
+          <UpcomingToursSection />
+          <div className="relative h-[600px] overflow-hidden md:px-12">
+            <iframe
+              src="https://widgets.sociablekit.com/google-reviews/iframe/25580492"
+              frameBorder="0"
+              width="100%"
+              height="1000px"
+              scrolling="no"
+              className="block w-full h-[600px]"
+            ></iframe>
+            <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-white"></div>
           </div>
-        </section>
-
-        <main id="main-content">
-          <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-            <UpcomingToursSection />
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-            <LazyGoogleReviews />
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-            <TrendingToursSection />
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-32 bg-muted animate-pulse" />}>
-            <AllToursMarquee />
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-            <InternationalToursSection />
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-            <DomesticToursSection />
-          </Suspense>
-          
-          <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-            <YouTubeShortsMasonry />
-          </Suspense>
-          
+          <TrendingToursSection />
+          <AllToursMarquee />
+          <InternationalToursSection />
+          <DomesticToursSection />
+          <YouTubeShortsMasonry />
           <div className="relative overflow-hidden mb-12">
-            <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
-              <ImageAccordion />
-            </Suspense>
+            <ImageAccordion />
           </div>
-          
           <div className="relative overflow-hidden mb-12">
-            <Suspense fallback={<div className="h-32 bg-muted animate-pulse" />}>
-              <Marquee />
-            </Suspense>
+            <Marquee />
           </div>
-
           {/* Services Section */}
           <AnimatedSection
             id="services"
@@ -799,15 +671,13 @@ export default function HomePage() {
             aria-labelledby="services-heading"
           >
             <div className="w-full px-4 md:px-24 relative">
-              <div className="absolute -bottom-96 md:bottom-20 -left-20 w-full h-full z-0">
+              <div className="absolute bottom-20 -left-20 w-full h-full z-0">
                 <Image
                   src="/images/tree.png"
-                  alt=""
+                  alt="Services Background"
                   width={1000}
                   height={1000}
                   className="w-[28rem] lg:w-[34rem] h-auto object-cover opacity-5"
-                  loading="lazy"
-                  sizes="(max-width: 768px) 448px, 544px"
                 />
               </div>
               <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
@@ -818,16 +688,16 @@ export default function HomePage() {
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   viewport={{ once: true }}
                 >
-                  <h2 id="services-heading" className="text-5xl md:text-8xl font-extrabold text-foreground">
+                  <h2 className="text-8xl font-extrabold text-foreground">
                     Love to <br />
                     Travel ?
                   </h2>
-                  <p className="text-muted-foreground mt-1 md:mt-0">
+                  <p className="text-muted-foreground">
                     We are here to help you plan your next adventure.
                   </p>
                   <div className="flex gap-4 items-center justify-center">
                     <motion.button
-                      className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg border border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                      className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out hover:bg-primary-hover shadow-lg border border-primary"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       aria-label="View all Yathrananda travel services"
@@ -838,10 +708,10 @@ export default function HomePage() {
                       Explore →
                     </motion.button>
                     <motion.button
-                      className="w-full bg-transparent py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out shadow-lg border border-primary text-primary hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                      className="w-full bg-transparent py-3 rounded-lg font-semibold mt-6 sm:mt-8 text-sm sm:text-base transition-all duration-200 ease-out shadow-lg border border-primary text-primary"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      aria-label="Contact Yathrananda travel services"
+                      aria-label="View all Yathrananda travel services"
                       onClick={() => {
                         router.push("/contact");
                       }}
@@ -893,7 +763,7 @@ export default function HomePage() {
                       viewport={{ once: true }}
                     >
                       <button
-                        className="w-full flex items-center justify-between mb-2 text-left focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg p-2"
+                        className="w-full flex items-center justify-between mb-2"
                         onClick={() =>
                           setExpandedService(
                             expandedService === index ? null : index
@@ -925,7 +795,7 @@ export default function HomePage() {
                             transition={{ duration: 0.2, ease: "easeOut" }}
                             className="overflow-hidden"
                           >
-                            <p className="text-muted-foreground text-sm pb-2 px-2">
+                            <p className="text-muted-foreground text-sm pb-2">
                               {item.content}
                             </p>
                           </motion.div>
@@ -937,20 +807,13 @@ export default function HomePage() {
               </div>
             </div>
           </AnimatedSection>
-        </main>
-
-        <Suspense fallback={<div className="h-96 bg-muted animate-pulse" />}>
           <Footer />
-        </Suspense>
-      </div>
-      
-      <Suspense fallback={null}>
+        </div>
         <VideoModal
           isOpen={isVideoModalOpen}
           onClose={() => setIsVideoModalOpen(false)}
           videoUrl="https://www.youtube.com/dQw4w9WgXcQ"
         />
-      </Suspense>
     </>
   );
 }
