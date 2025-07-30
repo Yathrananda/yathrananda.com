@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
-} from "motion/react";
+} from "framer-motion";
 import Image from "next/image";
 import { X } from "lucide-react";
 

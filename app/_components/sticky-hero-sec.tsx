@@ -1,7 +1,7 @@
 "use client";
 
 import { TravelPackageDetailData } from "@/types/package-detail";
-import { useScroll, useTransform, motion } from "motion/react";
+import { useScroll, useTransform, motion } from "framer-motion";
 import { useRef } from "react";
 import { HeroSection } from "./package-detail/hero-section";
 import { Card, CardContent } from "@/components/ui/card";

@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import animationData from "../../public/loading-animation.json";
 import Image from "next/image";
-import Lottie from "lottie-react";
 
 const IntroAnimation = () => {
   const [showOverlay, setShowOverlay] = useState(true);
@@ -57,14 +55,9 @@ const IntroAnimation = () => {
             className="h-52 md:h-72 w-auto object-contain brightness-0 invert mb-44"
             priority
           />
-          {/* Lottie Animation */}
-          <div className="w-36 h-36 lg:w-80 lg:h-80 absolute top-[35%] md:top-1/4 left-1/2 -translate-x-1/2">
-            <Lottie
-              animationData={animationData}
-              loop={true}
-              autoplay={true}
-              style={{ width: "100%", height: "100%" }}
-            />
+          {/* Lottie Animation in Gif */}
+          <div className="w-36 h-36 lg:w-80 lg:h-80 absolute top-[35%] md:top-[38%] left-1/2 -translate-x-1/2">
+            <Image src="/loading-animation.gif" alt="Loading" width={300} height={300} className="opacity-95" />
           </div>
         </div>
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

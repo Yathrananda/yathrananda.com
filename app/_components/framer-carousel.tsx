@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { UpcomingPackage } from "@/types/package-detail";
 import { useRouter } from "next/navigation";
 import PackageCard from "./package-card";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 
