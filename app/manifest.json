@@ -1,21 +1,124 @@
 {
-  "name": "Yathrananda Travel Agency",
+  "name": "Yathrananda Travel Agency - Explore the World",
   "short_name": "Yathrananda",
-  "description": "Premium travel agency offering personalized travel experiences worldwide",
+  "description": "Explore the world your way with Yathrananda. Book custom travel packages including flights, stays, and tours to top global destinations—backed by expert support.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "hsl(0 0% 100%)",
   "theme_color": "hsl(142.1 76.2% 36.3%)",
+  "categories": ["travel", "tourism", "business"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Book International Tours",
+      "short_name": "International",
+      "description": "Explore international travel packages",
+      "url": "/international-tours",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Book Domestic Tours",
+      "short_name": "Domestic", 
+      "description": "Discover domestic travel packages",
+      "url": "/domestic-tours",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Kerala Tours",
+      "short_name": "Kerala",
+      "description": "Experience Kerala tour packages",
+      "url": "/kerala-tours", 
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with our travel experts",
+      "url": "/contact",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-wide.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Yathrananda Travel Agency Homepage"
+    },
+    {
+      "src": "/images/screenshot-mobile.jpg", 
+      "sizes": "360x640",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Yathrananda Mobile Experience"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
