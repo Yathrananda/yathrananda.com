@@ -3,15 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import type { TravelPackageDetailData } from "@/types/package-detail";
 import { useParams, useRouter } from "next/navigation";
-import { animate, scroll, spring } from "motion";
+import { animate, scroll, spring } from "framer-motion";
 import { HeroSection } from "@/app/_components/package-detail/hero-section";
 import { Check, X } from "lucide-react";
 import HorizontalScrollSection from "@/app/_components/horizontal-on-vertical-scroll";
 import GalleryModal from "@/app/_components/gallery-modal";
 import { ContactSection } from "@/app/_components/package-detail/contact-section";
 import { TestimonialsSection } from "@/app/_components/package-detail/testimonials-section";
-import { BookingInfoSection } from "@/app/_components/package-detail/booking-info";
-import { CancellationPolicySection } from "@/app/_components/package-detail/cancellation-policy";
 import SimpleFooter from "@/app/_components/simple-footer";
 import { BookingAndCancellationSection } from "@/app/_components/booking-and-cancel-info";
 
