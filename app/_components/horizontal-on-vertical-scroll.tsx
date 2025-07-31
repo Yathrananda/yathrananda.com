@@ -29,41 +29,42 @@ const HorizontalScrollSection: React.FC<{
     day: ItineraryDay;
     onClose: () => void;
   }) => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
-      <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          &times;
-        </button>
-        <h2 className="text-lg font-semibold mb-4 font-cuprum">
-          Day {day.day} Activities
-        </h2>
-        {activities_display_type === "points" ? (
-          <ul className="space-y-1 text-gray-700 list-disc pl-5">
-            {day.activities.map((activity, idx) => (
-              <li key={idx} className="text-sm font-shanti">
-                {activity}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <>
-            {day.activities.map((activity, index) => (
-              <React.Fragment key={index}>
+    <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+      <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-hidden relative">
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 pb-4">
+          <button
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+          <h2 className="text-lg font-semibold font-cuprum pr-8">
+            Day {day.day} Activities - {day.title}
+          </h2>
+        </div>
+        <div className="p-6 pt-4 overflow-y-auto max-h-[calc(90vh-120px)]">
+          {activities_display_type === "points" ? (
+            <ul className="space-y-2 text-gray-700 list-disc pl-5">
+              {day.activities.map((activity, idx) => (
+                <li key={idx} className="text-sm font-shanti leading-relaxed">
+                  {activity}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="space-y-4">
+              {day.activities.map((activity, index) => (
                 <p
                   key={index}
                   className="text-gray-700 leading-relaxed text-sm whitespace-pre-line font-shanti"
                 >
                   {activity}
                 </p>
-                {index < day.activities.length - 1 && <br />}
-              </React.Fragment>
-            ))}
-          </>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -130,54 +131,46 @@ const HorizontalScrollSection: React.FC<{
                           Today's Journey
                         </h2>
                       </div>
-                      {activities_display_type === "points" ? (
-                        <>
-                          <ul className="space-y-2 text-muted-foreground md:pl-4 md:hidden">
-                            {day.activities
-                              ?.slice(0, 6)
-                              .map((activity, actIndex) => (
-                                <li
-                                  key={actIndex}
-                                  className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
-                                >
-                                  {activity}
-                                </li>
-                              ))}
-                          </ul>
+                      
+                      {/* Activities Content with Max Height and Scroll */}
+                      <div className="h-[25vh] md:h-[30vh] overflow-y-auto pr-2">
+                        {activities_display_type === "points" ? (
                           <ul className="space-y-2 text-muted-foreground md:pl-4">
-                            {day.activities.map((activity, actIndex) => (
+                            {day.activities.slice(0, 10).map((activity, actIndex) => (
                               <li
                                 key={actIndex}
-                                className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem]"
+                                className="text-xs md:text-sm relative before:content-[''] before:absolute before:w-1.5 before:h-1.5 before:bg-muted-foreground before:rounded-full before:-left-4 before:top-[0.4rem] leading-relaxed"
                               >
                                 {activity}
                               </li>
                             ))}
                           </ul>
-                        </>
-                      ) : (
-                        <>
-                          {day.activities.map((activity, index) => (
-                            <React.Fragment key={index}>
+                        ) : (
+                          <div className="space-y-3">
+                            {day.activities.slice(0, 10).map((activity, index) => (
                               <p
                                 key={index}
-                                className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11 whitespace-pre-line line-clamp-4 md:line-clamp-none"
+                                className="text-gray-600 leading-relaxed text-sm md:text-lg md:pl-11 whitespace-pre-line"
                               >
                                 {activity}
                               </p>
-                              {index < day.activities.length - 1 && <br />}
-                            </React.Fragment>
-                          ))}
-                        </>
-                      )}
-                      <span className="md:hidden">
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Read More Button - Show count if more items exist */}
+                      <div className="pt-2">
                         <button
-                          className="text-blue-600 text-sm underline focus:outline-none"
+                          className="text-blue-600 text-sm hover:text-blue-800 underline focus:outline-none transition-colors"
                           onClick={() => setModalDayIndex(index)}
                         >
-                          Read More
+                          {day.activities.length > 10 
+                            ? `View All ${day.activities.length} Activities` 
+                            : "View Full Details"
+                          }
                         </button>
-                      </span>
+                      </div>
                     </div>
                     {day.notes && (
                       <div className="md:space-y-2">
