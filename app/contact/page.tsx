@@ -38,23 +38,29 @@ const scaleIn: Variants = {
 export default function ContactPage() {
   const locations = [
     {
-      name: "Kozhikode Office",
-      contact: "+91 7593873501",
-      address: "Merry Land Square, V Panoli Road, Thiruthiyad, Kozhikode, Kerala 673004",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.0149679186184!2d75.78641078374645!3d11.26030892152943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xae36d8118c378243%3A0xcbfdd3d81c10b28e!2sYathrananda!5e0!3m2!1sen!2sin!4v1752559148939!5m2!1sen!2sin"
+      name: "Thalassery Office",
+      contact: "+91 7593873500",
+      address:
+        "First Floor, City Centre, Opposite Co-op Hospital, Thalassery, Kannur, Kerala 670101",
+      mapUrl:
+        "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15624.301913646712!2d75.48976529823007!3d11.759733504320906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sYathrananda%2C%20First%20Floor%2C%20City%20Centre%2C%20Opposite%20Co-op%20Hospital%2C%20Thalassery%2C%20Kannur%2C%C2%A0Kerala%C2%A0670101!5e0!3m2!1sen!2sin!4v1752559328220!5m2!1sen!2sin",
     },
     {
-      name: "Thalassery Office",
-      contact: "+91 7593873503",
-      address: "First Floor, City Centre, Opposite Co-op Hospital, Thalassery, Kannur, Kerala 670101",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15624.301913646712!2d75.48976529823007!3d11.759733504320906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sYathrananda%2C%20First%20Floor%2C%20City%20Centre%2C%20Opposite%20Co-op%20Hospital%2C%20Thalassery%2C%20Kannur%2C%C2%A0Kerala%C2%A0670101!5e0!3m2!1sen!2sin!4v1752559328220!5m2!1sen!2sin"
+      name: "Kozhikode Office",
+      contact: "+91 7593873501",
+      address:
+        "Merry Land Square, V Panoli Road, Thiruthiyad, Kozhikode, Kerala 673004",
+      mapUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.0149679186184!2d75.78641078374645!3d11.26030892152943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xae36d8118c378243%3A0xcbfdd3d81c10b28e!2sYathrananda!5e0!3m2!1sen!2sin!4v1752559148939!5m2!1sen!2sin",
     },
     {
       name: "Thiruvananthapuram Office",
       contact: "+91 7593873502",
-      address: "Thottaykadu Building, MG Radhakrishnan Rd, near Kerala Cricket Association, Paund Colony, Vazhuthacaud, Thiruvananthapuram, Kerala 695014",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.054433444134!2d76.95061529678955!3d8.49408870000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bb2ffae43273%3A0xb43b5957733cedf8!2sYathrananda%20A%20Travel%20Fusion!5e0!3m2!1sen!2sin!4v1752559234078!5m2!1sen!2sin"
-    }
+      address:
+        "Thottaykadu Building, MG Radhakrishnan Rd, near Kerala Cricket Association, Paund Colony, Vazhuthacaud, Thiruvananthapuram, Kerala 695014",
+      mapUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.054433444134!2d76.95061529678955!3d8.49408870000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bb2ffae43273%3A0xb43b5957733cedf8!2sYathrananda%20A%20Travel%20Fusion!5e0!3m2!1sen!2sin!4v1752559234078!5m2!1sen!2sin",
+    },
   ];
 
   return (
@@ -89,7 +95,8 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
             >
-              Get in touch with our travel experts. We're here to help you plan your perfect journey.
+              Get in touch with our travel experts. We're here to help you plan
+              your perfect journey.
             </motion.p>
           </div>
         </section>
@@ -115,7 +122,7 @@ export default function ContactPage() {
                   Phone
                 </h3>
                 <p className="text-primary font-semibold text-base">
-                  +91 7593873555 
+                  +91 7593873555
                 </p>
               </motion.div>
 
@@ -172,7 +179,10 @@ export default function ContactPage() {
                     <div className="p-6 sm:p-8">
                       <div className="flex items-center space-x-3 mb-4">
                         <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                          <MapPin className="w-6 h-6 text-primary" aria-hidden="true" />
+                          <MapPin
+                            className="w-6 h-6 text-primary"
+                            aria-hidden="true"
+                          />
                         </div>
                         <h3 className="text-xl font-bold text-card-foreground">
                           {location.name}

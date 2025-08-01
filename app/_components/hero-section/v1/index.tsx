@@ -268,7 +268,7 @@ export default function TopDestinationsHero() {
       <div className="flex flex-col lg:flex-row-reverse w-full lg:items-center lg:gap-5 mt-5 justify-center relative z-10">
         <div className="w-full lg:w-[45%] h-full">
           <div className="relative w-full overflow-hidden min-h-[350px] md:min-h-[450px] flex items-center">
-            <div
+            {/* <div
               className="flex transition-transform duration-300 ease-in-out"
               style={{
                 transform: `translateX(-${currentIndex * 275}px)`,
@@ -303,7 +303,7 @@ export default function TopDestinationsHero() {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="text-white flex flex-col lg:w-[55%] h-full relative z-10">
