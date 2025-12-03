@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { TravelPackageDetailData } from "@/types/package-detail";
 import { useParams, useRouter } from "next/navigation";
-import { animate, scroll, spring } from "framer-motion";
 import { HeroSection } from "@/app/_components/package-detail/hero-section";
 import { Check, X } from "lucide-react";
-import HorizontalScrollSection from "@/app/_components/horizontal-on-vertical-scroll";
+import VerticalItinerarySection from "@/app/_components/vertical-itinerary-section";
 import GalleryModal from "@/app/_components/gallery-modal";
 import { ContactSection } from "@/app/_components/package-detail/contact-section";
 import { TestimonialsSection } from "@/app/_components/package-detail/testimonials-section";
@@ -39,35 +38,6 @@ export default function PackageDetailPage() {
     useState<TravelPackageDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const ulRef = useRef<HTMLUListElement | null>(null);
-
-  useEffect(() => {
-    const items = document.querySelectorAll("li");
-
-    if (ulRef.current) {
-      const controls = animate(
-        ulRef.current,
-        {
-          transform: ["none", `translateX(-${items.length - 1}00vw)`],
-        } as any,
-        { easing: spring() } as any
-      );
-      scroll(controls, { target: document.querySelector("section") } as any);
-    }
-
-    const segmentLength = 1 / items.length;
-    items.forEach((item, i) => {
-      const header = item.querySelector("h2");
-
-      scroll(animate([header], { x: [800, -800] }), {
-        target: document.querySelector("section") as any,
-        offset: [
-          [i * segmentLength, 1],
-          [(i + 1) * segmentLength, 0],
-        ],
-      });
-    });
-  }, []);
 
   useEffect(() => {
     const fetchPackageDetail = async () => {
@@ -272,7 +242,7 @@ export default function PackageDetailPage() {
           </div>
         </div>
       </div>
-      <HorizontalScrollSection
+      <VerticalItinerarySection
         items={packageData.itinerary}
         activities_display_type={packageData.activities_display_type}
       />
