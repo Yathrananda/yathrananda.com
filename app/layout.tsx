@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     "Explore the world your way with Yathrananda. Book custom travel packages including flights, stays, and tours to top global destinations—backed by expert support.",
   keywords: [
     "travel agency",
-    "vacation packages", 
+    "vacation packages",
     "trip planning",
     "Thailand travel",
     "Kerala tours",
@@ -121,7 +121,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  
+
   verification: {
     google: "your-google-C4u9ztHLPVnZGBIV8UFqjDPStjulhliyLW2d7jVogbU-code"
   },
@@ -163,7 +163,7 @@ const jsonLd = {
         description: 'Customized international travel packages to destinations worldwide'
       },
       {
-        '@type': 'Offer', 
+        '@type': 'Offer',
         name: 'Domestic Tour Packages',
         description: 'Explore India with our expertly crafted domestic tour packages'
       },
@@ -187,7 +187,7 @@ const jsonLd = {
         }
       },
       {
-        '@type': 'Offer', 
+        '@type': 'Offer',
         itemOffered: {
           '@type': 'TouristTrip',
           name: 'Domestic Tours',
@@ -212,19 +212,20 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${voltaire.variable} ${cuprum.variable} ${shanti.variable}`}
+      suppressHydrationWarning={true}
     >
       <head>
         {/* Essential meta tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="hsl(142.1 76.2% 36.3%)" />
         <meta name="color-scheme" content="light" />
-        
+
         {/* Preconnect to external origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.clarity.ms" />
         <link rel="preconnect" href="https://widgets.sociablekit.com" />
-        
+
         {/* Preload critical resources */}
         <link
           rel="preload"
@@ -240,20 +241,20 @@ export default function RootLayout({
           crossOrigin="anonymous"
           type="application/json"
         />
-        
+
         {/* Favicon and app icons */}
         <link rel="icon" href="/icon.png" sizes="32x32" type="image/png" />
         <link rel="icon" href="/icon.png" sizes="16x16" type="image/png" />
         <link rel="apple-touch-icon" href="/icon-192.png" sizes="192x192" />
         <link rel="apple-touch-icon" href="/icon-512.png" sizes="512x512" />
-        
+
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
-        
+
         {/* Microsoft specific */}
         <meta name="msapplication-TileColor" content="hsl(142.1 76.2% 36.3%)" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
-        
+
         {/* Structured Data */}
         <Script
           id="structured-data"
@@ -261,7 +262,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        
+
         {/* DNS Prefetch for performance */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//www.clarity.ms" />
@@ -272,7 +273,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <LenisReactProvider>{children}</LenisReactProvider>
-        
+
         {/* Microsoft Clarity - Lazy loaded with privacy considerations */}
         <Script
           id="microsoft-clarity"
