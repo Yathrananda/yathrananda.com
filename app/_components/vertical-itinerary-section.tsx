@@ -204,7 +204,7 @@ const VerticalItinerarySection: React.FC<VerticalItinerarySectionProps> = ({
 
                     {/* Itinerary Days */}
                     <div className="space-y-12 md:space-y-16">
-                        {items.map((day, index) => (
+                        {[...items].sort((a, b) => a.day - b.day).map((day, index) => (
                             <DayCard
                                 key={day.day}
                                 day={day}
