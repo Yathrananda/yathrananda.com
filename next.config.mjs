@@ -17,11 +17,28 @@ const nextConfig = {
     minimumCacheTTL: 31536000, // 1 year
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: ['yathrananda.com', 'www.yathrananda.com', 'res.cloudinary.com'],
+    domains: [
+      'yathrananda.com',
+      'www.yathrananda.com',
+      'res.cloudinary.com',
+      'yathrananda.s3.ap-south-1.amazonaws.com',
+    ],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**.yathrananda.com',
+      },
+      // AWS S3 — primary media storage after Cloudinary migration
+      {
+        protocol: 'https',
+        hostname: 'yathrananda.s3.ap-south-1.amazonaws.com',
+        pathname: '/**',
+      },
+      // Wildcard for any S3 bucket in any region (future-proof)
+      {
+        protocol: 'https',
+        hostname: '**.s3.**.amazonaws.com',
+        pathname: '/**',
       },
     ],
   },
